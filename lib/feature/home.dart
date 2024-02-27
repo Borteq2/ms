@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mordor_suit/feature/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
-    super.key,
+    Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   final String title;
 
@@ -19,6 +21,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
+  final PageController _pageController = PageController(initialPage: 0);
+  int _currentPage = 0;
 
   @override
   void initState() {
@@ -37,13 +41,36 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: appStore.weatherStore.city.isEmpty
             ? LoadingWidget(appStore: appStore)
-            : PageView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: appStore.suitStore.equipCount,
-                itemBuilder: (context, index) => Center(
-                    child: Text(appStore.suitStore.equipList[index].name)),
+            : Row(
+                children: [
+                  appStore.suitStore.equipCount > 0
+                      ? DotsIndicator(
+                          dotsCount: appStore.suitStore.equipCount,
+                          position: _currentPage.toInt(),
+                          axis: Axis.vertical,
+                          decorator: const DotsDecorator(
+                            color: Colors.grey,
+                            activeColor: Colors.deepOrange,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: appStore.suitStore.equipCount,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) => Center(
+                        child: Text(appStore.suitStore.equipList[index].name),
+                      ),
+                      onPageChanged: (int page) {
+                        setState(() => _currentPage = page);
+                      },
+                    ),
+                  ),
+                ],
               ),
-        floatingActionButton: appStore.weatherStore.city.toString().isEmpty
+        floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
+                appStore.suitStore.equipCount > 0
             ? const SizedBox.shrink()
             : FloatingActionButton(
                 onPressed: () => appStore.suitStore.setSuitByTemperatureType(),
@@ -54,69 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
-
-class TitleWidget extends StatelessWidget {
-  const TitleWidget({
-    super.key,
-    required this.appStore,
-  });
-
-  final AppStore appStore;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          appStore.weatherStore.city,
-        ),
-        Text(appStore.weatherStore.weather),
-        Text(
-          (appStore.weatherStore.temperature == 999)
-              ? ''
-              : '${appStore.weatherStore.temperature}°C',
-        )
-      ],
-    );
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    super.key,
-    required this.appStore,
-  });
-
-  final AppStore appStore;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
-        children: [
-          const Center(child: CircularProgressIndicator()),
-          appStore.weatherStore.geoPermission
-              ? const SizedBox.shrink()
-              : Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('Разрешение на геолокацию'),
-                      IconButton(
-                        iconSize: 24,
-                        tooltip: 'Доступ к геолокации',
-                        onPressed: () => appStore.goToAppSettings(),
-                        icon: const Icon(Icons.settings),
-                        color: Colors.deepOrange,
-                      ),
-                    ],
-                  ),
-                ),
-        ],
-      ),
-    );
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
