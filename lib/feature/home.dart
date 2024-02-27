@@ -32,8 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          surfaceTintColor: Theme.of(context).colorScheme.inversePrimary,
+          surfaceTintColor: Colors.transparent,
           title: TitleWidget(appStore: appStore),
         ),
         body: appStore.weatherStore.city.isEmpty
