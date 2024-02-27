@@ -22,7 +22,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
   final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController2 = PageController(initialPage: 0);
   int _currentPage = 0;
+  int _currentPage2 = 0;
 
   @override
   void initState() {
@@ -45,7 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   appStore.suitStore.equipCount > 0
                       ? DotsIndicator(
-                          dotsCount: appStore.suitStore.equipCount,
+                          dotsCount: appStore.suitStore.equipCount -
+                              appStore.suitStore.suitAccessoriesList.length +
+                              1,
                           position: _currentPage.toInt(),
                           axis: Axis.vertical,
                           decorator: const DotsDecorator(
@@ -57,11 +61,52 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: PageView.builder(
                       controller: _pageController,
-                      itemCount: appStore.suitStore.equipCount,
                       scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) => Center(
-                        child: Text(appStore.suitStore.equipList[index].name),
-                      ),
+                      itemCount: appStore.suitStore.equipCount -
+                          appStore.suitStore.suitAccessoriesList.length +
+                          1,
+                      itemBuilder: (context, index) => index <
+                              (appStore.suitStore.equipCount -
+                                  appStore.suitStore.suitAccessoriesList.length)
+                          ? Center(
+                              child: Text(
+                                appStore.suitStore.equipList[index].name,
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                Expanded(
+                                  child: PageView.builder(
+                                    controller: _pageController2,
+                                    itemCount: appStore
+                                        .suitStore.suitAccessoriesList.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => Center(
+                                      child: Text(
+                                        appStore.suitStore
+                                            .suitAccessoriesList[index].name,
+                                      ),
+                                    ),
+                                    onPageChanged: (int page) {
+                                      setState(() => _currentPage2 = page);
+                                    },
+                                  ),
+                                ),
+                                appStore.suitStore.suitAccessoriesList
+                                        .isNotEmpty
+                                    ? DotsIndicator(
+                                        dotsCount: appStore.suitStore
+                                            .suitAccessoriesList.length,
+                                        position: _currentPage2.toInt(),
+                                        axis: Axis.horizontal,
+                                        decorator: const DotsDecorator(
+                                          color: Colors.grey,
+                                          activeColor: Colors.deepOrange,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
+                            ),
                       onPageChanged: (int page) {
                         setState(() => _currentPage = page);
                       },
@@ -85,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _pageController.dispose();
+    _pageController2.dispose();
     super.dispose();
   }
 }
