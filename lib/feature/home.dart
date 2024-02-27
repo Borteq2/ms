@@ -45,11 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ? LoadingWidget(appStore: appStore)
             : Row(
                 children: [
-                  appStore.suitStore.equipCount > 0
+                  appStore.suitStore.layersWithItemsCount > 0
                       ? DotsIndicator(
-                          dotsCount: appStore.suitStore.equipCount -
-                              appStore.suitStore.suitAccessoriesList.length +
-                              1,
+                          dotsCount: appStore.suitStore.layersWithItemsCount,
                           position: _currentPage.toInt(),
                           axis: Axis.vertical,
                           decorator: const DotsDecorator(
@@ -59,63 +57,76 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                       : const SizedBox.shrink(),
                   Expanded(
-                    child: PageView.builder(
-                      controller: _pageController,
-                      scrollDirection: Axis.vertical,
-                      itemCount: appStore.suitStore.equipCount -
-                          appStore.suitStore.suitAccessoriesList.length +
-                          1,
-                      itemBuilder: (context, index) => index <
-                              (appStore.suitStore.equipCount -
-                                  appStore.suitStore.suitAccessoriesList.length)
-                          ? Center(
-                              child: Text(
-                                appStore.suitStore.equipList[index].name,
-                              ),
-                            )
-                          : Column(
-                              children: [
-                                Expanded(
-                                  child: PageView.builder(
-                                    controller: _pageController2,
-                                    itemCount: appStore
-                                        .suitStore.suitAccessoriesList.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => Center(
-                                      child: Text(
-                                        appStore.suitStore
-                                            .suitAccessoriesList[index].name,
-                                      ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: PageView.builder(
+                        controller: _pageController,
+                        scrollDirection: Axis.vertical,
+                        itemCount: appStore.suitStore.layersWithItemsCount,
+                        itemBuilder: (context, index) => appStore
+                                    .suitStore.resultMap.entries
+                                    .elementAt(index)
+                                    .value
+                                    .length ==
+                                1
+                            ? Center(
+                                // вертикальные бипки
+                                child: Text(
+                                    '${appStore.suitStore.resultMap.entries.elementAt(index).value[0]}'
+                                    // '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}'
                                     ),
-                                    onPageChanged: (int page) {
-                                      setState(() => _currentPage2 = page);
-                                    },
+                              )
+                            : Column(
+                                children: [
+                                  Expanded(
+                                    child: PageView.builder(
+                                      controller: _pageController2,
+                                      itemCount: appStore
+                                          .suitStore.resultMap.entries
+                                          .elementAt(index)
+                                          .value
+                                          .length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) => Center(
+                                        // горизонтальные бипки
+                                        child: Text(
+                                            '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index]}'),
+                                      ),
+                                      onPageChanged: (int page) {
+                                        setState(() => _currentPage2 = page);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                appStore.suitStore.suitAccessoriesList
-                                        .isNotEmpty
-                                    ? DotsIndicator(
-                                        dotsCount: appStore.suitStore
-                                            .suitAccessoriesList.length,
-                                        position: _currentPage2.toInt(),
-                                        axis: Axis.horizontal,
-                                        decorator: const DotsDecorator(
-                                          color: Colors.grey,
-                                          activeColor: Colors.deepOrange,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                              ],
-                            ),
-                      onPageChanged: (int page) {
-                        setState(() => _currentPage = page);
-                      },
+                                  appStore.suitStore.resultMap.entries
+                                          .elementAt(index)
+                                          .value
+                                          .isNotEmpty
+                                      ? DotsIndicator(
+                                          dotsCount: appStore
+                                              .suitStore.resultMap.entries
+                                              .elementAt(index)
+                                              .value
+                                              .length,
+                                          position: _currentPage2.toInt(),
+                                          axis: Axis.horizontal,
+                                          decorator: const DotsDecorator(
+                                            color: Colors.grey,
+                                            activeColor: Colors.deepOrange,
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(),
+                                ],
+                              ),
+                        onPageChanged: (int page) {
+                          setState(() => _currentPage = page);
+                        },
+                      ),
                     ),
                   ),
                 ],
               ),
         floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
-                appStore.suitStore.equipCount > 0
+                appStore.suitStore.layersWithItemsCount > 0
             ? const SizedBox.shrink()
             : FloatingActionButton(
                 onPressed: () => appStore.suitStore.setSuitByTemperatureType(),

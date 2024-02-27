@@ -1,5 +1,14 @@
 import 'package:mordor_suit/models/_models.dart';
 
+Clothing noClothing = Clothing(
+  name: '',
+  linkToStore: '',
+  features: [],
+  image: '',
+  inSuitLayer: 999,
+  isNecessary: false,
+);
+
 Clothing python = Clothing(
   name: 'Термобелье влагоотводящее "Питон"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-underwear-python',
@@ -14,7 +23,7 @@ Clothing python = Clothing(
 Clothing varan = Clothing(
   name: 'Термобелье утепляющее "Варан"',
   linkToStore:
-  'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
+      'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
   features: [
     'Утепляющий слой',
     'Отводит влагу от тела и сохраняет тепло',
@@ -38,7 +47,7 @@ Clothing cheburashka = Clothing(
 Clothing wolfJacket = Clothing(
   name: 'Демисезонная боевая куртка "Волк"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
+      'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
   features: [
     'Обладает базовой ветро-влагозащитой',
     'Дышащая ткань Рип-Стоп',
@@ -50,7 +59,7 @@ Clothing wolfJacket = Clothing(
 Clothing wolfTrousers = Clothing(
   name: 'Демисезонные брюки "Волк"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
+      'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
   features: [
     'Обладает базовой ветро-влагозащитой',
     'Дышащая ткань Рип-Стоп',
@@ -74,7 +83,7 @@ Clothing saratovShirt = Clothing(
 Clothing saratovTrousers = Clothing(
   name: 'Летние брюки "САРатов"',
   linkToStore:
-  'https://mordor-tac.com/product/mordor-tac-summer-trousers-saratov',
+      'https://mordor-tac.com/product/mordor-tac-summer-trousers-saratov',
   features: [
     'Прочные и отлично дышат',
     'Сделаны из Рип Стопа',
@@ -147,7 +156,7 @@ Accessory peasantUnderhelmet = Accessory(
 Accessory vaderBalaclava = Accessory(
   name: 'Зимняя флисовая балаклава "Вейдер"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-winter-balaclava-vader',
+      'https://mordor-tac.com/product/mordortac-winter-balaclava-vader',
   features: [],
   image: '',
   inSuitLayer: null,
@@ -155,8 +164,7 @@ Accessory vaderBalaclava = Accessory(
 );
 Accessory koifBalavlava = Accessory(
   name: 'Демисезонная балаклава "Койф"',
-  linkToStore:
-  'https://mordor-tac.com/product/MordorTac-winter-balaclava-coif',
+  linkToStore: 'https://mordor-tac.com/product/MordorTac-winter-balaclava-coif',
   features: [],
   image: '',
   inSuitLayer: null,

@@ -8,11 +8,21 @@ part 'suit.g.dart';
 class Suit extends _Suit with _$Suit {
   Suit({
     required String name,
-    required List<Clothing> clothes,
+    required List<Clothing>? layer_1,
+    required List<Clothing>? layer_2,
+    required List<Clothing>? layer_3,
+    required List<Clothing>? layer_4,
+    required List<Clothing>? layer_4a,
+    required List<Clothing>? layer_5,
     required List<Accessory> accessories,
   }) : super(
           name: name,
-          clothes: clothes,
+          layer_1: layer_1,
+          layer_2: layer_2,
+          layer_3: layer_3,
+          layer_4: layer_4,
+          layer_4a: layer_4a,
+          layer_5: layer_5,
           accessories: accessories,
         );
 
@@ -24,7 +34,12 @@ class Suit extends _Suit with _$Suit {
 abstract class _Suit with Store {
   _Suit({
     required this.name,
-    required this.clothes,
+    required this.layer_1,
+    required this.layer_2,
+    required this.layer_3,
+    required this.layer_4,
+    required this.layer_4a,
+    required this.layer_5,
     required this.accessories,
   });
 
@@ -32,7 +47,22 @@ abstract class _Suit with Store {
   String name;
 
   @observable
-  List<Clothing> clothes;
+  List<Clothing>? layer_1;
+
+  @observable
+  List<Clothing>? layer_2;
+
+  @observable
+  List<Clothing>? layer_3;
+
+  @observable
+  List<Clothing>? layer_4;
+
+  @observable
+  List<Clothing>? layer_4a;
+
+  @observable
+  List<Clothing>? layer_5;
 
   @observable
   List<Accessory> accessories;

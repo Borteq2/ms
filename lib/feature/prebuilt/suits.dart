@@ -3,70 +3,89 @@ import 'package:mordor_suit/models/_models.dart';
 
 Suit notSupported = Suit(
   name: 'Нет подходящего',
-  clothes: [],
+  layer_1: null,
+  layer_2: null,
+  layer_3: null,
+  layer_4: null,
+  layer_4a: null,
+  layer_5: null,
   accessories: [],
 );
 
 Suit coldTempSuit = Suit(
   name: 'На мороз',
-  clothes: [
-    python,
-    varan,
-    cheburashka,
+  layer_1: [python],
+  layer_2: [varan],
+  layer_3: [cheburashka],
+  layer_4: null,
+  layer_4a: null,
+  layer_5: [
     wolfJacket,
     wolfTrousers,
   ],
   accessories: [
     nordHat,
-    vaderBalaclava,
     fjordBuff,
+    vaderBalaclava,
   ],
 );
+
 Suit lowTempSuit = Suit(
   name: 'На прохладу',
-  clothes: [
-    python,
-    varan,
-    cheburashka..isNecessary = false,
-    saratovShirt..isNecessary = false,
-    saratovTrousers..isNecessary = false,
-    wolfJacket,
-    wolfTrousers,
-  ],
-  accessories: [
-    nordHat,
-    koifBalavlava,
-    dozorBuff,
-  ],
-);
-Suit warmTempSuit = Suit(
-  name: 'Облегчённый',
-  clothes: [
-    python,
-    varan..isNecessary = false,
-    cheburashka..isNecessary = false,
-    saratovShirt,
-    saratovTrousers,
-    scoutMaskingCloak..isNecessary = false,
+  layer_1: [python],
+  layer_2: [varan],
+  layer_3: [cheburashka..isNecessary = false],
+  layer_4: null,
+  layer_4a: null,
+  layer_5: [
     wolfJacket,
     wolfTrousers,
   ],
   accessories: [
     peasantUnderhelmet,
-    ninjaBalaclava,
-    raiderBuff,
+    dozorBuff,
+    koifBalavlava,
+    nordHat,
   ],
 );
-Suit heatTempSuit = Suit(
-  name: 'Лёгкий',
-  clothes: [
-    python,
+
+Suit warmTempSuit = Suit(
+  name: 'Облегчённый',
+  layer_1: [python],
+  layer_2: [varan..isNecessary = false],
+  layer_3: [cheburashka..isNecessary = false],
+  layer_4: [
     saratovShirt,
     saratovTrousers,
-    scoutMaskingCloak,
+  ],
+  layer_4a: [scoutMaskingCloak..isNecessary = false],
+  layer_5: [
+    wolfJacket..isNecessary = false,
+    wolfTrousers..isNecessary = false,
   ],
   accessories: [
+    peasantUnderhelmet,
     ninjaBalaclava,
     raiderBuff,
+    vaderBalaclava,
+  ],
+);
+
+Suit heatTempSuit = Suit(
+  name: 'Лёгкий',
+  layer_1: [python],
+  layer_2: null,
+  layer_3: null,
+  layer_4: [
+    saratovShirt,
+    saratovTrousers,
+  ],
+  layer_4a: [scoutMaskingCloak],
+  layer_5: null,
+  accessories: [
+    peasantUnderhelmet,
+    ninjaBalaclava,
+    raiderBuff,
+    windPanama,
   ],
 );
