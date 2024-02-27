@@ -44,16 +44,24 @@ abstract class _WeatherStore with Store {
   String get mapTemp => weatherDataMap['main']['temp'].toString();
 
   @computed
-  String get weather =>
-      weatherDataMap['weather'][0]['description'].toString()[0].toUpperCase() +
-      weatherDataMap['weather'][0]['description'].toString().substring(1);
+  String get weather {
+    try {
+      return weatherDataMap['weather'][0]['description']
+              .toString()[0]
+              .toUpperCase() +
+          weatherDataMap['weather'][0]['description'].toString().substring(1);
+    } catch (e) {
+      talker.debug(e);
+    }
+    return '';
+  }
 
   @computed
   double get temperature => mapTemp.isNotEmpty ? double.parse(mapTemp) : 999;
 
   @computed
   TemperatureTypes get currentTemperatureType {
-    return temperature >= -10 && temperature < 0
+    return temperature >= -15 && temperature < 0
         ? TemperatureTypes.cold
         : temperature >= 0 && temperature < 10
             ? TemperatureTypes.low
