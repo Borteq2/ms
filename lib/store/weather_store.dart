@@ -23,7 +23,6 @@ abstract class _WeatherStore with Store {
   });
 
   final Talker talker;
-
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
 
   @observable
@@ -43,14 +42,11 @@ abstract class _WeatherStore with Store {
   @computed
   String get mapTemp => weatherDataMap['main']['temp'].toString();
 
-  // @computed
-  // bool get isTempLoaded => weatherDataMap['main']['temp'].runtimeType == double;
-
   @computed
   double get temp => mapTemp.isNotEmpty ? double.parse(mapTemp) : 999;
 
   @computed
-  WeatherTypes get weatherType {
+  WeatherTypes get currentWeatherType {
     return temp >= -10 && temp < 0
         ? WeatherTypes.cold
         : temp >= 0 && temp < 10
@@ -63,7 +59,7 @@ abstract class _WeatherStore with Store {
   }
 
   @computed
-  String get weatherName => switch (weatherType) {
+  String get weatherName => switch (currentWeatherType) {
         WeatherTypes.notSupported => 'Не поддерживается',
         WeatherTypes.cold => 'Холодно',
         WeatherTypes.low => 'Прохладно',
@@ -76,8 +72,15 @@ abstract class _WeatherStore with Store {
   @action
   Future<void> getLocationAndWeatherData() async {
     // talker.info(temp);
-    Position position = await getLocation();
-    weatherDataMap = await fetchWeatherByLocation(position);
+    try {
+      Position position = await getLocation();
+      geoPermission = true;
+      weatherDataMap = await fetchWeatherByLocation(position);
+    } catch (e) {
+      geoPermission = false;
+      talker.critical(e);
+    }
+
   }
 
 // =============================================================================
@@ -90,17 +93,15 @@ abstract class _WeatherStore with Store {
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
+
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // locationMessage = 'Разрешение на доступ к местоположению отклонено';
         throw Exception('Разрешения нет сейчас');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // locationMessage =
-      //     'Разрешение на доступ к местоположению отозвано навсегда';
       throw Exception('Разрешения нет навсегда');
     }
 

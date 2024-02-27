@@ -23,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    appStore.weatherStore.geoPermission = true;
     appStore.weatherStore.getLocationAndWeatherData();
   }
 
@@ -47,7 +48,31 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: appStore.weatherStore.city.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(
+                child: Stack(
+                  children: [
+                    const Center(child: CircularProgressIndicator()),
+                    appStore.weatherStore.geoPermission
+                        ? const SizedBox.shrink()
+                        : Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Разрешение на геолокацию'),
+                                IconButton(
+                                  iconSize: 24,
+                                  tooltip: 'Доступ к геолокации',
+                                  onPressed: () => appStore.goToAppSettings(),
+                                  icon: const Icon(Icons.settings),
+                                  color: Colors.deepOrange,
+                                ),
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
+              )
             : Center(
                 // TODO: временно, для отработки логики парсинга температуры
                 child: Column(
