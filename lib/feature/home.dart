@@ -39,10 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
               Text(
                 appStore.weatherStore.city,
               ),
+              Text(appStore.weatherStore.weather),
               Text(
-                (appStore.weatherStore.temp == 999)
+                (appStore.weatherStore.temperature == 999)
                     ? ''
-                    : '${appStore.weatherStore.temp}°C',
+                    : '${appStore.weatherStore.temperature}°C',
               )
             ],
           ),
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(appStore.weatherStore.weatherName),
+                    Text(appStore.weatherStore.temperatureName),
                   ],
                 ),
               ),

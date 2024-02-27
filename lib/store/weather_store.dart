@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
@@ -7,7 +8,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 part 'weather_store.g.dart';
 
-enum WeatherTypes {
+enum TemperatureTypes {
   notSupported,
   cold,
   low,
@@ -43,28 +44,33 @@ abstract class _WeatherStore with Store {
   String get mapTemp => weatherDataMap['main']['temp'].toString();
 
   @computed
-  double get temp => mapTemp.isNotEmpty ? double.parse(mapTemp) : 999;
+  String get weather =>
+      weatherDataMap['weather'][0]['description'].toString()[0].toUpperCase() +
+      weatherDataMap['weather'][0]['description'].toString().substring(1);
 
   @computed
-  WeatherTypes get currentWeatherType {
-    return temp >= -10 && temp < 0
-        ? WeatherTypes.cold
-        : temp >= 0 && temp < 10
-            ? WeatherTypes.low
-            : temp >= 10 && temp < 20
-                ? WeatherTypes.warm
-                : temp >= 25
-                    ? WeatherTypes.heat
-                    : WeatherTypes.notSupported;
+  double get temperature => mapTemp.isNotEmpty ? double.parse(mapTemp) : 999;
+
+  @computed
+  TemperatureTypes get currentTemperatureType {
+    return temperature >= -10 && temperature < 0
+        ? TemperatureTypes.cold
+        : temperature >= 0 && temperature < 10
+            ? TemperatureTypes.low
+            : temperature >= 10 && temperature < 20
+                ? TemperatureTypes.warm
+                : temperature >= 25
+                    ? TemperatureTypes.heat
+                    : TemperatureTypes.notSupported;
   }
 
   @computed
-  String get weatherName => switch (currentWeatherType) {
-        WeatherTypes.notSupported => 'Не поддерживается',
-        WeatherTypes.cold => 'Холодно',
-        WeatherTypes.low => 'Прохладно',
-        WeatherTypes.warm => 'Тепло',
-        WeatherTypes.heat => 'Жарко',
+  String get temperatureName => switch (currentTemperatureType) {
+        TemperatureTypes.notSupported => 'Не поддерживается',
+        TemperatureTypes.cold => 'Холодно',
+        TemperatureTypes.low => 'Прохладно',
+        TemperatureTypes.warm => 'Тепло',
+        TemperatureTypes.heat => 'Жарко',
       };
 
 // =============================================================================
@@ -80,7 +86,6 @@ abstract class _WeatherStore with Store {
       geoPermission = false;
       talker.critical(e);
     }
-
   }
 
 // =============================================================================
@@ -122,8 +127,8 @@ abstract class _WeatherStore with Store {
             '&units=metric'
             '&lang=ru');
     Map<String, dynamic> result = response.data;
-    talker.info(weatherDataMap);
-
+    // talker.info(weatherDataMap);
+    talker.info(response.data);
     // locationMessage = 'Широта: ${position.latitude},\nДолгота: ${position.longitude}';
 
     return result;
