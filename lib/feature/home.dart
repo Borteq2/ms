@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mordor_suit/feature/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
@@ -142,10 +143,24 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
                 appStore.suitStore.layersWithItemsCount > 0
             ? const SizedBox.shrink()
-            : FloatingActionButton(
-                onPressed: () => appStore.suitStore.setSuitByTemperatureType(),
-                tooltip: 'Что надеть?',
-                child: const Icon(Icons.add),
+            : Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.deepOrange,
+                    width: 2,
+                  ),
+                ),
+                child: FloatingActionButton(
+                  onPressed: () =>appStore.suitStore.setSuitByTemperatureType(),
+                  tooltip: 'Как экипироваться по погоде?',
+                  backgroundColor: Colors.transparent,
+                  child: SvgPicture.asset(
+                    'assets/images/favicon.svg',
+                    width: 60,
+                    height: 60,
+                  ),
+                ),
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
