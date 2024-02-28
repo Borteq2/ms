@@ -16,7 +16,7 @@ Clothing python = Clothing(
     'Базовый слой',
     'Отводит влагу от тела',
   ],
-  image: '',
+  image: 'assets/images/python.jpg',
   inSuitLayer: 1,
   isNecessary: true,
 );
@@ -28,7 +28,7 @@ Clothing varan = Clothing(
     'Утепляющий слой',
     'Отводит влагу от тела и сохраняет тепло',
   ],
-  image: '',
+  image: 'assets/images/varan.jpg',
   inSuitLayer: 2,
   isNecessary: true,
 );
@@ -39,7 +39,7 @@ Clothing cheburashka = Clothing(
     'Флисовый утепляющий слой',
     'Может носиться как верхний слой',
   ],
-  image: '',
+  image: 'assets/images/cheburashka.jpg',
   inSuitLayer: 3,
   isNecessary: true,
 );
@@ -52,7 +52,7 @@ Clothing wolfJacket = Clothing(
     'Обладает базовой ветро-влагозащитой',
     'Дышащая ткань Рип-Стоп',
   ],
-  image: '',
+  image: 'assets/images/wolfJacket.jpg',
   inSuitLayer: 5,
   isNecessary: true,
 );
@@ -64,19 +64,19 @@ Clothing wolfTrousers = Clothing(
     'Обладает базовой ветро-влагозащитой',
     'Дышащая ткань Рип-Стоп',
   ],
-  image: '',
+  image: 'assets/images/wolfTrousers.jpg',
   inSuitLayer: 5,
   isNecessary: true,
 );
 
-Clothing saratovShirt = Clothing(
+Clothing saratovJacket = Clothing(
   name: 'Боевая рубашка "САРатов"',
   linkToStore: 'https://mordor-tac.com/product/light-combat-shirt-SARatov',
   features: [
     'Отлично отводит влагу от тела',
     'Сделана из Рип-Стопа',
   ],
-  image: '',
+  image: 'assets/images/saratovJacket.jpg',
   inSuitLayer: 4,
   isNecessary: true,
 );
@@ -88,7 +88,7 @@ Clothing saratovTrousers = Clothing(
     'Прочные и отлично дышат',
     'Сделаны из Рип Стопа',
   ],
-  image: '',
+  image: 'assets/images/saratovTrousers.jpg',
   inSuitLayer: 4,
   isNecessary: true,
 );
@@ -106,7 +106,7 @@ Accessory nordHat = Accessory(
   name: 'Шапка флисовая "Норд"',
   linkToStore: 'https://mordor-tac.com/product/mordortac-fleece-hat-nord',
   features: [],
-  image: '',
+  image: 'assets/images/nordHat.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -115,7 +115,7 @@ Accessory fjordBuff = Accessory(
   name: 'Зимний флисовый бафф "Фьорд"',
   linkToStore: 'https://mordor-tac.com/product/mordorta-buff-fjord',
   features: [],
-  image: '',
+  image: 'assets/images/fjordBuff.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -123,7 +123,7 @@ Accessory dozorBuff = Accessory(
   name: 'Бафф демисезонный "Дозор"',
   linkToStore: 'https://mordor-tac.com/product/mordortacfleece-buff-dozor',
   features: [],
-  image: '',
+  image: 'assets/images/dozorBuff.png',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -131,7 +131,7 @@ Accessory raiderBuff = Accessory(
   name: 'Бафф "Рейдер"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-buff-raider',
   features: [],
-  image: '',
+  image: 'assets/images/raiderBuff.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -139,7 +139,7 @@ Accessory windPanama = Accessory(
   name: 'Панама "Ветер"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-panama-veter',
   features: [],
-  image: '',
+  image: 'assets/images/windPanama.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -148,7 +148,7 @@ Accessory peasantUnderhelmet = Accessory(
   name: 'Шапка-подшлемник "Пизант"',
   linkToStore: 'https://mordor-tac.com/product/hat-liner-peasant',
   features: [],
-  image: '',
+  image: 'assets/images/peasantUnderhelmet.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -158,7 +158,7 @@ Accessory vaderBalaclava = Accessory(
   linkToStore:
       'https://mordor-tac.com/product/mordortac-winter-balaclava-vader',
   features: [],
-  image: '',
+  image: 'assets/images/vaderBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -166,7 +166,7 @@ Accessory koifBalavlava = Accessory(
   name: 'Демисезонная балаклава "Койф"',
   linkToStore: 'https://mordor-tac.com/product/MordorTac-winter-balaclava-coif',
   features: [],
-  image: '',
+  image: 'assets/images/koifBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );
@@ -174,7 +174,7 @@ Accessory ninjaBalaclava = Accessory(
   name: 'Балаклава "Ниндзя"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-balaclava-ninja',
   features: [],
-  image: '',
+  image: 'assets/images/ninjaBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
 );

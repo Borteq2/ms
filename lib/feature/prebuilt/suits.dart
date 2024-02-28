@@ -55,7 +55,7 @@ Suit warmTempSuit = Suit(
   layer_2: [varan..isNecessary = false],
   layer_3: [cheburashka..isNecessary = false],
   layer_4: [
-    saratovShirt,
+    saratovJacket,
     saratovTrousers,
   ],
   layer_4a: [scoutMaskingCloak..isNecessary = false],
@@ -77,7 +77,7 @@ Suit heatTempSuit = Suit(
   layer_2: null,
   layer_3: null,
   layer_4: [
-    saratovShirt,
+    saratovJacket,
     saratovTrousers,
   ],
   layer_4a: [scoutMaskingCloak],

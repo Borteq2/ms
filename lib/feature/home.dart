@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(
-          surfaceTintColor: Colors.transparent,
+
           title: TitleWidget(appStore: appStore),
         ),
         body: appStore.weatherStore.city.isEmpty
@@ -71,14 +71,33 @@ class _MyHomePageState extends State<MyHomePage> {
                                 1
                             ? Center(
                                 // вертикальные бипки
-                                child: Text(
-                                    '${appStore.suitStore.resultMap.entries.elementAt(index).value[0]}'
-                                    // '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}'
-                                    ),
+                                child: Card(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}'),
+                                      Text(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].linkToStore}'),
+                                      Text(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features}'),
+                                      Image.asset(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].image}'),
+                                      Text(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].inSuitLayer}'),
+                                      Text(
+                                          '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].isNecessary}'),
+                                    ],
+                                  ),
+                                ),
                               )
                             : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.75,
                                     child: PageView.builder(
                                       controller: _pageController2,
                                       itemCount: appStore
@@ -89,8 +108,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) => Center(
                                         // горизонтальные бипки
-                                        child: Text(
-                                            '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index]}'),
+                                        child: Card(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                  '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].name}'),
+                                              Text(
+                                                  '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].linkToStore}'),
+                                              Text(
+                                                  '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].features}'),
+                                              Image.asset('${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].image}'),
+                                              Text(
+                                                  '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].inSuitLayer}'),
+                                              Text(
+                                                  '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].isNecessary}'),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       onPageChanged: (int page) {
                                         setState(() => _currentPage2 = page);

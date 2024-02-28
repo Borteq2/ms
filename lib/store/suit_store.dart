@@ -58,7 +58,7 @@ abstract class _SuitStore with Store {
 
   @computed
   Map<String, dynamic> get resultMap =>
-      mapFromLayersWithItemsNames(lowTempSuit, layersWithItemsNames);
+      mapFromLayersWithItemsNames(suit, layersWithItemsNames);
 
   // @computed
   // List<Clothing> get suitClothesListByLayer => List.from(suit.clothes)
