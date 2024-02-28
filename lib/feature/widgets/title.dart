@@ -11,18 +11,24 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Text(
-          appStore.weatherStore.city,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              appStore.weatherStore.city,
+            ),
+            Text(
+              (appStore.weatherStore.temperature == 999)
+                  ? ''
+                  : '${appStore.weatherStore.temperature}°C',
+            )
+          ],
         ),
+        const SizedBox(height: 8),
         Text(appStore.weatherStore.weather),
-        Text(
-          (appStore.weatherStore.temperature == 999)
-              ? ''
-              : '${appStore.weatherStore.temperature}°C',
-        )
+
       ],
     );
   }
