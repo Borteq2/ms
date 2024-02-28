@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordor_suit/feature/home.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/theme/dark.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -92,11 +93,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: GetIt.I<GoRouter>(),
       title: 'Flutter Demo',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        colorScheme: const ColorScheme.dark(primary: Colors.deepOrange),
-        useMaterial3: true,
-      ),
+      theme: myTheme,
     );
   }
 }
