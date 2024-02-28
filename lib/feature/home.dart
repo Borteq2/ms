@@ -22,10 +22,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
-  final PageController _pageController = PageController(initialPage: 0);
-  final PageController _pageController2 = PageController(initialPage: 0);
-  int _currentPage = 0;
-  int _currentPage2 = 0;
+  final PageController pageController = PageController(initialPage: 0);
+  final PageController pageController2 = PageController(initialPage: 0);
+  int currentPage = 0;
+  int currentPage2 = 0;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ? DotsIndicator(
                               dotsCount:
                                   appStore.suitStore.layersWithItemsCount,
-                              position: _currentPage.toInt(),
+                              position: currentPage.toInt(),
                               axis: Axis.vertical,
                               decorator: const DotsDecorator(
                                 color: Colors.grey,
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: MediaQuery.of(context).size.height * 0.8,
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: PageView.builder(
-                          controller: _pageController,
+                          controller: pageController,
                           scrollDirection: Axis.vertical,
                           itemCount: appStore.suitStore.layersWithItemsCount,
                           itemBuilder: (context, index) => appStore
@@ -150,6 +150,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     .isNecessary
                                                 ? 'Рекомендуется'
                                                 : 'По необходимости',
+                                            style: TextStyle(
+                                              color: appStore.suitStore
+                                                      .resultMap.entries
+                                                      .elementAt(currentPage)
+                                                      .value[index]
+                                                      .isNecessary
+                                                  ? Colors.deepOrange
+                                                  : Colors.grey,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -161,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     Expanded(
                                       child: PageView.builder(
-                                        controller: _pageController2,
+                                        controller: pageController2,
                                         itemCount: appStore
                                             .suitStore.resultMap.entries
                                             .elementAt(index)
@@ -177,12 +186,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Image.asset(
-                                                    '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].image}'),
+                                                    '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}'),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].name}',
+                                                    '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
                                                     style: const TextStyle(
                                                         fontSize: 18),
                                                   ),
@@ -197,13 +206,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         appStore.suitStore
                                                             .resultMap.entries
                                                             .elementAt(
-                                                                _currentPage)
+                                                                currentPage)
                                                             .value[index]
                                                             .linkToStore,
                                                       ),
                                                     ),
                                                     child: Text(
-                                                      '${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].linkToStore}',
+                                                      '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].linkToStore}',
                                                     ),
                                                   ),
                                                 ),
@@ -220,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           .resultMap
                                                           .entries
                                                           .elementAt(
-                                                              _currentPage)
+                                                              currentPage)
                                                           .value[index]
                                                           .features
                                                           .length,
@@ -231,7 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Text(
-                                                          '● ${appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index].features[featureIndex]}',
+                                                          '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
                                                         ),
                                                       ),
                                                     ),
@@ -254,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     appStore.suitStore.resultMap
                                                             .entries
                                                             .elementAt(
-                                                                _currentPage)
+                                                                currentPage)
                                                             .value[index]
                                                             .isNecessary
                                                         ? 'Рекомендуется'
@@ -263,11 +272,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       color: appStore.suitStore
                                                               .resultMap.entries
                                                               .elementAt(
-                                                                  _currentPage)
+                                                                  currentPage)
                                                               .value[index]
                                                               .isNecessary
                                                           ? Colors.deepOrange
-                                                          : Colors.white,
+                                                          : Colors.grey,
                                                     ),
                                                   ),
                                                 ),
@@ -276,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         onPageChanged: (int page) {
-                                          setState(() => _currentPage2 = page);
+                                          setState(() => currentPage2 = page);
                                         },
                                       ),
                                     ),
@@ -290,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .elementAt(index)
                                                 .value
                                                 .length,
-                                            position: _currentPage2.toInt(),
+                                            position: currentPage2.toInt(),
                                             axis: Axis.horizontal,
                                             decorator: const DotsDecorator(
                                               color: Colors.grey,
@@ -302,10 +311,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                           onPageChanged: (int page) {
                             setState(() {
-                              _currentPage = page;
-                              _currentPage2 = 0;
+                              currentPage = page;
+                              currentPage2 = 0;
                             });
-                            _pageController2.jumpToPage(0);
+                            pageController2.jumpToPage(0);
                           },
                         ),
                       ),
@@ -328,8 +337,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    _pageController.dispose();
-    _pageController2.dispose();
+    pageController.dispose();
+    pageController2.dispose();
     super.dispose();
   }
 }
