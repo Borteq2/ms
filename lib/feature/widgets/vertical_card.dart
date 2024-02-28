@@ -24,10 +24,8 @@ class VerticalCardWidget extends StatelessWidget {
           _NameWidget(appStore: appStore, index: index),
           _LinkWidget(appStore: appStore, index: index),
           _FeaturesListWidget(appStore: appStore, index: index),
-          _LayerWidget(
-              appStore: appStore, index: index, currentPage: currentPage),
-          _NecessaryWidget(
-              appStore: appStore, index: index, currentPage: currentPage),
+          _LayerWidget(appStore: appStore, index: index, currentPage: currentPage),
+          _NecessaryWidget(appStore: appStore, index: index, currentPage: currentPage),
         ],
       ),
     );
@@ -45,8 +43,12 @@ class _ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-        '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].image}');
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.asset(
+        '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].image}',
+      ),
+    );
   }
 }
 

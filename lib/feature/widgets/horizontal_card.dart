@@ -21,18 +21,12 @@ class HorizontalCardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _ImageWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _NameWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _LinkWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _FeaturesListWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _LayerWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _NecessaryWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _ImageWidget(appStore: appStore, currentPage: currentPage, index: index),
+            _NameWidget(appStore: appStore, currentPage: currentPage, index: index),
+            _LinkWidget(appStore: appStore, currentPage: currentPage, index: index),
+            _FeaturesListWidget(appStore: appStore, currentPage: currentPage, index: index),
+            _LayerWidget(appStore: appStore, currentPage: currentPage, index: index),
+            _NecessaryWidget(appStore: appStore, currentPage: currentPage, index: index),
           ],
         ),
       ),
@@ -53,8 +47,11 @@ class _ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-        '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}');
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.asset(
+          '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}'),
+    );
   }
 }
 
@@ -165,13 +162,19 @@ class _LayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer != null ? Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
-        style: const TextStyle(fontSize: 20),
-      ),
-    ) : const SizedBox.shrink();
+    return appStore.suitStore.resultMap.entries
+                .elementAt(currentPage)
+                .value[index]
+                .inSuitLayer !=
+            null
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
+              style: const TextStyle(fontSize: 20),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }
 
