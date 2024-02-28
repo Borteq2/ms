@@ -97,7 +97,9 @@ abstract class _SuitStore with Store {
 
   Map<String, dynamic> mapFromLayersWithItemsNames(
       Suit suit, List<String> layersWithItemsNames) {
+
     Map<String, dynamic> resultMap = {};
+
     for (String layerName in layersWithItemsNames) {
       switch (layerName) {
         case 'layer_1':

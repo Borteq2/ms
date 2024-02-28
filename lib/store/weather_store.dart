@@ -38,6 +38,9 @@ abstract class _WeatherStore with Store {
 // =============================================================================
 
   @computed
+  bool get isWeatherLoaded => weatherDataMap['name'] == '';
+
+  @computed
   String get city => weatherDataMap['name'];
 
   @computed

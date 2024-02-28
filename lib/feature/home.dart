@@ -5,7 +5,6 @@ import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -38,14 +37,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: TitleWidget(appStore: appStore),
-        ),
-        body: appStore.weatherStore.city.isEmpty
+        appBar: AppBar(title: TitleWidget(appStore: appStore)),
+        body: appStore.weatherStore.isWeatherLoaded
             ? LoadingWidget(appStore: appStore)
             : Column(
                 children: [
-                  Text('Комплект: ${appStore.suitStore.suit.name}'),
+                  appStore.suitStore.suit.name != 'Нет подходящего'
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Комплект: ${appStore.suitStore.suit.name}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   Row(
                     children: [
                       appStore.suitStore.layersWithItemsCount > 0
@@ -73,97 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       .value
                                       .length ==
                                   1
-                              ? Center(
-                                  // вертикальные бипки
-                                  child: Card(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Image.asset(
-                                            '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].image}'),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}',
-                                            style:
-                                                const TextStyle(fontSize: 18),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: GestureDetector(
-                                            onTap: () => launchUrl(
-                                              Uri.parse(
-                                                appStore
-                                                    .suitStore.resultMap.entries
-                                                    .elementAt(index)
-                                                    .value[0]
-                                                    .linkToStore,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].linkToStore}',
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ListView.builder(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemCount: appStore
-                                                  .suitStore.resultMap.entries
-                                                  .elementAt(index)
-                                                  .value[0]
-                                                  .features
-                                                  .length,
-                                              itemBuilder:
-                                                  (context, featureIndex) =>
-                                                      Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Слой: ${index + 1}',
-                                            style:
-                                                const TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 16),
-                                          child: Text(
-                                            appStore.suitStore.resultMap.entries
-                                                    .elementAt(index)
-                                                    .value[0]
-                                                    .isNecessary
-                                                ? 'Рекомендуется'
-                                                : 'По необходимости',
-                                            style: TextStyle(
-                                              color: appStore.suitStore
-                                                      .resultMap.entries
-                                                      .elementAt(currentPage)
-                                                      .value[index]
-                                                      .isNecessary
-                                                  ? Colors.deepOrange
-                                                  : Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                              ? VerticalCardWidget(
+                                  appStore: appStore,
+                                  currentPage: currentPage,
+                                  index: index,
                                 )
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -177,112 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                             .value
                                             .length,
                                         scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) => Center(
-                                          // горизонтальные бипки
-                                          // appStore.suitStore.resultMap.entries.elementAt(_currentPage).value[index]
-                                          child: Card(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Image.asset(
-                                                    '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}'),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
-                                                    style: const TextStyle(
-                                                        fontSize: 18),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 8.0),
-                                                  child: GestureDetector(
-                                                    onTap: () => launchUrl(
-                                                      Uri.parse(
-                                                        appStore.suitStore
-                                                            .resultMap.entries
-                                                            .elementAt(
-                                                                currentPage)
-                                                            .value[index]
-                                                            .linkToStore,
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                      '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].linkToStore}',
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: ListView.builder(
-                                                      physics:
-                                                          const NeverScrollableScrollPhysics(),
-                                                      itemCount: appStore
-                                                          .suitStore
-                                                          .resultMap
-                                                          .entries
-                                                          .elementAt(
-                                                              currentPage)
-                                                          .value[index]
-                                                          .features
-                                                          .length,
-                                                      itemBuilder: (context,
-                                                              featureIndex) =>
-                                                          Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Слой: ${index + 1}',
-                                                    style: const TextStyle(
-                                                        fontSize: 20),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 16),
-                                                  child: Text(
-                                                    appStore.suitStore.resultMap
-                                                            .entries
-                                                            .elementAt(
-                                                                currentPage)
-                                                            .value[index]
-                                                            .isNecessary
-                                                        ? 'Рекомендуется'
-                                                        : 'По необходимости',
-                                                    style: TextStyle(
-                                                      color: appStore.suitStore
-                                                              .resultMap.entries
-                                                              .elementAt(
-                                                                  currentPage)
-                                                              .value[index]
-                                                              .isNecessary
-                                                          ? Colors.deepOrange
-                                                          : Colors.grey,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                        itemBuilder: (context, index) =>
+                                            HorizontalCardWidget(
+                                          appStore: appStore,
+                                          currentPage: currentPage,
+                                          index: index,
                                         ),
                                         onPageChanged: (int page) {
                                           setState(() => currentPage2 = page);

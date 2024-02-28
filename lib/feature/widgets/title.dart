@@ -39,12 +39,14 @@ class TitleWidget extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: _getIconByWeather(),
+              child: appStore.weatherStore.isWeatherLoaded
+                  ? const SizedBox.shrink()
+                  : _getIconByWeather(),
             ),
             Align(
               alignment: Alignment.topRight,
               child: Text(
-                appStore.weatherStore.temperature == 999
+                appStore.weatherStore.isWeatherLoaded
                     ? ''
                     : '${appStore.weatherStore.temperature}°C',
               ),
@@ -54,15 +56,20 @@ class TitleWidget extends StatelessWidget {
         const SizedBox(height: 8),
         Stack(
           children: [
-            Align(alignment: Alignment.topLeft, child: Text('${appStore
-                .weatherStore.weatherDataMap['wind']['speed']} м/с'),
+            Align(alignment: Alignment.topLeft,
+              child: appStore.weatherStore.isWeatherLoaded
+                  ? const SizedBox.shrink()
+                  : Text('${appStore
+                  .weatherStore.weatherDataMap['wind']['speed']} м/с'),
             ),
             Align(alignment: Alignment.center,
               child: Text(appStore.weatherStore.weather),
             ),
             Align(
               alignment: Alignment.topRight,
-              child: Text('≈${appStore
+              child: appStore.weatherStore.isWeatherLoaded
+                  ? const SizedBox.shrink()
+                  : Text('≈${appStore
                   .weatherStore.weatherDataMap['main']['feels_like']}°C'),
             ),
           ],
@@ -74,21 +81,25 @@ class TitleWidget extends StatelessWidget {
   Icon _getIconByWeather() =>
       appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Clear'
           ? const Icon(Icons.sunny)
-          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Clouds'
+          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] ==
+          'Clouds'
           ? const Icon(Icons.cloud)
           : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Rain'
           ? const Icon(Icons.water_drop)
           : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Snow'
           ? const Icon(Icons.cloudy_snowing)
-          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Thunderstorm'
+          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] ==
+          'Thunderstorm'
           ? const Icon(Icons.thunderstorm)
           : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Mist'
           ? const Icon(Icons.waves)
-          :appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Haze'
+          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Haze'
           ? const Icon(Icons.waves)
-          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Sleet'
+          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] ==
+          'Sleet'
           ? const Icon(Icons.snowing)
-          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] == 'Freezing rain'
+          : appStore.weatherStore.weatherDataMap['weather'][0]['main'] ==
+          'Freezing rain'
           ? const Icon(Icons.cloudy_snowing)
           : const Icon(Icons.question_mark);
 }
