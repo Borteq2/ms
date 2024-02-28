@@ -118,7 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                               ),
                         onPageChanged: (int page) {
-                          setState(() => _currentPage = page);
+                          setState(() {
+                            _currentPage = page;
+                            _currentPage2 = 0;
+                          });
+                          _pageController2.jumpToPage(0);
                         },
                       ),
                     ),
