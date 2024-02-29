@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-ThemeData myTheme = ThemeData(
+ThemeData mordorDarkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
     primary: Colors.deepOrange,

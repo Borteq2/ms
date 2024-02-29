@@ -1,31 +1,32 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mordor_suit/feature/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  final String title;
+  }) : super(
+          key: key,
+        );
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
-  final PageController pageController = PageController(initialPage: 0);
-  final PageController pageController2 = PageController(initialPage: 0);
+
   int currentPage = 0;
   int currentPage2 = 0;
+
+  final PageController pageController = PageController(initialPage: 0);
+  final PageController pageController2 = PageController(initialPage: 0);
 
   @override
   void initState() {
@@ -152,7 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 child: FloatingActionButton(
-                  onPressed: () =>appStore.suitStore.setSuitByTemperatureType(),
+                  onPressed: () =>
+                      appStore.suitStore.setSuitByTemperatureType(),
                   tooltip: 'Как экипироваться по погоде?',
                   backgroundColor: Colors.transparent,
                   child: SvgPicture.asset(
