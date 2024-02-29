@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             )
                           : const SizedBox.shrink(),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.74,
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: PageView.builder(
                           controller: pageController,
@@ -164,7 +164,47 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: appStore.fabLocation,
+        bottomNavigationBar: appStore.weatherStore.city.toString().isEmpty
+            ? const SizedBox.shrink()
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                child: BottomAppBar(
+                  // TODO: попытаться выкинуть это в тему
+                  surfaceTintColor: Colors.transparent,
+                  shape: const CircularNotchedRectangle(),
+                  height: 64,
+                  notchMargin: 8.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        color: Colors.grey[400],
+                        tooltip: 'Обновить',
+                        icon: const Icon(Icons.refresh, size: 28),
+                        onPressed: () {
+                          if (appStore.suitStore.layersWithItemsCount == 0) {
+                            appStore.weatherStore.getLocation();
+                            appStore.weatherStore.getLocationAndWeatherData();
+                          } else {
+                            appStore.weatherStore.getLocation();
+                            appStore.weatherStore.getLocationAndWeatherData();
+                            appStore.suitStore.refreshSuitData();
+                          }
+                        },
+                      ),
+                      // if (appStore.centerLocations.contains(appStore.fabLocation))
+                      //   const Spacer(),
+                      IconButton(
+                        color: Colors.grey[400],
+                        onPressed: () {},
+                        tooltip: 'Отправить баг-репорт',
+                        icon: const Icon(Icons.bug_report_outlined, size: 28),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }

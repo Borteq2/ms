@@ -29,6 +29,9 @@ abstract class _WeatherStore with Store {
   bool geoPermission = false;
 
   @observable
+  late Position currentPosition;
+
+  @observable
   Map<String, dynamic> weatherDataMap = {
     'name': '',
     'main': {'temp': ''}
@@ -86,12 +89,20 @@ abstract class _WeatherStore with Store {
 // =============================================================================
 
   @action
+  void dropCurrentWeatherData() {
+    weatherDataMap = {
+      'name': '',
+      'main': {'temp': ''}
+    };
+  }
+
+  @action
   Future<void> getLocationAndWeatherData() async {
-    // talker.info(temp);
+    dropCurrentWeatherData();
     try {
-      Position position = await getLocation();
+      await getLocation();
       geoPermission = true;
-      weatherDataMap = await fetchWeatherByLocation(position);
+      weatherDataMap = await fetchWeatherByLocation();
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
@@ -123,16 +134,18 @@ abstract class _WeatherStore with Store {
     Position result = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
+    currentPosition = result;
+
     return result;
   }
 
-  Future<Map<String, dynamic>> fetchWeatherByLocation(Position position) async {
+  Future<Map<String, dynamic>> fetchWeatherByLocation() async {
     Dio dio = GetIt.I<Dio>();
 
     Response response =
         await dio.get('https://api.openweathermap.org/data/2.5/weather'
-            '?lat=${position.latitude}'
-            '&lon=${position.longitude}'
+            '?lat=${currentPosition.latitude}'
+            '&lon=${currentPosition.longitude}'
             '&appid=$weatherApiKey'
             '&units=metric'
             '&lang=ru');

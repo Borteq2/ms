@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordor_suit/feature/app.dart';
+import 'package:mordor_suit/app.dart';
 import 'package:mordor_suit/feature/home.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';

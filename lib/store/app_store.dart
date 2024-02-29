@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/store/suit_store.dart';
@@ -10,6 +11,14 @@ part 'app_store.g.dart';
 class AppStore = _AppStore with _$AppStore;
 
 abstract class _AppStore with Store {
+  List<FloatingActionButtonLocation> centerLocations =
+      <FloatingActionButtonLocation>[
+    FloatingActionButtonLocation.centerDocked,
+    FloatingActionButtonLocation.centerFloat,
+  ];
+  FloatingActionButtonLocation fabLocation =
+      FloatingActionButtonLocation.centerDocked;
+
   @observable
   WeatherStore weatherStore = WeatherStore(talker: GetIt.I<Talker>());
 
