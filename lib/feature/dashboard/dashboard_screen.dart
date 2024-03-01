@@ -18,12 +18,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
-
   @override
   void initState() {
     super.initState();
     appStore.weatherStore.geoPermission = true;
     appStore.weatherStore.getLocationAndWeatherData();
+    appStore.weatherPresetsStore.fetchCityWeatherData();
   }
 
   @override
@@ -36,8 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: appStore.weatherStore.isWeatherLoaded
             ? WeatherGridWidget(appStore: appStore)
             : LoadingWidget(appStore: appStore),
-        floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
-                appStore.suitStore.layersWithItemsCount > 0
+        floatingActionButton: appStore.weatherStore.city.toString().isEmpty
             ? const SizedBox.shrink()
             : Container(
                 decoration: BoxDecoration(
@@ -78,14 +77,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         tooltip: 'Обновить',
                         icon: const Icon(Icons.refresh, size: 28),
                         onPressed: () {
-                          if (appStore.suitStore.layersWithItemsCount == 0) {
-                            appStore.weatherStore.getLocation();
-                            appStore.weatherStore.getLocationAndWeatherData();
-                          } else {
-                            appStore.weatherStore.getLocation();
-                            appStore.weatherStore.getLocationAndWeatherData();
-                            appStore.suitStore.refreshSuitData();
-                          }
+                          appStore.weatherStore.getLocation();
+                          appStore.weatherStore.getLocationAndWeatherData();
                         },
                       ),
                       IconButton(
@@ -93,6 +86,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         onPressed: () {},
                         tooltip: '',
                         icon: const Icon(Icons.question_mark, size: 28),
+                      ),
+                      IconButton(
+                        onPressed: () => appStore.weatherPresetsStore
+                            .fetchCityWeatherData(),
+                        icon: const Icon(Icons.play_arrow),
                       ),
                       if (appStore.centerLocations
                           .contains(appStore.fabLocation))
@@ -122,35 +120,40 @@ class WeatherGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Данные обновлены: ${appStore.weatherStore.timestamp}'),
-        const SizedBox(height: 8),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemCount: 10,
-            itemBuilder: (context, index) => InkWell(
-              onTap: () => context.go('/set'),
-              child: const Card(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Название города', overflow: TextOverflow.ellipsis),
-                    Icon(Icons.cloudy_snowing),
-                    Text('Пасмурно с прояснениями'),
-                    Text('10 *C'),
-                    Text('Ощущается как 11*C'),
-                    Text('Влажность 15%'),
-                    Text('Ветер 3 м/с')
-                  ],
+    return Observer(
+      builder: (_) => Column(
+        children: [
+          Text('Данные обновлены: ${appStore.weatherStore.timestamp}'),
+          const SizedBox(height: 8),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemCount: appStore.weatherPresetsStore.presetsCount,
+              itemBuilder: (context, index) => GestureDetector(
+                onLongPress: () => appStore.weatherPresetsStore.removePreset(index),
+                child: Card(
+                  child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                appStore
+                                    .weatherPresetsStore.presetsCityNames[index],
+                                overflow: TextOverflow.ellipsis),
+                            const Icon(Icons.cloud),
+                            Text(appStore.weatherPresetsStore.presetCityWeatherData[index]['weather'][0]['description']),
+                            Text('${appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['temp']}°C'),
+                            Text('Ощущается как ${appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['feels_like']}°C'),
+                            Text('Влажность ${appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['humidity']}%'),
+                            Text('Ветер ${appStore.weatherPresetsStore.presetCityWeatherData[index]['wind']['speed']} м/с'),
+                          ],
+                        ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

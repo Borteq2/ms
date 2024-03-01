@@ -48,6 +48,7 @@ dependencies:
   talker_dio_logger: 2.3.0
   permission_handler: ^11.3.0
   geolocator: ^11.0.0
+  geocoding: ^2.2.0
   dots_indicator: ^3.0.0
   flutter_svg: ^2.0.10+1
   sentry_flutter: ^7.16.1
