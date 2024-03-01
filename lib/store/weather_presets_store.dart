@@ -22,27 +22,27 @@ abstract class _WeatherPresetsStore with Store {
 
   @observable
   ObservableList<String> presetsCityNames =
-      ObservableList.of(['Москва', 'Волгоград', 'Кишинёв']);
+      ObservableList.of(['Москва', 'Волгоград']);
 
   @observable
   ObservableList<Map<String, dynamic>> presetCityWeatherData =
-      ObservableList.of([
-    {
-      'name': '',
-      'main': {'temp': ''}
-    },
-  ]);
+      ObservableList.of([]);
 
 // =============================================================================
 
   @computed
-  int get presetsCount => presetsCityNames.length;
+  int get presetsCityNamesCount => presetsCityNames.length;
 
 // =============================================================================
 
   @action
-  void dropPresetWeatherData() {
-    presetCityWeatherData.clear();
+  void dropPresetWeatherData() => presetCityWeatherData.clear();
+
+  @action
+  Future<void> addPreset(String city) async {
+    presetsCityNames.add(city);
+    Map<String, dynamic> cityData = await fetchWeatherByCity(city);
+    presetCityWeatherData.add(cityData);
   }
 
   @action
@@ -58,8 +58,6 @@ abstract class _WeatherPresetsStore with Store {
     for (String city in presetsCityNames) {
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
-      talker.warning(cityData);
-      talker.critical(presetCityWeatherData);
     }
   }
 
@@ -76,7 +74,7 @@ abstract class _WeatherPresetsStore with Store {
       '&lang=ru',
     );
     Map<String, dynamic> result = response.data;
-    talker.info(result);
+    talker.info('Запрос погоды в городе $city: $result');
     return result;
   }
 
@@ -84,16 +82,16 @@ abstract class _WeatherPresetsStore with Store {
     try {
       List<Location> locations = await locationFromAddress(cityName);
       if (locations.isNotEmpty) {
-        double latitude = locations[0].latitude;
-        double longitude = locations[0].longitude;
-        print('Координаты для $cityName: ($latitude, $longitude)');
+        // double latitude = locations[0].latitude;
+        // double longitude = locations[0].longitude;
+        // print('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
-        print('Координаты для $cityName не найдены');
+        talker.critical('Координаты для $cityName не найдены');
         throw Exception('Ошибка: слишком много локаций');
       }
-    } catch (e) {
-      print('Ошибка при получении координат: $e');
+    } catch (e, st) {
+      talker.handle(e, st);
       throw Exception('Ошибка при парсинге города в координаты');
     }
   }
