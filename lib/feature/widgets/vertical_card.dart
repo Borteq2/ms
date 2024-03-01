@@ -16,17 +16,22 @@ class VerticalCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _ImageWidget(appStore: appStore, index: index),
-          _NameWidget(appStore: appStore, index: index),
-          _LinkWidget(appStore: appStore, index: index),
-          _FeaturesListWidget(appStore: appStore, index: index),
-          _LayerWidget(appStore: appStore, index: index, currentPage: currentPage),
-          _NecessaryWidget(appStore: appStore, index: index, currentPage: currentPage),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _ImageWidget(appStore: appStore, index: index),
+            _NameWidget(appStore: appStore, index: index),
+            _LinkWidget(appStore: appStore, index: index),
+            _FeaturesListWidget(appStore: appStore, index: index),
+            _LayerWidget(
+                appStore: appStore, index: index, currentPage: currentPage),
+            _NecessaryWidget(
+                appStore: appStore, index: index, currentPage: currentPage),
+          ],
+        ),
       ),
     );
   }
@@ -128,11 +133,8 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[0]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
-            ),
+          itemBuilder: (context, featureIndex) => Text(
+            '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
           ),
         ),
       ),

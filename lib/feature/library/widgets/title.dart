@@ -36,7 +36,7 @@ class TitleWidget extends StatelessWidget {
               children: [
                 WeatherDetailWidget(appStore: appStore),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   child: Text(
                     appStore.weatherStore.city,
                     overflow: TextOverflow.ellipsis,

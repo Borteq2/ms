@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordor_suit/feature/set/set_screen.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -54,7 +55,7 @@ Future<void> main() async {
               GoRoute(
                 path: 'set',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const Placeholder();
+                  return const SetScreen();
                 },
               ),
             ],

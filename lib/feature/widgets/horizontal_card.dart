@@ -16,7 +16,8 @@ class HorizontalCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
       child: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,11 +138,8 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[index]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-            ),
+          itemBuilder: (context, featureIndex) => Text(
+            '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
           ),
         ),
       ),

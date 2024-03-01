@@ -1,4 +1,4 @@
-import 'package:mordor_suit/feature/prebuilt/items.dart';
+import 'package:mordor_suit/prebuilt/items.dart';
 import 'package:mordor_suit/models/_models.dart';
 
 Suit notSupported = Suit(

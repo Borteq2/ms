@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/feature/prebuilt/suits.dart';
+import 'package:mordor_suit/prebuilt/suits.dart';
 import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -19,7 +19,7 @@ abstract class _SuitStore with Store {
   final Talker talker;
 
   @observable
-  Suit suit = notSupported;
+  Suit suit = heatTempSuit;
 
 // =============================================================================
 
