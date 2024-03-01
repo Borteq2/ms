@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
@@ -32,6 +33,12 @@ abstract class _WeatherStore with Store {
   late Position currentPosition;
 
   @observable
+  String timestamp = '';
+
+  @observable
+  Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
+
+  @observable
   Map<String, dynamic> weatherDataMap = {
     'name': '',
     'main': {'temp': ''}
@@ -40,14 +47,11 @@ abstract class _WeatherStore with Store {
 // =============================================================================
 
   @computed
-  bool get isWeatherLoaded => weatherDataMap['name'] == '';
-
-  @computed
   String get city => weatherDataMap['name'];
 
   @computed
-  String get mapTemp => weatherDataMap['main']['temp'].toString();
-
+  bool get isWeatherLoaded => city != '';
+ 
   @computed
   String get weather {
     try {
@@ -62,7 +66,13 @@ abstract class _WeatherStore with Store {
   }
 
   @computed
-  double get temperature => mapTemp.isNotEmpty ? double.parse(mapTemp) : 999;
+  Map<String, dynamic> get mapTemp => weatherDataMap['main'];
+
+  @computed
+  double get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
+
+  @computed
+  double get feelsLikeTemp =>  mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
 
   @computed
   TemperatureTypes get currentTemperatureType {
@@ -89,6 +99,17 @@ abstract class _WeatherStore with Store {
 // =============================================================================
 
   @action
+  void setTimestamp() {
+    DateTime now = DateTime.now();
+
+    int hours = now.hour;
+    int minutes = now.minute;
+    int seconds = now.second;
+
+    timestamp = '$hours:$minutes:$seconds';
+  }
+
+  @action
   void dropCurrentWeatherData() {
     weatherDataMap = {
       'name': '',
@@ -103,11 +124,37 @@ abstract class _WeatherStore with Store {
       await getLocation();
       geoPermission = true;
       weatherDataMap = await fetchWeatherByLocation();
+      setTimestamp();
+      setIconByWeather();
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
     }
   }
+
+  @action
+  void setIconByWeather() => weatherDataMap['weather'][0]['main'] == 'Clear'
+      ? weatherIcon = const Icon(Icons.sunny)
+      : weatherDataMap['weather'][0]['main'] == 'Clouds'
+          ? weatherIcon = const Icon(Icons.cloud)
+          : weatherDataMap['weather'][0]['main'] == 'Rain'
+              ? weatherIcon = const Icon(Icons.water_drop)
+              : weatherDataMap['weather'][0]['main'] == 'Snow'
+                  ? weatherIcon = const Icon(Icons.cloudy_snowing)
+                  : weatherDataMap['weather'][0]['main'] == 'Thunderstorm'
+                      ? weatherIcon = const Icon(Icons.thunderstorm)
+                      : weatherDataMap['weather'][0]['main'] == 'Mist'
+                          ? weatherIcon = const Icon(Icons.waves)
+                          : weatherDataMap['weather'][0]['main'] == 'Haze'
+                              ? weatherIcon = const Icon(Icons.waves)
+                              : weatherDataMap['weather'][0]['main'] == 'Sleet'
+                                  ? weatherIcon = const Icon(Icons.snowing)
+                                  : weatherDataMap['weather'][0]['main'] ==
+                                          'Freezing rain'
+                                      ? weatherIcon =
+                                          const Icon(Icons.cloudy_snowing)
+                                      : weatherIcon =
+                                          const Icon(Icons.question_mark);
 
 // =============================================================================
 
