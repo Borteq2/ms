@@ -42,104 +42,104 @@ class _DashboardScreenState extends State<DashboardScreen> {
         appBar: AppBar(title: TitleWidget(appStore: appStore)),
         body: appStore.weatherStore.isWeatherLoaded
             ? Column(
-          children: [
-            appStore.suitStore.suit.name != 'Нет подходящего'
-                ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Комплект: ${appStore.suitStore.suit.name}',
-                style: const TextStyle(fontSize: 16),
-              ),
-            )
-                : const SizedBox.shrink(),
-            Row(
-              children: [
-                appStore.suitStore.layersWithItemsCount > 0
-                    ? DotsIndicator(
-                  dotsCount:
-                  appStore.suitStore.layersWithItemsCount,
-                  position: currentPage.toInt(),
-                  axis: Axis.vertical,
-                  decorator: const DotsDecorator(
-                    color: Colors.grey,
-                    activeColor: Colors.deepOrange,
-                  ),
-                )
-                    : const SizedBox.shrink(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.74,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: PageView.builder(
-                    controller: pageController,
-                    scrollDirection: Axis.vertical,
-                    itemCount: appStore.suitStore.layersWithItemsCount,
-                    itemBuilder: (context, index) => appStore
-                        .suitStore.resultMap.entries
-                        .elementAt(index)
-                        .value
-                        .length ==
-                        1
-                        ? VerticalCardWidget(
-                      appStore: appStore,
-                      currentPage: currentPage,
-                      index: index,
-                    )
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: PageView.builder(
-                            controller: pageController2,
-                            itemCount: appStore
-                                .suitStore.resultMap.entries
-                                .elementAt(index)
-                                .value
-                                .length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) =>
-                                HorizontalCardWidget(
+                children: [
+                  appStore.suitStore.suit.name != 'Нет подходящего'
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Комплект: ${appStore.suitStore.suit.name}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  Row(
+                    children: [
+                      appStore.suitStore.layersWithItemsCount > 0
+                          ? DotsIndicator(
+                              dotsCount:
+                                  appStore.suitStore.layersWithItemsCount,
+                              position: currentPage.toInt(),
+                              axis: Axis.vertical,
+                              decorator: DotsDecorator(
+                                color: Theme.of(context).disabledColor,
+                                activeColor: Theme.of(context).primaryColor,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.74,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: PageView.builder(
+                          controller: pageController,
+                          scrollDirection: Axis.vertical,
+                          itemCount: appStore.suitStore.layersWithItemsCount,
+                          itemBuilder: (context, index) => appStore
+                                      .suitStore.resultMap.entries
+                                      .elementAt(index)
+                                      .value
+                                      .length ==
+                                  1
+                              ? VerticalCardWidget(
                                   appStore: appStore,
                                   currentPage: currentPage,
                                   index: index,
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: PageView.builder(
+                                        controller: pageController2,
+                                        itemCount: appStore
+                                            .suitStore.resultMap.entries
+                                            .elementAt(index)
+                                            .value
+                                            .length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            HorizontalCardWidget(
+                                          appStore: appStore,
+                                          currentPage: currentPage,
+                                          index: index,
+                                        ),
+                                        onPageChanged: (int page) {
+                                          setState(() => currentPage2 = page);
+                                        },
+                                      ),
+                                    ),
+                                    appStore.suitStore.resultMap.entries
+                                            .elementAt(index)
+                                            .value
+                                            .isNotEmpty
+                                        ? DotsIndicator(
+                                            dotsCount: appStore
+                                                .suitStore.resultMap.entries
+                                                .elementAt(index)
+                                                .value
+                                                .length,
+                                            position: currentPage2.toInt(),
+                                            axis: Axis.horizontal,
+                                            decorator: DotsDecorator(
+                                              color: Theme.of(context).disabledColor,
+                                              activeColor: Theme.of(context).primaryColor,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ],
                                 ),
-                            onPageChanged: (int page) {
-                              setState(() => currentPage2 = page);
-                            },
-                          ),
+                          onPageChanged: (int page) {
+                            setState(() {
+                              currentPage = page;
+                              currentPage2 = 0;
+                            });
+                            pageController2.jumpToPage(0);
+                          },
                         ),
-                        appStore.suitStore.resultMap.entries
-                            .elementAt(index)
-                            .value
-                            .isNotEmpty
-                            ? DotsIndicator(
-                          dotsCount: appStore
-                              .suitStore.resultMap.entries
-                              .elementAt(index)
-                              .value
-                              .length,
-                          position: currentPage2.toInt(),
-                          axis: Axis.horizontal,
-                          decorator: const DotsDecorator(
-                            color: Colors.grey,
-                            activeColor: Colors.deepOrange,
-                          ),
-                        )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                    onPageChanged: (int page) {
-                      setState(() {
-                        currentPage = page;
-                        currentPage2 = 0;
-                      });
-                      pageController2.jumpToPage(0);
-                    },
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        )
+                ],
+              )
             : LoadingWidget(appStore: appStore),
         floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
                 appStore.suitStore.layersWithItemsCount > 0
@@ -148,7 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.deepOrange,
+                    color: Theme.of(context).primaryColor,
                     width: 2,
                   ),
                 ),
@@ -170,8 +170,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             : ClipRRect(
                 borderRadius: BorderRadius.circular(32),
                 child: BottomAppBar(
-                  // TODO: попытаться выкинуть это в тему
-                  surfaceTintColor: Colors.transparent,
+                  surfaceTintColor: Theme.of(context).bottomAppBarTheme.surfaceTintColor,
                   shape: const CircularNotchedRectangle(),
                   height: 64,
                   notchMargin: 8.0,
@@ -179,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        color: Colors.grey[400],
+                        // color: Theme.of(context).textTheme.bodyMedium?.color,
                         tooltip: 'Обновить',
                         icon: const Icon(Icons.refresh, size: 28),
                         onPressed: () {
@@ -194,15 +193,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         },
                       ),
                       IconButton(
-                        color: Colors.grey[400],
+                        // color: Theme.of(context).textTheme.bodyMedium?.color,
                         onPressed: () {},
                         tooltip: '',
                         icon: const Icon(Icons.question_mark, size: 28),
                       ),
-                      if (appStore.centerLocations.contains(appStore.fabLocation))
+                      if (appStore.centerLocations
+                          .contains(appStore.fabLocation))
                         const Spacer(),
                       IconButton(
-                        color: Colors.grey[400],
+                        // color: Theme.of(context).textTheme.bodyMedium?.color,
                         onPressed: () {},
                         tooltip: 'Отправить баг-репорт',
                         icon: const Icon(Icons.bug_report_outlined, size: 28),
