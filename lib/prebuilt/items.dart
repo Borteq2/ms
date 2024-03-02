@@ -7,6 +7,7 @@ Clothing noClothing = Clothing(
   image: '',
   inSuitLayer: 999,
   isNecessary: false,
+  isHasAlready: false,
 );
 
 Clothing python = Clothing(
@@ -19,6 +20,7 @@ Clothing python = Clothing(
   image: 'assets/images/python.jpg',
   inSuitLayer: 1,
   isNecessary: true,
+  isHasAlready: false,
 );
 Clothing varan = Clothing(
   name: 'Термобелье утепляющее "Варан"',
@@ -31,6 +33,7 @@ Clothing varan = Clothing(
   image: 'assets/images/varan.jpg',
   inSuitLayer: 2,
   isNecessary: true,
+  isHasAlready: false,
 );
 Clothing cheburashka = Clothing(
   name: 'Куртка флисовая "Чебурашка"',
@@ -42,6 +45,7 @@ Clothing cheburashka = Clothing(
   image: 'assets/images/cheburashka.jpg',
   inSuitLayer: 3,
   isNecessary: true,
+  isHasAlready: false,
 );
 
 Clothing wolfJacket = Clothing(
@@ -55,6 +59,7 @@ Clothing wolfJacket = Clothing(
   image: 'assets/images/wolfJacket.jpg',
   inSuitLayer: 5,
   isNecessary: true,
+  isHasAlready: false,
 );
 Clothing wolfTrousers = Clothing(
   name: 'Демисезонные брюки "Волк"',
@@ -67,6 +72,7 @@ Clothing wolfTrousers = Clothing(
   image: 'assets/images/wolfTrousers.jpg',
   inSuitLayer: 5,
   isNecessary: true,
+  isHasAlready: false,
 );
 
 Clothing saratovJacket = Clothing(
@@ -79,6 +85,7 @@ Clothing saratovJacket = Clothing(
   image: 'assets/images/saratovJacket.jpg',
   inSuitLayer: 4,
   isNecessary: true,
+  isHasAlready: false,
 );
 Clothing saratovTrousers = Clothing(
   name: 'Летние брюки "САРатов"',
@@ -91,6 +98,7 @@ Clothing saratovTrousers = Clothing(
   image: 'assets/images/saratovTrousers.jpg',
   inSuitLayer: 4,
   isNecessary: true,
+  isHasAlready: false,
 );
 
 Clothing scoutMaskingCloak = Clothing(
@@ -100,6 +108,7 @@ Clothing scoutMaskingCloak = Clothing(
   image: '',
   inSuitLayer: 4,
   isNecessary: true,
+  isHasAlready: false,
 );
 
 Accessory nordHat = Accessory(
@@ -109,6 +118,7 @@ Accessory nordHat = Accessory(
   image: 'assets/images/nordHat.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 
 Accessory fjordBuff = Accessory(
@@ -118,6 +128,7 @@ Accessory fjordBuff = Accessory(
   image: 'assets/images/fjordBuff.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 Accessory dozorBuff = Accessory(
   name: 'Бафф демисезонный "Дозор"',
@@ -126,6 +137,7 @@ Accessory dozorBuff = Accessory(
   image: 'assets/images/dozorBuff.png',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 Accessory raiderBuff = Accessory(
   name: 'Бафф "Рейдер"',
@@ -134,6 +146,7 @@ Accessory raiderBuff = Accessory(
   image: 'assets/images/raiderBuff.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 Accessory windPanama = Accessory(
   name: 'Панама "Ветер"',
@@ -142,6 +155,7 @@ Accessory windPanama = Accessory(
   image: 'assets/images/windPanama.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 
 Accessory peasantUnderhelmet = Accessory(
@@ -151,6 +165,7 @@ Accessory peasantUnderhelmet = Accessory(
   image: 'assets/images/peasantUnderhelmet.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 
 Accessory vaderBalaclava = Accessory(
@@ -161,6 +176,7 @@ Accessory vaderBalaclava = Accessory(
   image: 'assets/images/vaderBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 Accessory koifBalavlava = Accessory(
   name: 'Демисезонная балаклава "Койф"',
@@ -169,6 +185,7 @@ Accessory koifBalavlava = Accessory(
   image: 'assets/images/koifBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );
 Accessory ninjaBalaclava = Accessory(
   name: 'Балаклава "Ниндзя"',
@@ -177,4 +194,5 @@ Accessory ninjaBalaclava = Accessory(
   image: 'assets/images/ninjaBalaclava.jpg',
   inSuitLayer: null,
   isNecessary: false,
+  isHasAlready: false,
 );

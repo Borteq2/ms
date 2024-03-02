@@ -22,7 +22,7 @@ abstract class _WeatherPresetsStore with Store {
 
   @observable
   ObservableList<String> presetsCityNames =
-      ObservableList.of(['Москва', 'Волгоград']);
+      ObservableList.of([]);
 
   @observable
   ObservableList<Map<String, dynamic>> presetCityWeatherData =

@@ -12,6 +12,7 @@ class Clothing extends _Cloth with _$Clothing {
     required String image,
     required int inSuitLayer,
     required bool isNecessary,
+    required bool isHasAlready,
   }) : super(
           name: name,
           linkToStore: linkToStore,
@@ -19,6 +20,7 @@ class Clothing extends _Cloth with _$Clothing {
           image: image,
           inSuitLayer: inSuitLayer,
           isNecessary: isNecessary,
+          isHasAlready: isHasAlready,
         );
 
   factory Clothing.fromJson(Map<String, dynamic> json) =>
@@ -35,6 +37,7 @@ abstract class _Cloth with Store {
     required this.image,
     required this.inSuitLayer,
     required this.isNecessary,
+    required this.isHasAlready,
   });
 
   @observable
@@ -54,4 +57,7 @@ abstract class _Cloth with Store {
 
   @observable
   bool isNecessary;
+
+  @observable
+  bool isHasAlready;
 }

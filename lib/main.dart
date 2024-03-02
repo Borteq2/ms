@@ -9,6 +9,8 @@ import 'package:mordor_suit/feature/set/set_screen.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'package:mordor_suit/store/_stores.dart';
 
@@ -20,6 +22,9 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await dotenv.load(fileName: "lib/.env");
+
+    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
 
     // await SentryFlutter.init(
     //       (options) {

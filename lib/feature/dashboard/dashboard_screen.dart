@@ -22,8 +22,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     appStore.weatherStore.geoPermission = true;
-    appStore.weatherStore.getLocationAndWeatherData();
-    appStore.weatherPresetsStore.fetchCityWeatherData();
+    // appStore.weatherStore.getLocationAndWeatherData();
+    // appStore.weatherPresetsStore.fetchCityWeatherData();
   }
 
   @override
@@ -47,8 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 child: FloatingActionButton(
-                  onPressed: () =>
-                      appStore.weatherPresetsStore.addPreset('Сызрань'),
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => AddPresetModal(appStore: appStore),
+                  ),
                   tooltip: 'Как экипироваться по погоде?',
                   backgroundColor: Colors.transparent,
                   child: SvgPicture.asset(
@@ -98,6 +100,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
       ),
+    );
+  }
+}
+
+class AddPresetModal extends StatefulWidget {
+  final AppStore appStore;
+
+  const AddPresetModal({
+    Key? key,
+    required this.appStore,
+  }) : super(key: key);
+
+  @override
+  _AddPresetModalState createState() => _AddPresetModalState();
+}
+
+class _AddPresetModalState extends State<AddPresetModal> {
+  late TextEditingController _cityNameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _cityNameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _cityNameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    AppStore appStore = widget.appStore;
+
+    return AlertDialog(
+      title: const Text('Добавить локацию'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _cityNameController,
+              decoration: const InputDecoration(labelText: 'Город'),
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Отмена'),
+        ),
+        TextButton(
+          onPressed: () {
+            appStore.weatherPresetsStore.addPreset(_cityNameController.text);
+            Navigator.of(context).pop();
+          },
+          child: const Text('Подтвердить'),
+        ),
+      ],
     );
   }
 }
