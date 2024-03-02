@@ -5,25 +5,36 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordor_suit/feature/set/set_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import 'package:mordor_suit/store/_stores.dart';
-
 import 'package:mordor_suit/app.dart';
-import 'package:mordor_suit/feature/dashboard/dashboard_screen.dart';
+import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/models/_models.dart';
+
+import 'package:mordor_suit/feature/_set/set_screen.dart';
+import 'package:mordor_suit/feature/_dashboard/dashboard_screen.dart';
 
 Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await dotenv.load(fileName: "lib/.env");
+    await Hive.initFlutter();
 
-    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+    Hive.registerAdapter(ClothingAdapter());
+    Hive.registerAdapter(AccessoryAdapter());
+
+    final appDocumentDir =
+        await path_provider.getApplicationDocumentsDirectory();
+    final clothingBox = await Hive.openBox<Clothing>('clothing_box');
+    final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
+    final cityNamesBox = await Hive.openBox<String>('city_names_box');
+
     Hive.init(appDocumentDir.path);
 
     // await SentryFlutter.init(
@@ -34,15 +45,16 @@ Future<void> main() async {
 
     final talker = Talker();
     final dio = Dio();
-    dio.interceptors.add(
-      TalkerDioLogger(
-        talker: talker,
-        settings: const TalkerDioLoggerSettings(printResponseData: false),
-      ),
-    );
+    dio.interceptors.add(TalkerDioLogger(
+      talker: talker,
+      settings: const TalkerDioLoggerSettings(printResponseData: false),
+    ));
 
     GetIt.I.registerSingleton(talker);
     GetIt.I.registerSingleton(dio);
+    GetIt.I.registerSingleton(clothingBox);
+    GetIt.I.registerSingleton(accessoryBox);
+    GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
     GetIt.I.registerSingleton(AppStore());
     GetIt.I.registerSingleton(
       GoRouter(

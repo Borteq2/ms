@@ -1,8 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
+import 'package:hive/hive.dart';
+import 'package:mordor_suit/feature/library/config/hive_types.dart';
 
 part 'accessory.g.dart';
 
+@HiveType(typeId: accessory)
 @JsonSerializable()
 class Accessory extends _Accessory with _$Accessory {
   Accessory({
@@ -40,24 +43,31 @@ abstract class _Accessory with Store {
     required this.isHasAlready,
   });
 
+  @HiveField(0)
   @observable
   String name;
 
+  @HiveField(1)
   @observable
   String linkToStore;
 
+  @HiveField(2)
   @observable
   List<String> features;
 
+  @HiveField(3)
   @observable
   String image;
 
+  @HiveField(4)
   @observable
   int? inSuitLayer;
 
+  @HiveField(5)
   @observable
   bool isNecessary;
 
+  @HiveField(6)
   @observable
   bool isHasAlready;
 }

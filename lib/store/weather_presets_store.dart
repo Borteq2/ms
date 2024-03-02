@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -17,6 +18,7 @@ abstract class _WeatherPresetsStore with Store {
   final Talker talker;
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
+  Box cityNamesBox = GetIt.I<Box<String>>(instanceName: 'city_names_box');
 
 // =============================================================================
 
@@ -24,6 +26,7 @@ abstract class _WeatherPresetsStore with Store {
   ObservableList<String> presetsCityNames =
       ObservableList.of([]);
 
+  // TODO: в отдельный стор
   @observable
   ObservableList<Map<String, dynamic>> presetCityWeatherData =
       ObservableList.of([]);
@@ -33,14 +36,26 @@ abstract class _WeatherPresetsStore with Store {
   @computed
   int get presetsCityNamesCount => presetsCityNames.length;
 
+  @computed
+  int get presetCityWeatherDataCount => presetCityWeatherData.length;
+
 // =============================================================================
 
+  @action
+  void syncCityNamesWithBox() => presetsCityNames = ObservableList.of(cityNamesBox.values.cast<String>().toList());
+
+  @action
+  void dropPresetsCityNames() => presetsCityNames.clear();
+
+  // TODO: в отдельный стор
   @action
   void dropPresetWeatherData() => presetCityWeatherData.clear();
 
   @action
   Future<void> addPreset(String city) async {
-    presetsCityNames.add(city);
+    await cityNamesBox.add(city);
+    syncCityNamesWithBox();
+    // TODO: в отдельный стор
     Map<String, dynamic> cityData = await fetchWeatherByCity(city);
     presetCityWeatherData.add(cityData);
   }
@@ -48,21 +63,29 @@ abstract class _WeatherPresetsStore with Store {
   @action
   void removePreset(int index) {
     talker.warning('Удаляю пресет $index');
-    presetsCityNames.removeAt(index);
+    cityNamesBox.deleteAt(index);
+    syncCityNamesWithBox();
+    // TODO: в отдельный стор
     presetCityWeatherData.removeAt(index);
   }
 
+  // TODO: в отдельный стор
   @action
   Future<void> fetchCityWeatherData() async {
     dropPresetWeatherData();
+    syncCityNamesWithBox();
+    talker.critical(presetsCityNames);
     for (String city in presetsCityNames) {
+      talker.critical(city);
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
+      talker.critical(presetCityWeatherData.length);
     }
   }
 
 // =============================================================================
 
+  // TODO: в отдельный стор
   Future<Map<String, dynamic>> fetchWeatherByCity(String city) async {
     Location location = await getLocationCoordinatesByCityName(city);
     Response response = await dio.get(
@@ -78,13 +101,14 @@ abstract class _WeatherPresetsStore with Store {
     return result;
   }
 
+  // TODO: в отдельный стор
   Future<Location> getLocationCoordinatesByCityName(String cityName) async {
     try {
       List<Location> locations = await locationFromAddress(cityName);
       if (locations.isNotEmpty) {
-        // double latitude = locations[0].latitude;
-        // double longitude = locations[0].longitude;
-        // print('Координаты для $cityName: ($latitude, $longitude)');
+        double latitude = locations[0].latitude;
+        double longitude = locations[0].longitude;
+        print('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
         talker.critical('Координаты для $cityName не найдены');
