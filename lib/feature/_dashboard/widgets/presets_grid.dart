@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/feature/widgets/_widgets.dart';
+import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
 import 'package:mordor_suit/store/_stores.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 class PresetsGridWidget extends StatefulWidget {
   const PresetsGridWidget({
@@ -30,14 +27,14 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     return Observer(
       builder: (_) => Column(
         children: [
-          Text('Данные обновлены: ${widget.appStore.weatherStore.timestamp}'),
+          Text('Данные обновлены: ${widget.appStore.currentWeatherStore.timestamp}'),
           const SizedBox(height: 8),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2),
-              itemCount:
-                  widget.appStore.weatherPresetsStore.presetsCityNamesCount,
+              itemCount: widget.appStore.weatherPresetsStore.cityNamesStore
+                  .presetsCityNamesCount,
               itemBuilder: (context, index) => GestureDetector(
                 onLongPress: () =>
                     widget.appStore.weatherPresetsStore.removePreset(index),
@@ -52,51 +49,36 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                'Локация: ${widget.appStore.weatherPresetsStore.presetsCityNames[index]}',
+                                'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
                                 overflow: TextOverflow.ellipsis),
                             Text(
                                 '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
                                 overflow: TextOverflow.ellipsis),
-                            appStore.weatherStore.getIconByWeather(widget
-                                    .appStore
-                                    .weatherPresetsStore
-                                    .presetCityWeatherData[index]['weather'][0]
-                                ['main']),
+                            appStore.currentWeatherStore.getIconByWeather(widget
+                                .appStore.weatherPresetsStore
+                                .weather(index)),
                             Text(
-                              widget
-                                      .appStore
-                                      .weatherPresetsStore
-                                      .presetCityWeatherData[index]['weather']
-                                          [0]['description']
-                                      .toString()[0]
-                                      .toUpperCase() +
-                                  widget
-                                      .appStore
-                                      .weatherPresetsStore
-                                      .presetCityWeatherData[index]['weather']
-                                          [0]['description']
-                                      .toString()
-                                      .substring(1),
+                              StringHelper().capitalizeFirstSymbol(appStore
+                                  .weatherPresetsStore
+                                  .description(index)),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                                'Температура: ${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['temp']}',
+                                'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}',
                                 overflow: TextOverflow.ellipsis),
                             Text(
-                                'Ощущается как: ${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['feels_like']}',
+                                'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}',
                                 overflow: TextOverflow.ellipsis),
                             Text(
-                                'Влажность: ${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['main']['humidity']}',
+                                'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}',
                                 overflow: TextOverflow.ellipsis),
                             Text(
-                                'Ветер: ${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['wind']['speed']}',
+                                'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)}',
                                 overflow: TextOverflow.ellipsis),
                           ],
                         ),
                       )
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                    : const Center(child: CircularProgressIndicator()),
               ),
             ),
           ),

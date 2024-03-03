@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-part 'weather_store.g.dart';
+part 'current_weather_store.g.dart';
 
 enum TemperatureTypes {
   notSupported,
@@ -16,10 +16,10 @@ enum TemperatureTypes {
   heat,
 }
 
-class WeatherStore = _WeatherStore with _$WeatherStore;
+class CurrentWeatherStore = _CurrentWeatherStore with _$CurrentWeatherStore;
 
-abstract class _WeatherStore with Store {
-  _WeatherStore({
+abstract class _CurrentWeatherStore with Store {
+  _CurrentWeatherStore({
     required this.talker,
   });
 

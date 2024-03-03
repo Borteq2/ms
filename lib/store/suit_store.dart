@@ -84,7 +84,7 @@ abstract class _SuitStore with Store {
   @action
   void setSuitByTemperatureType() {
     talker.info('начинаю парсить температуру');
-    switch (appStore.weatherStore.currentTemperatureType) {
+    switch (appStore.currentWeatherStore.currentTemperatureType) {
       case TemperatureTypes.notSupported:
         suit = notSupported;
       case TemperatureTypes.cold:

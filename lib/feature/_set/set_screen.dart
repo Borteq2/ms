@@ -133,7 +133,7 @@ class _SetScreenState extends State<SetScreen> {
             ),
           ],
         ),
-        floatingActionButton: appStore.weatherStore.city.toString().isEmpty ||
+        floatingActionButton: appStore.currentWeatherStore.city.toString().isEmpty ||
                 appStore.suitStore.layersWithItemsCount > 0
             ? const SizedBox.shrink()
             : Container(
@@ -157,7 +157,7 @@ class _SetScreenState extends State<SetScreen> {
                 ),
               ),
         floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar: appStore.weatherStore.city.toString().isEmpty
+        bottomNavigationBar: appStore.currentWeatherStore.city.toString().isEmpty
             ? const SizedBox.shrink()
             : ClipRRect(
                 borderRadius: BorderRadius.circular(32),
@@ -176,11 +176,11 @@ class _SetScreenState extends State<SetScreen> {
                         icon: const Icon(Icons.refresh, size: 28),
                         onPressed: () {
                           if (appStore.suitStore.layersWithItemsCount == 0) {
-                            appStore.weatherStore.getLocation();
-                            appStore.weatherStore.getLocationAndWeatherData();
+                            appStore.currentWeatherStore.getLocation();
+                            appStore.currentWeatherStore.getLocationAndWeatherData();
                           } else {
-                            appStore.weatherStore.getLocation();
-                            appStore.weatherStore.getLocationAndWeatherData();
+                            appStore.currentWeatherStore.getLocation();
+                            appStore.currentWeatherStore.getLocationAndWeatherData();
                             appStore.suitStore.refreshSuitData();
                           }
                         },

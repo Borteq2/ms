@@ -21,14 +21,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    appStore.weatherStore.geoPermission = true;
+    appStore.currentWeatherStore.geoPermission = true;
     // appStore.weatherStore.getLocationAndWeatherData();
     appStore.weatherPresetsStore.fetchCityWeatherData();
   }
 
   @override
   Widget build(BuildContext context) {
-    talker.debug(appStore.weatherPresetsStore.presetsCityNames.length);
+    talker.debug(appStore.weatherPresetsStore.cityNamesStore.presetsCityNames.length);
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(
@@ -77,8 +77,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   tooltip: 'Обновить',
                   icon: const Icon(Icons.refresh, size: 28),
                   onPressed: () {
-                    appStore.weatherStore.getLocation();
-                    appStore.weatherStore.getLocationAndWeatherData();
+                    appStore.currentWeatherStore.getLocation();
+                    appStore.currentWeatherStore.getLocationAndWeatherData();
                   },
                 ),
                 IconButton(

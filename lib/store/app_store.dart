@@ -20,7 +20,7 @@ abstract class _AppStore with Store {
       FloatingActionButtonLocation.centerDocked;
 
   @observable
-  WeatherStore weatherStore = WeatherStore(talker: GetIt.I<Talker>());
+  CurrentWeatherStore currentWeatherStore = CurrentWeatherStore(talker: GetIt.I<Talker>());
 
   @observable
   SuitStore suitStore = SuitStore(talker: GetIt.I<Talker>());
@@ -28,6 +28,7 @@ abstract class _AppStore with Store {
   @observable
   WeatherPresetsStore weatherPresetsStore =
       WeatherPresetsStore(talker: GetIt.I<Talker>());
+
 
 // =============================================================================
 

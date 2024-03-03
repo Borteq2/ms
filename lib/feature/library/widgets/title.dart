@@ -27,7 +27,7 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return appStore.weatherStore.isWeatherLoaded ? Column(
+    return appStore.currentWeatherStore.isWeatherLoaded ? Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,14 +38,14 @@ class TitleWidget extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Text(
-                    appStore.weatherStore.city,
+                    appStore.currentWeatherStore.city,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
-            appStore.weatherStore.weatherIcon,
-            Text('${appStore.weatherStore.temperature.toString()}°C'),
+            appStore.currentWeatherStore.weatherIcon,
+            Text('${appStore.currentWeatherStore.temperature.toString()}°C'),
           ],
         ),
       ],
@@ -76,7 +76,7 @@ class WeatherDetailWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Обновлено: ${appStore.weatherStore.timestamp}'),
+                Text('Обновлено: ${appStore.currentWeatherStore.timestamp}'),
               ],
             ),
           ),
@@ -85,7 +85,7 @@ class WeatherDetailWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Ощущается как: ${appStore.weatherStore.feelsLikeTemp}'),
+                Text('Ощущается как: ${appStore.currentWeatherStore.feelsLikeTemp}'),
               ],
             ),
           ),

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'weather_presets_store.g.dart';
@@ -18,44 +18,42 @@ abstract class _WeatherPresetsStore with Store {
   final Talker talker;
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
-  Box cityNamesBox = GetIt.I<Box<String>>(instanceName: 'city_names_box');
 
 // =============================================================================
 
   @observable
-  ObservableList<String> presetsCityNames =
-      ObservableList.of([]);
+  CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
 
-  // TODO: в отдельный стор
   @observable
-  ObservableList<Map<String, dynamic>> presetCityWeatherData =
-      ObservableList.of([]);
+  ObservableList<Map<String, dynamic>> presetCityWeatherData = ObservableList();
 
 // =============================================================================
-
-  @computed
-  int get presetsCityNamesCount => presetsCityNames.length;
 
   @computed
   int get presetCityWeatherDataCount => presetCityWeatherData.length;
 
+  String baseTemp(index) => presetCityWeatherData[index]['main']['temp'].toString();
+
+  String feelsLike(index) => presetCityWeatherData[index]['main']['feels_like'].toString();
+
+  String weather(index) => presetCityWeatherData[index]['weather'][0]['main'].toString();
+
+  String description(index) => presetCityWeatherData[index]['main']['temp'].toString();
+
+  String humidity(index) => presetCityWeatherData[index]['main']['humidity'].toString();
+
+  String wind(index) => presetCityWeatherData[index]['wind']['speed'].toString();
+
 // =============================================================================
 
-  @action
-  void syncCityNamesWithBox() => presetsCityNames = ObservableList.of(cityNamesBox.values.cast<String>().toList());
-
-  @action
-  void dropPresetsCityNames() => presetsCityNames.clear();
-
-  // TODO: в отдельный стор
   @action
   void dropPresetWeatherData() => presetCityWeatherData.clear();
 
   @action
   Future<void> addPreset(String city) async {
-    await cityNamesBox.add(city);
-    syncCityNamesWithBox();
-    // TODO: в отдельный стор
+    await cityNamesStore.cityNamesBox.add(city);
+    cityNamesStore.syncCityNamesWithBox();
+
     Map<String, dynamic> cityData = await fetchWeatherByCity(city);
     presetCityWeatherData.add(cityData);
   }
@@ -63,19 +61,18 @@ abstract class _WeatherPresetsStore with Store {
   @action
   void removePreset(int index) {
     talker.warning('Удаляю пресет $index');
-    cityNamesBox.deleteAt(index);
-    syncCityNamesWithBox();
-    // TODO: в отдельный стор
+    cityNamesStore.cityNamesBox.deleteAt(index);
+    cityNamesStore.syncCityNamesWithBox();
+
     presetCityWeatherData.removeAt(index);
   }
 
-  // TODO: в отдельный стор
   @action
   Future<void> fetchCityWeatherData() async {
     dropPresetWeatherData();
-    syncCityNamesWithBox();
-    talker.critical(presetsCityNames);
-    for (String city in presetsCityNames) {
+    cityNamesStore.syncCityNamesWithBox();
+    talker.critical(cityNamesStore.presetsCityNames);
+    for (String city in cityNamesStore.presetsCityNames) {
       talker.critical(city);
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
@@ -85,7 +82,6 @@ abstract class _WeatherPresetsStore with Store {
 
 // =============================================================================
 
-  // TODO: в отдельный стор
   Future<Map<String, dynamic>> fetchWeatherByCity(String city) async {
     Location location = await getLocationCoordinatesByCityName(city);
     Response response = await dio.get(
@@ -101,7 +97,6 @@ abstract class _WeatherPresetsStore with Store {
     return result;
   }
 
-  // TODO: в отдельный стор
   Future<Location> getLocationCoordinatesByCityName(String cityName) async {
     try {
       List<Location> locations = await locationFromAddress(cityName);

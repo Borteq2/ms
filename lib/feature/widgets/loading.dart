@@ -15,7 +15,7 @@ class LoadingWidget extends StatelessWidget {
       child: Stack(
         children: [
           const Center(child: CircularProgressIndicator()),
-          appStore.weatherStore.geoPermission
+          appStore.currentWeatherStore.geoPermission
               ? const SizedBox.shrink()
               : Align(
                   alignment: Alignment.bottomCenter,
