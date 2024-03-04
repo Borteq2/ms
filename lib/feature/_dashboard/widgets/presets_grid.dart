@@ -29,9 +29,6 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     return Observer(
       builder: (_) => Column(
         children: [
-          // Text(
-          //     'Данные обновлены: ${widget.appStore.time}'),
-          // const SizedBox(height: 8),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -2,9 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import 'package:mordor_suit/store/_stores.dart';
 
 part 'weather_presets_store.g.dart';
 
@@ -18,6 +20,8 @@ abstract class _WeatherPresetsStore with Store {
   final Talker talker;
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
+  Box box =
+      GetIt.I<Box<Map<String, dynamic>>>(instanceName: 'weather_presets_box');
 
 // =============================================================================
 
@@ -32,17 +36,23 @@ abstract class _WeatherPresetsStore with Store {
   @computed
   int get presetCityWeatherDataCount => presetCityWeatherData.length;
 
-  String baseTemp(index) => presetCityWeatherData[index]['main']['temp'].toString();
+  String baseTemp(index) =>
+      presetCityWeatherData[index]['main']['temp'].toString();
 
-  String feelsLike(index) => presetCityWeatherData[index]['main']['feels_like'].toString();
+  String feelsLike(index) =>
+      presetCityWeatherData[index]['main']['feels_like'].toString();
 
-  String weather(index) => presetCityWeatherData[index]['weather'][0]['main'].toString();
+  String weather(index) =>
+      presetCityWeatherData[index]['weather'][0]['main'].toString();
 
-  String description(index) => presetCityWeatherData[index]['main']['temp'].toString();
+  String description(index) =>
+      presetCityWeatherData[index]['main']['temp'].toString();
 
-  String humidity(index) => presetCityWeatherData[index]['main']['humidity'].toString();
+  String humidity(index) =>
+      presetCityWeatherData[index]['main']['humidity'].toString();
 
-  String wind(index) => presetCityWeatherData[index]['wind']['speed'].toString();
+  String wind(index) =>
+      presetCityWeatherData[index]['wind']['speed'].toString();
 
 // =============================================================================
 
@@ -69,14 +79,12 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
+    talker.warning('Данные из сети');
     dropPresetWeatherData();
     cityNamesStore.syncCityNamesWithBox();
-    talker.critical(cityNamesStore.presetsCityNames);
     for (String city in cityNamesStore.presetsCityNames) {
-      talker.critical(city);
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
-      talker.critical(presetCityWeatherData.length);
     }
   }
 

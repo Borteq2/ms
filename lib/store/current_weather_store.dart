@@ -96,18 +96,6 @@ abstract class _CurrentWeatherStore with Store {
 
 // =============================================================================
 
-  // @action
-  // void setTimestamp() {
-  //   DateTime now = DateTime.now();
-  //
-  //   // int hours = now.hour;
-  //   // int minutes = now.minute;
-  //   // int seconds = now.second;
-  //
-  //   // timestamp = '$hours:$minutes:$seconds';
-  //   timestamp = now;
-  // }
-
   @action
   void dropCurrentWeatherData() {
     weatherDataMap = {

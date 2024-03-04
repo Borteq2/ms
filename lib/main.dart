@@ -29,12 +29,12 @@ Future<void> main() async {
     Hive.registerAdapter(ClothingAdapter());
     Hive.registerAdapter(AccessoryAdapter());
 
-    final appDocumentDir =
-        await path_provider.getApplicationDocumentsDirectory();
+    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
     final clothingBox = await Hive.openBox<Clothing>('clothing_box');
     final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
     final cityNamesBox = await Hive.openBox<String>('city_names_box');
     final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
+    final weatherPresetsBox = await Hive.openBox<Map<String, dynamic>>('weather_presets_box');
 
     Hive.init(appDocumentDir.path);
 
@@ -57,6 +57,7 @@ Future<void> main() async {
     GetIt.I.registerSingleton(accessoryBox, instanceName: 'accessory_box');
     GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
     GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
+    GetIt.I.registerSingleton(weatherPresetsBox, instanceName: 'weather_presets_box');
     GetIt.I.registerSingleton(AppStore());
     GetIt.I.registerSingleton(
       GoRouter(

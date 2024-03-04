@@ -39,22 +39,20 @@ abstract class _AppStore with Store {
   @observable
   String time = '';
 
+  @observable
+  bool isNeedLoadData = false;
+
 // =============================================================================
 
   // @computed
 
 // =============================================================================
 
-  // @action
-
-// =============================================================================
-
+  @action
   Future<void> checkTimestamp() async {
     DefaultCacheManager cacheManager = DefaultCacheManager();
     DateTime currentTime = DateTime.now();
     int ttlInMinutes = 30;
-
-    _drop(cacheManager);
 
     try {
       await _checkStoragePermissions();
@@ -66,19 +64,28 @@ abstract class _AppStore with Store {
         if (timestampFile.validTill.isBefore(currentTime)) {
           talker.warning('Таймштамп протух, дропаю кэш');
           _drop(cacheManager);
+          talker.critical('рефрешу таймштамп');
           await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+          isNeedLoadData = true;
+        } else {
+          talker.critical('таймштамп свежий');
+          DateTime cachedTimestamp = DateTime.parse(timestampString);
+          time =
+              '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
+          isNeedLoadData = false;
         }
-        DateTime cachedTimestamp = DateTime.parse(timestampString);
-        time =
-            '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
       } else {
         await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+        isNeedLoadData = true;
       }
     } catch (e, st) {
-      talker.info('Произошла ошибка при проверке таймштампа:');
+      talker.critical('Произошла ошибка при проверке таймштампа:');
       talker.handle(e, st);
     }
+    talker.critical('итого: $isNeedLoadData');
   }
+
+// =============================================================================
 
   Future<void> goToAppSettings() async {
     await openAppSettings();
