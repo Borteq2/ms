@@ -23,6 +23,10 @@ abstract class _AppStore with Store {
   FloatingActionButtonLocation fabLocation =
       FloatingActionButtonLocation.centerDocked;
 
+  DefaultCacheManager cacheManager = DefaultCacheManager();
+  DateTime currentTime = DateTime.now();
+  int ttlInMinutes = 30;
+
   Talker talker = GetIt.I<Talker>();
 
   @observable
@@ -50,9 +54,7 @@ abstract class _AppStore with Store {
 
   @action
   Future<void> checkTimestamp() async {
-    DefaultCacheManager cacheManager = DefaultCacheManager();
-    DateTime currentTime = DateTime.now();
-    int ttlInMinutes = 30;
+
 
     try {
       await _checkStoragePermissions();
@@ -63,9 +65,9 @@ abstract class _AppStore with Store {
         String timestampString = await timestampFile.file.readAsString();
         if (timestampFile.validTill.isBefore(currentTime)) {
           talker.warning('Таймштамп протух, дропаю кэш');
-          _drop(cacheManager);
+          dropTimestampCache(cacheManager);
           talker.critical('рефрешу таймштамп');
-          await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+          await refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
           isNeedLoadData = true;
         } else {
           talker.critical('таймштамп свежий');
@@ -75,7 +77,7 @@ abstract class _AppStore with Store {
           isNeedLoadData = false;
         }
       } else {
-        await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+        await refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
         isNeedLoadData = true;
       }
     } catch (e, st) {
@@ -91,8 +93,8 @@ abstract class _AppStore with Store {
     await openAppSettings();
   }
 
-  void _drop(DefaultCacheManager cacheManager) {
-    cacheManager.emptyCache();
+  Future<void> dropTimestampCache(DefaultCacheManager cacheManager) async {
+    await cacheManager.emptyCache();
   }
 
   Future<void> _checkStoragePermissions() async {
@@ -109,7 +111,7 @@ abstract class _AppStore with Store {
     }
   }
 
-  Future<void> _refreshTimestampCache(
+  Future<void> refreshTimestampCache(
     DefaultCacheManager cacheManager,
     DateTime currentTime,
     int ttlInMinutes,

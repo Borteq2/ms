@@ -87,8 +87,16 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> fetchCityWeatherData() async {
     talker.info('Данные из сети');
     talker.debug('очищаю данные пресетов в приложении');
-    talker.debug('дропаю кэш');
+    talker.debug('дропаю кэш пресетов');
+    talker.debug('рефрешу кэш таймштампа (чаще чем примерно раз в минуту всё равно не сработает)');
+
     dropPresetWeatherData();
+    appStore.dropTimestampCache(appStore.cacheManager);
+    appStore.refreshTimestampCache(
+      appStore.cacheManager,
+      appStore.currentTime,
+      appStore.ttlInMinutes,
+    );
     dropWeatherPresetsCache(cacheManager);
 
     cityNamesStore.syncCityNamesWithBox();
@@ -200,7 +208,6 @@ abstract class _WeatherPresetsStore with Store {
       talker.debug('Кэш нуловый, не ок $dataList');
       setFileToCache(cacheManager, presetCityWeatherData);
       getFileFromCache(cacheManager);
-
     }
     return dataList;
   }

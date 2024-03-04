@@ -27,62 +27,65 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
         (_) => setState(() {}));
 
     return Observer(
-      builder: (_) => Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemCount: widget.appStore.weatherPresetsStore.cityNamesStore
-                  .presetsCityNamesCount,
-              itemBuilder: (context, index) => GestureDetector(
-                onLongPress: () =>
-                    widget.appStore.weatherPresetsStore.removePreset(index),
-                onTap: () => context.go('/set',
-                    extra: widget.appStore.weatherPresetsStore
-                        .presetCityWeatherData[index]),
-                child: widget.appStore.weatherPresetsStore
-                            .presetCityWeatherDataCount >
-                        index
-                    ? Card(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                                'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
-                                overflow: TextOverflow.ellipsis),
-                            Text(
-                                '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
-                                overflow: TextOverflow.ellipsis),
-                            IconHelper.getIconByWeather(widget
-                                .appStore.weatherPresetsStore
-                                .weather(index)),
-                            Text(
-                              StringHelper.capitalizeFirstSymbol(appStore
-                                  .weatherPresetsStore
-                                  .description(index)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                                'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}',
-                                overflow: TextOverflow.ellipsis),
-                            Text(
-                                'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}',
-                                overflow: TextOverflow.ellipsis),
-                            Text(
-                                'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}',
-                                overflow: TextOverflow.ellipsis),
-                            Text(
-                                'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)}',
-                                overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      )
-                    : const Center(child: CircularProgressIndicator()),
+      builder: (_) => RefreshIndicator(
+        onRefresh: () => appStore.weatherPresetsStore.fetchCityWeatherData(),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: widget.appStore.weatherPresetsStore.cityNamesStore
+                    .presetsCityNamesCount,
+                itemBuilder: (context, index) => GestureDetector(
+                  onLongPress: () =>
+                      widget.appStore.weatherPresetsStore.removePreset(index),
+                  onTap: () => context.go('/set',
+                      extra: widget.appStore.weatherPresetsStore
+                          .presetCityWeatherData[index]),
+                  child: widget.appStore.weatherPresetsStore
+                              .presetCityWeatherDataCount >
+                          index
+                      ? Card(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
+                                  overflow: TextOverflow.ellipsis),
+                              Text(
+                                  '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
+                                  overflow: TextOverflow.ellipsis),
+                              IconHelper.getIconByWeather(widget
+                                  .appStore.weatherPresetsStore
+                                  .weather(index)),
+                              Text(
+                                StringHelper.capitalizeFirstSymbol(appStore
+                                    .weatherPresetsStore
+                                    .description(index)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                  'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}',
+                                  overflow: TextOverflow.ellipsis),
+                              Text(
+                                  'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}',
+                                  overflow: TextOverflow.ellipsis),
+                              Text(
+                                  'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}',
+                                  overflow: TextOverflow.ellipsis),
+                              Text(
+                                  'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)}',
+                                  overflow: TextOverflow.ellipsis),
+                            ],
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
