@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -20,8 +26,8 @@ abstract class _WeatherPresetsStore with Store {
   final Talker talker;
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
-  Box box =
-      GetIt.I<Box<Map<String, dynamic>>>(instanceName: 'weather_presets_box');
+
+  DefaultCacheManager cacheManager = DefaultCacheManager();
 
 // =============================================================================
 
@@ -79,13 +85,20 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
-    talker.warning('Данные из сети');
+    talker.info('Данные из сети');
+    talker.debug('очищаю данные пресетов в приложении');
+    talker.debug('дропаю кэш');
     dropPresetWeatherData();
+    dropWeatherPresetsCache(cacheManager);
+
     cityNamesStore.syncCityNamesWithBox();
+
     for (String city in cityNamesStore.presetsCityNames) {
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
     }
+    talker.debug('Пишу в кэш $presetCityWeatherData');
+    setFileToCache(cacheManager, presetCityWeatherData);
   }
 
 // =============================================================================
@@ -111,7 +124,7 @@ abstract class _WeatherPresetsStore with Store {
       if (locations.isNotEmpty) {
         double latitude = locations[0].latitude;
         double longitude = locations[0].longitude;
-        print('Координаты для $cityName: ($latitude, $longitude)');
+        talker.info('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
         talker.critical('Координаты для $cityName не найдены');
@@ -121,5 +134,74 @@ abstract class _WeatherPresetsStore with Store {
       talker.handle(e, st);
       throw Exception('Ошибка при парсинге города в координаты');
     }
+  }
+
+// =============================================================================
+
+  Future<void> dropWeatherPresetsCache(DefaultCacheManager cacheManager) async {
+    await cacheManager.emptyCache();
+  }
+
+  Future<void> checkStoragePermissions() async {
+    var status = await Permission.storage.status;
+    if (status.isDenied || status.isPermanentlyDenied) {
+      status = await Permission.storage.request();
+    }
+    if (status.isGranted) {
+      talker.debug('Разрешение на чтение файлов предоставлено');
+    } else {
+      talker.debug('Разрешение на чтение файлов не предоставлено');
+      throw const PermissionDeniedException(
+          'Разрешение на чтение файлов не предоставлено');
+    }
+  }
+
+  @action
+  Future<void> getWeatherPresetsListFromCache() async {
+    checkStoragePermissions();
+
+    ObservableList<Map<String, dynamic>> weatherPresetsList =
+        await getFileFromCache(cacheManager);
+
+    talker.info('Данные из кэша: $weatherPresetsList}');
+    presetCityWeatherData = weatherPresetsList;
+  }
+
+  Future<void> setFileToCache(
+    DefaultCacheManager cacheManager,
+    ObservableList<Map<String, dynamic>> weatherPresetsList,
+  ) async {
+    String jsonData = jsonEncode(weatherPresetsList);
+    await cacheManager.putFile(
+      'weatherPresetsList',
+      Uint8List.fromList(utf8.encode(jsonData)),
+    );
+  }
+
+  Future<ObservableList<Map<String, dynamic>>> getFileFromCache(
+    DefaultCacheManager cacheManager,
+  ) async {
+    ObservableList<Map<String, dynamic>> dataList =
+        ObservableList<Map<String, dynamic>>.of([]);
+    FileInfo? weatherPresetsList =
+        await cacheManager.getFileFromCache('weatherPresetsList');
+
+    if (weatherPresetsList != null) {
+      talker.debug('Кэш с потрохами, ОК $weatherPresetsList');
+      String jsonData = await weatherPresetsList.file.readAsString();
+
+      List<dynamic> jsonList = jsonDecode(jsonData);
+      dataList = ObservableList<Map<String, dynamic>>.of(
+        jsonList.map<Map<String, dynamic>>(
+            (item) => Map<String, dynamic>.from(item)),
+      );
+      talker.debug('Данные получились $dataList');
+    } else {
+      talker.debug('Кэш нуловый, не ок $dataList');
+      setFileToCache(cacheManager, presetCityWeatherData);
+      getFileFromCache(cacheManager);
+
+    }
+    return dataList;
   }
 }
