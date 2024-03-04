@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
+import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class PresetsGridWidget extends StatefulWidget {
@@ -27,7 +28,8 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     return Observer(
       builder: (_) => Column(
         children: [
-          Text('Данные обновлены: ${widget.appStore.currentWeatherStore.timestamp}'),
+          // Text(
+          //     'Данные обновлены: ${widget.appStore.currentWeatherStore.timestamp}'),
           const SizedBox(height: 8),
           Expanded(
             child: GridView.builder(
@@ -54,11 +56,11 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                             Text(
                                 '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
                                 overflow: TextOverflow.ellipsis),
-                            appStore.currentWeatherStore.getIconByWeather(widget
+                            IconHelper.getIconByWeather(widget
                                 .appStore.weatherPresetsStore
                                 .weather(index)),
                             Text(
-                              StringHelper().capitalizeFirstSymbol(appStore
+                              StringHelper.capitalizeFirstSymbol(appStore
                                   .weatherPresetsStore
                                   .description(index)),
                               overflow: TextOverflow.ellipsis,

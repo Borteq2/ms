@@ -19,7 +19,7 @@ abstract class _SuitStore with Store {
   final Talker talker;
 
   @observable
-  Suit suit = heatTempSuit;
+  Suit suit = notSupportedSuit;
 
 // =============================================================================
 
@@ -33,11 +33,6 @@ abstract class _SuitStore with Store {
         'layer_5': suit.layer_5?.length ?? 0,
         'accessories': suit.accessories.length,
       };
-
-  // @computed
-  // int get unEmptyLayersCount => itemsCountByLayer.values
-  //     .where((value) => value != 0 && value != null)
-  //     .length;
 
   @computed
   Map<String, int> get layersWithItems =>
@@ -60,24 +55,11 @@ abstract class _SuitStore with Store {
   Map<String, dynamic> get resultMap =>
       mapFromLayersWithItemsNames(suit, layersWithItemsNames);
 
-  // @computed
-  // List<Clothing> get suitClothesListByLayer => List.from(suit.clothes)
-  //   ..sort((a, b) => a.inSuitLayer.compareTo(b.inSuitLayer));
-  //
-  // @computed
-  // List<Accessory> get suitAccessoriesList => suit.accessories;
-  //
-  // @computed
-  // List get equipList => [...suitClothesListByLayer, ...suitAccessoriesList];
-  //
-  // @computed
-  // int get equipCount => equipList.length;
-
 // =============================================================================
 
   @action
   void refreshSuitData() {
-    suit = notSupported;
+    suit = notSupportedSuit;
     setSuitByTemperatureType();
   }
 
@@ -86,7 +68,7 @@ abstract class _SuitStore with Store {
     talker.info('начинаю парсить температуру');
     switch (appStore.currentWeatherStore.currentTemperatureType) {
       case TemperatureTypes.notSupported:
-        suit = notSupported;
+        suit = notSupportedSuit;
       case TemperatureTypes.cold:
         suit = coldTempSuit;
       case TemperatureTypes.low:

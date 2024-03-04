@@ -1,7 +1,7 @@
 import 'package:mordor_suit/prebuilt/items.dart';
 import 'package:mordor_suit/models/_models.dart';
 
-Suit notSupported = Suit(
+Suit notSupportedSuit = Suit(
   name: 'Нет подходящего',
   layer_1: null,
   layer_2: null,

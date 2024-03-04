@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
-import 'package:mordor_suit/feature/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class SetScreen extends StatefulWidget {
+  // final String time;
+
   const SetScreen({
     Key? key,
+    // required this.time,
   }) : super(
           key: key,
         );
@@ -33,7 +36,7 @@ class _SetScreenState extends State<SetScreen> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: AppBar(title: TitleWidget(appStore: appStore)),
+        appBar: AppBar(title: TitleWidget(appStore: appStore, time: '',)),
         body: Column(
           children: [
             Padding(
@@ -111,7 +114,8 @@ class _SetScreenState extends State<SetScreen> {
                                         position: currentPage2.toInt(),
                                         axis: Axis.horizontal,
                                         decorator: DotsDecorator(
-                                          color: Theme.of(context).disabledColor,
+                                          color:
+                                              Theme.of(context).disabledColor,
                                           activeColor:
                                               Theme.of(context).primaryColor,
                                         ),
@@ -133,31 +137,34 @@ class _SetScreenState extends State<SetScreen> {
             ),
           ],
         ),
-        floatingActionButton: appStore.currentWeatherStore.city.toString().isEmpty ||
-                appStore.suitStore.layersWithItemsCount > 0
-            ? const SizedBox.shrink()
-            : Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
+        floatingActionButton:
+            appStore.currentWeatherStore.city.toString().isEmpty ||
+                    appStore.suitStore.layersWithItemsCount > 0
+                ? const SizedBox.shrink()
+                : Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: FloatingActionButton(
+                      onPressed: () =>
+                          appStore.suitStore.setSuitByTemperatureType(),
+                      tooltip: 'Как экипироваться по погоде?',
+                      backgroundColor: Colors.transparent,
+                      child: SvgPicture.asset(
+                        'assets/images/favicon.svg',
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
                   ),
-                ),
-                child: FloatingActionButton(
-                  onPressed: () =>
-                      appStore.suitStore.setSuitByTemperatureType(),
-                  tooltip: 'Как экипироваться по погоде?',
-                  backgroundColor: Colors.transparent,
-                  child: SvgPicture.asset(
-                    'assets/images/favicon.svg',
-                    width: 60,
-                    height: 60,
-                  ),
-                ),
-              ),
         floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar: appStore.currentWeatherStore.city.toString().isEmpty
+        bottomNavigationBar: appStore.currentWeatherStore.city
+                .toString()
+                .isEmpty
             ? const SizedBox.shrink()
             : ClipRRect(
                 borderRadius: BorderRadius.circular(32),
@@ -177,10 +184,12 @@ class _SetScreenState extends State<SetScreen> {
                         onPressed: () {
                           if (appStore.suitStore.layersWithItemsCount == 0) {
                             appStore.currentWeatherStore.getLocation();
-                            appStore.currentWeatherStore.getLocationAndWeatherData();
+                            appStore.currentWeatherStore
+                                .getLocationAndWeatherData();
                           } else {
                             appStore.currentWeatherStore.getLocation();
-                            appStore.currentWeatherStore.getLocationAndWeatherData();
+                            appStore.currentWeatherStore
+                                .getLocationAndWeatherData();
                             appStore.suitStore.refreshSuitData();
                           }
                         },

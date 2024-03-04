@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
+import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'current_weather_store.g.dart';
@@ -34,9 +36,6 @@ abstract class _CurrentWeatherStore with Store {
   late Position currentPosition;
 
   @observable
-  String timestamp = '';
-
-  @observable
   Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
 
   @observable
@@ -47,6 +46,19 @@ abstract class _CurrentWeatherStore with Store {
 
 // =============================================================================
 
+  // @computed
+  // bool get isTimeStampOld =>
+  //     DateTime.now().difference(timestamp).inMinutes > 30;
+  //
+  // @computed
+  // String get timestampHour => timestamp.hour.toString();
+  //
+  // @computed
+  // String get timestampMinute => timestamp.minute.toString();
+  //
+  // @computed
+  // String get timestampSecond => timestamp.second.toString();
+
   @computed
   String get city => weatherDataMap['name'];
 
@@ -56,10 +68,8 @@ abstract class _CurrentWeatherStore with Store {
   @computed
   String get weather {
     try {
-      return weatherDataMap['weather'][0]['description']
-              .toString()[0]
-              .toUpperCase() +
-          weatherDataMap['weather'][0]['description'].toString().substring(1);
+      return StringHelper.capitalizeFirstSymbol(
+          weatherDataMap['weather'][0]['description']);
     } catch (e) {
       talker.debug(e);
     }
@@ -99,16 +109,17 @@ abstract class _CurrentWeatherStore with Store {
 
 // =============================================================================
 
-  @action
-  void setTimestamp() {
-    DateTime now = DateTime.now();
-
-    int hours = now.hour;
-    int minutes = now.minute;
-    int seconds = now.second;
-
-    timestamp = '$hours:$minutes:$seconds';
-  }
+  // @action
+  // void setTimestamp() {
+  //   DateTime now = DateTime.now();
+  //
+  //   // int hours = now.hour;
+  //   // int minutes = now.minute;
+  //   // int seconds = now.second;
+  //
+  //   // timestamp = '$hours:$minutes:$seconds';
+  //   timestamp = now;
+  // }
 
   @action
   void dropCurrentWeatherData() {
@@ -125,34 +136,14 @@ abstract class _CurrentWeatherStore with Store {
       await getLocation();
       geoPermission = true;
       weatherDataMap = await fetchWeatherByLocation();
-      setTimestamp();
-      weatherIcon = getIconByWeather(weatherDataMap['weather'][0]['main']);
+      // setTimestamp();
+      weatherIcon =
+          IconHelper.getIconByWeather(weatherDataMap['weather'][0]['main']);
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
     }
   }
-
-  @action
-  Icon getIconByWeather(String weather) => weather == 'Clear'
-      ? const Icon(Icons.sunny)
-      : weather == 'Clouds'
-          ? const Icon(Icons.cloud)
-          : weather == 'Rain'
-              ? const Icon(Icons.water_drop)
-              : weather == 'Snow'
-                  ? const Icon(Icons.cloudy_snowing)
-                  : weather == 'Thunderstorm'
-                      ? const Icon(Icons.thunderstorm)
-                      : weather == 'Mist'
-                          ? const Icon(Icons.waves)
-                          : weather == 'Haze'
-                              ? const Icon(Icons.waves)
-                              : weather == 'Sleet'
-                                  ? const Icon(Icons.snowing)
-                                  : weather == 'Freezing rain'
-                                      ? const Icon(Icons.cloudy_snowing)
-                                      : const Icon(Icons.question_mark);
 
 // =============================================================================
 

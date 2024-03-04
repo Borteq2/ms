@@ -21,35 +21,42 @@ class TitleWidget extends StatelessWidget {
   const TitleWidget({
     super.key,
     required this.appStore,
+    required this.time,
   });
 
   final AppStore appStore;
+  final String time;
+
+  // final String time;
 
   @override
   Widget build(BuildContext context) {
-    return appStore.currentWeatherStore.isWeatherLoaded ? Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                WeatherDetailWidget(appStore: appStore),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Text(
-                    appStore.currentWeatherStore.city,
-                    overflow: TextOverflow.ellipsis,
+    return appStore.currentWeatherStore.isWeatherLoaded
+        ? Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      WeatherDetailWidget(appStore: appStore),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          appStore.currentWeatherStore.city,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            appStore.currentWeatherStore.weatherIcon,
-            Text('${appStore.currentWeatherStore.temperature.toString()}°C'),
-          ],
-        ),
-      ],
-    ) : SizedBox.shrink();
+                  appStore.currentWeatherStore.weatherIcon,
+                  Text(
+                      '${appStore.currentWeatherStore.temperature.toString()}°C'),
+                ],
+              ),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 }
 
@@ -57,9 +64,12 @@ class WeatherDetailWidget extends StatelessWidget {
   const WeatherDetailWidget({
     super.key,
     required this.appStore,
+    // required this.time,
   });
 
   final AppStore appStore;
+
+  // final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +81,12 @@ class WeatherDetailWidget extends StatelessWidget {
       offset: const Offset(-100, 50),
       itemBuilder: (BuildContext context) {
         return [
-          PopupMenuItem(
+          const PopupMenuItem(
             value: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Обновлено: ${appStore.currentWeatherStore.timestamp}'),
+                // Text('Обновлено: $time'),
               ],
             ),
           ),
@@ -85,7 +95,8 @@ class WeatherDetailWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Ощущается как: ${appStore.currentWeatherStore.feelsLikeTemp}'),
+                Text(
+                    'Ощущается как: ${appStore.currentWeatherStore.feelsLikeTemp}'),
               ],
             ),
           ),
