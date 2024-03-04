@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/store/_stores.dart';
@@ -19,8 +23,11 @@ abstract class _AppStore with Store {
   FloatingActionButtonLocation fabLocation =
       FloatingActionButtonLocation.centerDocked;
 
+  Talker talker = GetIt.I<Talker>();
+
   @observable
-  CurrentWeatherStore currentWeatherStore = CurrentWeatherStore(talker: GetIt.I<Talker>());
+  CurrentWeatherStore currentWeatherStore =
+      CurrentWeatherStore(talker: GetIt.I<Talker>());
 
   @observable
   SuitStore suitStore = SuitStore(talker: GetIt.I<Talker>());
@@ -29,6 +36,8 @@ abstract class _AppStore with Store {
   WeatherPresetsStore weatherPresetsStore =
       WeatherPresetsStore(talker: GetIt.I<Talker>());
 
+  @observable
+  String time = '';
 
 // =============================================================================
 
@@ -40,7 +49,86 @@ abstract class _AppStore with Store {
 
 // =============================================================================
 
+  Future<void> checkTimestamp() async {
+    DefaultCacheManager cacheManager = DefaultCacheManager();
+    DateTime currentTime = DateTime.now();
+    int ttlInMinutes = 30;
+
+    _drop(cacheManager);
+
+    try {
+      await _checkStoragePermissions();
+
+      FileInfo? timestampFile = await _getFileFromCache(cacheManager);
+
+      if (timestampFile != null) {
+        String timestampString = await timestampFile.file.readAsString();
+        if (timestampFile.validTill.isBefore(currentTime)) {
+          talker.warning('Таймштамп протух, дропаю кэш');
+          _drop(cacheManager);
+          await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+        }
+        DateTime cachedTimestamp = DateTime.parse(timestampString);
+        time =
+            '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
+      } else {
+        await _refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
+      }
+    } catch (e, st) {
+      talker.info('Произошла ошибка при проверке таймштампа:');
+      talker.handle(e, st);
+    }
+  }
+
   Future<void> goToAppSettings() async {
     await openAppSettings();
+  }
+
+  void _drop(DefaultCacheManager cacheManager) {
+    cacheManager.emptyCache();
+  }
+
+  Future<void> _checkStoragePermissions() async {
+    var status = await Permission.storage.status;
+    if (status.isDenied || status.isPermanentlyDenied) {
+      status = await Permission.storage.request();
+    }
+    if (status.isGranted) {
+      talker.info('Разрешение на чтение файлов предоставлено');
+    } else {
+      talker.info('Разрешение на чтение файлов не предоставлено');
+      throw const PermissionDeniedException(
+          'Разрешение на чтение файлов не предоставлено');
+    }
+  }
+
+  Future<void> _refreshTimestampCache(
+    DefaultCacheManager cacheManager,
+    DateTime currentTime,
+    int ttlInMinutes,
+  ) async {
+    await cacheManager.putFile(
+      'timestamp',
+      utf8.encode(currentTime.toString()),
+      maxAge: Duration(minutes: ttlInMinutes),
+    );
+    talker.info('УСТАНОВИЛ');
+    talker.warning('рефрешу таймштамп');
+    FileInfo? timestampFile = await _getFileFromCache(cacheManager);
+    talker.info('2: Получение таймштампа из кэша завершено');
+
+    if (timestampFile != null) {
+      String timestampString = await timestampFile.file.readAsString();
+      talker.info('3: Чтение таймштампа из файла завершено');
+      DateTime cachedTimestamp = DateTime.parse(timestampString);
+      time =
+          '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
+      talker.info('ОТРЕФРЕШЕНЫЙ');
+    }
+  }
+
+  Future<FileInfo?> _getFileFromCache(DefaultCacheManager cacheManager) async {
+    FileInfo? timestampFile = await cacheManager.getFileFromCache('timestamp');
+    return timestampFile;
   }
 }

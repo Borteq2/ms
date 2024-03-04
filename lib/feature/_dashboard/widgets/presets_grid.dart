@@ -21,6 +21,7 @@ class PresetsGridWidget extends StatefulWidget {
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   @override
   Widget build(BuildContext context) {
+
     reaction(
         (_) => widget.appStore.weatherPresetsStore.presetCityWeatherData.length,
         (_) => setState(() {}));
@@ -29,8 +30,8 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
       builder: (_) => Column(
         children: [
           // Text(
-          //     'Данные обновлены: ${widget.appStore.currentWeatherStore.timestamp}'),
-          const SizedBox(height: 8),
+          //     'Данные обновлены: ${widget.appStore.time}'),
+          // const SizedBox(height: 8),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

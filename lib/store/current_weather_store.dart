@@ -46,19 +46,6 @@ abstract class _CurrentWeatherStore with Store {
 
 // =============================================================================
 
-  // @computed
-  // bool get isTimeStampOld =>
-  //     DateTime.now().difference(timestamp).inMinutes > 30;
-  //
-  // @computed
-  // String get timestampHour => timestamp.hour.toString();
-  //
-  // @computed
-  // String get timestampMinute => timestamp.minute.toString();
-  //
-  // @computed
-  // String get timestampSecond => timestamp.second.toString();
-
   @computed
   String get city => weatherDataMap['name'];
 

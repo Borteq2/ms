@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
+import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -36,7 +38,7 @@ class _SetScreenState extends State<SetScreen> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: AppBar(title: TitleWidget(appStore: appStore, time: '',)),
+        appBar: AppBar(title: TitleWidget(appStore: appStore)),
         body: Column(
           children: [
             Padding(
