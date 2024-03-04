@@ -25,6 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   AppStore appStore = GetIt.I<AppStore>();
 
   bool isNeedLoadData = true;
+
   // String time = '';
 
   @override
@@ -32,83 +33,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     appStore.currentWeatherStore.geoPermission = true;
     appStore.currentWeatherStore.getLocationAndWeatherData();
-    // appStore.weatherPresetsStore.fetchCityWeatherData();
+    appStore.weatherPresetsStore.fetchCityWeatherData();
 
     appStore.checkTimestamp().then((_) => setState(() {}));
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     // talker.debug(
     //     appStore.weatherPresetsStore.cityNamesStore.presetsCityNames.length);
     return Observer(
-      builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: TitleWidget(appStore: appStore),
-         ),
-        body: PresetsGridWidget(appStore: appStore),
-        floatingActionButton: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Theme.of(context).primaryColor,
-              width: 2,
+      builder: (_) =>
+          Scaffold(
+            appBar: AppBar(
+              title: TitleWidget(appStore: appStore),
             ),
-          ),
-          child: FloatingActionButton(
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AddPresetModal(appStore: appStore),
-            ),
-            tooltip: 'Как экипироваться по погоде?',
-            backgroundColor: Colors.transparent,
-            child: SvgPicture.asset(
-              'assets/images/favicon.svg',
-              width: 60,
-              height: 60,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.circular(32),
-          child: BottomAppBar(
-            surfaceTintColor:
-                Theme.of(context).bottomAppBarTheme.surfaceTintColor,
-            shape: const CircularNotchedRectangle(),
-            height: 64,
-            notchMargin: 8.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  tooltip: 'Обновить',
-                  icon: const Icon(Icons.refresh, size: 28),
-                  onPressed: () {
-                    appStore.currentWeatherStore.getLocation();
-                    appStore.currentWeatherStore.getLocationAndWeatherData();
-                  },
+            body: PresetsGridWidget(appStore: appStore),
+            floatingActionButton: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme
+                      .of(context)
+                      .primaryColor,
+                  width: 2,
                 ),
-                IconButton(
-                  onPressed: () =>
-                      appStore.weatherPresetsStore.fetchCityWeatherData(),
-                  icon: const Icon(Icons.play_arrow),
+              ),
+              child: FloatingActionButton(
+                onPressed: () =>
+                    showDialog(
+                      context: context,
+                      builder: (context) => AddPresetModal(appStore: appStore),
+                    ),
+                tooltip: 'Как экипироваться по погоде?',
+                backgroundColor: Colors.transparent,
+                child: SvgPicture.asset(
+                  'assets/images/favicon.svg',
+                  width: 60,
+                  height: 60,
                 ),
-                if (appStore.centerLocations.contains(appStore.fabLocation))
-                  const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  tooltip: 'Отправить баг-репорт',
-                  icon: const Icon(Icons.bug_report_outlined, size: 28),
-                ),
-              ],
+              ),
             ),
+            floatingActionButtonLocation: appStore.fabLocation,
+            bottomNavigationBar: BotAppBar(appStore: appStore),
           ),
-        ),
-      ),
     );
   }
 }

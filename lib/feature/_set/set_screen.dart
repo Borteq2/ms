@@ -11,14 +11,9 @@ import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class SetScreen extends StatefulWidget {
-  // final String time;
-
   const SetScreen({
     Key? key,
-    // required this.time,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   @override
   State<SetScreen> createState() => _SetScreenState();
@@ -38,16 +33,15 @@ class _SetScreenState extends State<SetScreen> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: AppBar(title: TitleWidget(appStore: appStore)),
+        appBar: AppBar(
+            // title: TitleWidget(appStore: appStore)
+          title: Text(
+            'Комплект: ${appStore.suitStore.suit.name}',
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Комплект: ${appStore.suitStore.suit.name}',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
             Row(
               children: [
                 appStore.suitStore.layersWithItemsCount > 0
@@ -168,53 +162,7 @@ class _SetScreenState extends State<SetScreen> {
                 .toString()
                 .isEmpty
             ? const SizedBox.shrink()
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: BottomAppBar(
-                  surfaceTintColor:
-                      Theme.of(context).bottomAppBarTheme.surfaceTintColor,
-                  shape: const CircularNotchedRectangle(),
-                  height: 64,
-                  notchMargin: 8.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        // color: Theme.of(context).textTheme.bodyMedium?.color,
-                        tooltip: 'Обновить',
-                        icon: const Icon(Icons.refresh, size: 28),
-                        onPressed: () {
-                          if (appStore.suitStore.layersWithItemsCount == 0) {
-                            appStore.currentWeatherStore.getLocation();
-                            appStore.currentWeatherStore
-                                .getLocationAndWeatherData();
-                          } else {
-                            appStore.currentWeatherStore.getLocation();
-                            appStore.currentWeatherStore
-                                .getLocationAndWeatherData();
-                            appStore.suitStore.refreshSuitData();
-                          }
-                        },
-                      ),
-                      IconButton(
-                        // color: Theme.of(context).textTheme.bodyMedium?.color,
-                        onPressed: () {},
-                        tooltip: '',
-                        icon: const Icon(Icons.question_mark, size: 28),
-                      ),
-                      if (appStore.centerLocations
-                          .contains(appStore.fabLocation))
-                        const Spacer(),
-                      IconButton(
-                        // color: Theme.of(context).textTheme.bodyMedium?.color,
-                        onPressed: () {},
-                        tooltip: 'Отправить баг-репорт',
-                        icon: const Icon(Icons.bug_report_outlined, size: 28),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            : BotAppBar(appStore: appStore),
       ),
     );
   }
