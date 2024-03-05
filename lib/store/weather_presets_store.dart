@@ -10,6 +10,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -85,6 +86,7 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
+
     talker.info('Данные из сети');
     talker.debug('очищаю данные пресетов в приложении');
     talker.debug('дропаю кэш пресетов');
@@ -106,7 +108,7 @@ abstract class _WeatherPresetsStore with Store {
       presetCityWeatherData.add(cityData);
     }
     talker.debug('Пишу в кэш $presetCityWeatherData');
-    setFileToCache(cacheManager, presetCityWeatherData);
+    await setFileToCache(cacheManager, presetCityWeatherData);
   }
 
 // =============================================================================

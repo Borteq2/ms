@@ -29,19 +29,14 @@ Future<void> main() async {
     Hive.registerAdapter(ClothingAdapter());
     Hive.registerAdapter(AccessoryAdapter());
 
-    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+    final appDocumentDir =
+        await path_provider.getApplicationDocumentsDirectory();
     final clothingBox = await Hive.openBox<Clothing>('clothing_box');
     final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
     final cityNamesBox = await Hive.openBox<String>('city_names_box');
     final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
 
     Hive.init(appDocumentDir.path);
-
-    // await SentryFlutter.init(
-    //       (options) {
-    //     options.dsn = 'https://example@sentry.io/add-your-dsn-here';
-    //   },
-    // );
 
     final talker = Talker();
     final dio = Dio();
@@ -82,10 +77,24 @@ Future<void> main() async {
       ),
     );
 
-    // FlutterError.onError =
-    //     (details) => GetIt.I<Talker>().handle(details.exception);
+    await SentryFlutter.init(
+      (options) {
+        options.dsn =
+            'https://23755c9480e743f8a853ddb54b4a93c2@sentry.mateline.ru/6';
+        options.tracesSampleRate = 1.0;
+      },
+      appRunner: () => runApp(const MyApp()),
+    );
 
-    runApp(const MyApp());
+    // try {
+    //   throw Exception('тест');
+    // } catch (e, st) {
+    //   await Sentry.captureException(
+    //     e,
+    //     stackTrace: st,
+    //   );
+    // }
+
   }, (exception, stack) async {
     await Sentry.captureException(exception, stackTrace: stack);
   });
