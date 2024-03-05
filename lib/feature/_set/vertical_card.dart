@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -92,12 +93,119 @@ class _LinkWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
-        onTap: () => launchUrl(
-          Uri.parse(
-            appStore.suitStore.resultMap.entries
-                .elementAt(index)
-                .value[0]
-                .linkToStore,
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.black.withOpacity(0.9),
+            surfaceTintColor: Colors.black,
+            title: const Text(
+              'Где купить?',
+              textAlign: TextAlign.center,
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      launchUrl(
+                        Uri.parse(
+                          appStore.suitStore.resultMap.entries
+                              .elementAt(index)
+                              .value[0]
+                              .linkToStore,
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/favicon.svg',
+                          width: 40,
+                          height: 40,
+                        ),
+                        const SizedBox(width: 20),
+                        const Text('Интернет-магазин'),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Нет ссылки'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/wb.svg',
+                          width: 40,
+                          height: 40,
+                        ),
+                        const SizedBox(width: 20),
+                        const Text('Wildberries'),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Нет ссылки'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/ozon.png',
+                          width: 40,
+                          height: 40,
+                        ),
+                        const SizedBox(width: 20),
+                        const Text('Ozon'),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Нет ссылки'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.man,
+                          size: 40,
+                        ),
+                        SizedBox(width: 20),
+                        Text('Шоурум'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Отмена'),
+              ),
+            ],
           ),
         ),
         child: RichText(

@@ -52,7 +52,7 @@ class _SetScreenState extends State<SetScreen> {
       builder: (_) => Scaffold(
         appBar: AppBar(
           title: Text(
-            'Комплект: ${appStore.suitStore.suit.name}, ${appStore.currentWeatherStore.city}',
+            'Комплект: ${appStore.suitStore.suit.name}',
             style: const TextStyle(fontSize: 16),
           ),
         ),

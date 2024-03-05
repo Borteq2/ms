@@ -23,7 +23,7 @@ class BotAppBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(appStore.isNeedLoadData.toString()),
+              // Text(appStore.isNeedLoadData.toString()),
               // IconButton(
               //   tooltip: 'Обновить',
               //   icon: const Icon(Icons.refresh, size: 28),

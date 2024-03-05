@@ -20,6 +20,10 @@ ThemeData mordorDarkTheme = ThemeData(
       surfaceTintColor: Colors.black54,
       elevation: 24,
     ),
+    dialogTheme: const DialogTheme(
+      // backgroundColor: Colors.black,
+      // surfaceTintColor: Colors.black,
+    ),
     useMaterial3: true,
     iconButtonTheme: IconButtonThemeData(
      style: ButtonStyle(
