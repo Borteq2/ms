@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -39,15 +40,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       talker.critical('Беру данные из кэша');
       appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: TitleWidget(appStore: appStore),
-        ),
+        appBar: AppBar(title: TitleWidget(appStore: appStore)),
         body: PresetsGridWidget(appStore: appStore),
         floatingActionButton: Container(
           decoration: BoxDecoration(
@@ -57,23 +57,96 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: 2,
             ),
           ),
-          child: FloatingActionButton(
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AddPresetModal(appStore: appStore),
-            ),
-            tooltip: 'Как экипироваться по погоде?',
-            backgroundColor: Colors.transparent,
-            child: SvgPicture.asset(
+          child: PopupMenuButton(
+            icon: SvgPicture.asset(
               'assets/images/favicon.svg',
-              width: 60,
-              height: 60,
+              width: 40,
+              height: 40,
             ),
+            color: Colors.black.withOpacity(0.9),
+            surfaceTintColor: Colors.transparent,
+            offset: const Offset(-50, -125),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AddPresetModal(appStore: appStore)),
+                child: const Text(
+                  'Добавить пресет погоды',
+                  style: TextStyle(color: Colors.deepOrange),
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                onTap: () => context.go(
+                  '/set',
+                  extra: appStore.currentWeatherStore.weatherDataMap,
+                ),
+                child: const Text(
+                  'Одеться здесь и сейчас',
+                  style: TextStyle(color: Colors.deepOrange),
+                ),
+              ),
+            ],
           ),
+          //     showDialog(
+          //   context: context,
+          //   builder: (context) => AddPresetModal(appStore: appStore),
+          // ),
+          // tooltip: 'Меню',
+          // backgroundColor: Colors.transparent,
+          // child: SvgPicture.asset(
+          //   'assets/images/favicon.svg',
+          //   width: 60,
+          //   height: 60,
+          // ),
         ),
         floatingActionButtonLocation: appStore.fabLocation,
         bottomNavigationBar: BotAppBar(appStore: appStore),
       ),
+    );
+  }
+}
+
+class MenuDashboardWidget extends StatelessWidget {
+  const MenuDashboardWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      icon: const Icon(Icons.list),
+      offset: const Offset(-100, 50),
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            value: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Обновлено: ${appStore.time}'),
+              ],
+            ),
+          ),
+          PopupMenuItem(
+            value: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Ощущается как: ${appStore.currentWeatherStore.feelsLikeTemp}',
+                ),
+              ],
+            ),
+          ),
+        ];
+      },
     );
   }
 }

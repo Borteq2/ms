@@ -21,16 +21,15 @@ ThemeData mordorDarkTheme = ThemeData(
       elevation: 24,
     ),
     dialogTheme: const DialogTheme(
-      // backgroundColor: Colors.black,
-      // surfaceTintColor: Colors.black,
-    ),
+        // backgroundColor: Colors.black,
+        // surfaceTintColor: Colors.black,
+        ),
     useMaterial3: true,
     iconButtonTheme: IconButtonThemeData(
-     style: ButtonStyle(
-       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-       foregroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-     )
-    ),
+        style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+    )),
     textTheme: const TextTheme(
       titleLarge: TextStyle(color: Colors.grey),
       titleMedium: TextStyle(color: Colors.grey),

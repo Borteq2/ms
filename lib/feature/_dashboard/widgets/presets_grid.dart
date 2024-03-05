@@ -67,16 +67,16 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                  'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}',
+                                  'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}°С',
                                   overflow: TextOverflow.ellipsis),
                               Text(
-                                  'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}',
+                                  'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}°С',
                                   overflow: TextOverflow.ellipsis),
                               Text(
-                                  'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}',
+                                  'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}%',
                                   overflow: TextOverflow.ellipsis),
                               Text(
-                                  'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)}',
+                                  'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)} м/с',
                                   overflow: TextOverflow.ellipsis),
                             ],
                           ),

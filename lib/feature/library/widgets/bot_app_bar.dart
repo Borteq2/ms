@@ -13,7 +13,8 @@ class BotAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => ClipRRect(
+      builder: (_) =>
+          ClipRRect(
         borderRadius: BorderRadius.circular(32),
         child: BottomAppBar(
           surfaceTintColor: Theme.of(context).bottomAppBarTheme.surfaceTintColor,
@@ -39,11 +40,11 @@ class BotAppBar extends StatelessWidget {
               // ),
               if (appStore.centerLocations.contains(appStore.fabLocation))
                 const Spacer(),
-              IconButton(
-                onPressed: () {},
-                tooltip: 'Отправить баг-репорт',
-                icon: const Icon(Icons.bug_report_outlined, size: 28),
-              ),
+              // IconButton(
+              //   onPressed: () {},
+              //   tooltip: 'Отправить баг-репорт',
+              //   icon: const Icon(Icons.bug_report_outlined, size: 28),
+              // ),
             ],
           ),
         ),

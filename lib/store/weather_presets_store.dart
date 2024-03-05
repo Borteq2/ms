@@ -210,9 +210,10 @@ abstract class _WeatherPresetsStore with Store {
     } else {
       talker.debug('Кэш нуловый, не ок $dataList');
       await fetchCityWeatherData();
-      setFileToCache(cacheManager, presetCityWeatherData);
-      getFileFromCache(cacheManager);
+      await setFileToCache(cacheManager, presetCityWeatherData);
+      await getFileFromCache(cacheManager);
     }
+    talker.warning('возвращаю данные $dataList');
     return dataList;
   }
 }

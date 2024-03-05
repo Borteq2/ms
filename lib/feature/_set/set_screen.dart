@@ -46,140 +46,156 @@ class _SetScreenState extends State<SetScreen> {
     talker.warning(appStore.currentWeatherStore.weatherDataMap);
   }
 
+  Future<void> clearCurrentWeatherDataOnBack() async {
+    appStore.currentWeatherStore.dropCurrentWeatherData();
+    await appStore.currentWeatherStore.getLocationAndWeatherData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Комплект: ${appStore.suitStore.suit.name}',
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-        body:
-            // Placeholder(),
-            Column(
-          children: [
-            Row(
-              children: [
-                appStore.suitStore.layersWithItemsCount > 0
-                    ? DotsIndicator(
-                        dotsCount: appStore.suitStore.layersWithItemsCount,
-                        position: currentPage.toInt(),
-                        axis: Axis.vertical,
-                        decorator: DotsDecorator(
-                          color: Theme.of(context).disabledColor,
-                          activeColor: Theme.of(context).primaryColor,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-                Expanded(
-                  child: SizedBox(
-                    height: SizesConfig(context).clothingCardHeight,
-                    width: SizesConfig(context).clothingCardWidth,
-                    child: PageView.builder(
-                      controller: pageController,
-                      scrollDirection: Axis.vertical,
-                      itemCount: appStore.suitStore.layersWithItemsCount,
-                      itemBuilder: (context, index) => appStore
-                                  .suitStore.resultMap.entries
-                                  .elementAt(index)
-                                  .value
-                                  .length ==
-                              1
-                          ? VerticalCardWidget(
-                              appStore: appStore,
-                              currentPage: currentPage,
-                              index: index,
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: PageView.builder(
-                                    controller: pageController2,
-                                    itemCount: appStore
-                                        .suitStore.resultMap.entries
-                                        .elementAt(index)
-                                        .value
-                                        .length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) =>
-                                        HorizontalCardWidget(
-                                      appStore: appStore,
-                                      currentPage: currentPage,
-                                      index: index,
-                                    ),
-                                    onPageChanged: (int page) {
-                                      setState(() => currentPage2 = page);
-                                    },
-                                  ),
-                                ),
-                                appStore.suitStore.resultMap.entries
-                                        .elementAt(index)
-                                        .value
-                                        .isNotEmpty
-                                    ? DotsIndicator(
-                                        dotsCount: appStore
-                                            .suitStore.resultMap.entries
-                                            .elementAt(index)
-                                            .value
-                                            .length,
-                                        position: currentPage2.toInt(),
-                                        axis: Axis.horizontal,
-                                        decorator: DotsDecorator(
-                                          color:
-                                              Theme.of(context).disabledColor,
-                                          activeColor:
-                                              Theme.of(context).primaryColor,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                              ],
-                            ),
-                      onPageChanged: (int page) {
-                        setState(() {
-                          currentPage = page;
-                          currentPage2 = 0;
-                        });
-                        pageController2.jumpToPage(0);
-                      },
-                    ),
-                  ),
-                ),
-              ],
+      builder: (_) => PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: () async {
+                context.pop();
+                clearCurrentWeatherDataOnBack();
+              },
+              icon: const Icon(Icons.arrow_back),
             ),
-          ],
-        ),
-        floatingActionButton:
-            appStore.currentWeatherStore.city.toString().isEmpty ||
-                    appStore.suitStore.layersWithItemsCount > 0
-                ? const SizedBox.shrink()
-                : Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      ),
-                    ),
-                    child: FloatingActionButton(
-                      onPressed: () =>
-                          appStore.suitStore.setSuitByTemperatureType(),
-                      tooltip: 'Как экипироваться по погоде?',
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(
-                        'assets/images/favicon.svg',
-                        width: 60,
-                        height: 60,
+            title: Text(
+              'Комплект: ${appStore.suitStore.suit.name}, ${appStore.currentWeatherStore.city}',
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+          body:
+              // Placeholder(),
+              Column(
+            children: [
+              Row(
+                children: [
+                  appStore.suitStore.layersWithItemsCount > 0
+                      ? DotsIndicator(
+                          dotsCount: appStore.suitStore.layersWithItemsCount,
+                          position: currentPage.toInt(),
+                          axis: Axis.vertical,
+                          decorator: DotsDecorator(
+                            color: Theme.of(context).disabledColor,
+                            activeColor: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  Expanded(
+                    child: SizedBox(
+                      height: SizesConfig(context).clothingCardHeight,
+                      width: SizesConfig(context).clothingCardWidth,
+                      child: PageView.builder(
+                        controller: pageController,
+                        scrollDirection: Axis.vertical,
+                        itemCount: appStore.suitStore.layersWithItemsCount,
+                        itemBuilder: (context, index) => appStore
+                                    .suitStore.resultMap.entries
+                                    .elementAt(index)
+                                    .value
+                                    .length ==
+                                1
+                            ? VerticalCardWidget(
+                                appStore: appStore,
+                                currentPage: currentPage,
+                                index: index,
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: PageView.builder(
+                                      controller: pageController2,
+                                      itemCount: appStore
+                                          .suitStore.resultMap.entries
+                                          .elementAt(index)
+                                          .value
+                                          .length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) =>
+                                          HorizontalCardWidget(
+                                        appStore: appStore,
+                                        currentPage: currentPage,
+                                        index: index,
+                                      ),
+                                      onPageChanged: (int page) {
+                                        setState(() => currentPage2 = page);
+                                      },
+                                    ),
+                                  ),
+                                  appStore.suitStore.resultMap.entries
+                                          .elementAt(index)
+                                          .value
+                                          .isNotEmpty
+                                      ? DotsIndicator(
+                                          dotsCount: appStore
+                                              .suitStore.resultMap.entries
+                                              .elementAt(index)
+                                              .value
+                                              .length,
+                                          position: currentPage2.toInt(),
+                                          axis: Axis.horizontal,
+                                          decorator: DotsDecorator(
+                                            color:
+                                                Theme.of(context).disabledColor,
+                                            activeColor:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(),
+                                ],
+                              ),
+                        onPageChanged: (int page) {
+                          setState(() {
+                            currentPage = page;
+                            currentPage2 = 0;
+                          });
+                          pageController2.jumpToPage(0);
+                        },
                       ),
                     ),
                   ),
-        floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar:
-            appStore.currentWeatherStore.city.toString().isEmpty
-                ? const SizedBox.shrink()
-                : BotAppBar(appStore: appStore),
+                ],
+              ),
+            ],
+          ),
+          floatingActionButton:
+              appStore.currentWeatherStore.city.toString().isEmpty ||
+                      appStore.suitStore.layersWithItemsCount > 0
+                  ? const SizedBox.shrink()
+                  : Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      child: FloatingActionButton(
+                        onPressed: () =>
+                            appStore.suitStore.setSuitByTemperatureType(),
+                        tooltip: 'Как экипироваться по погоде?',
+                        backgroundColor: Colors.transparent,
+                        child: SvgPicture.asset(
+                          'assets/images/favicon.svg',
+                          width: 60,
+                          height: 60,
+                        ),
+                      ),
+                    ),
+          floatingActionButtonLocation: appStore.fabLocation,
+          bottomNavigationBar:
+              appStore.currentWeatherStore.city.toString().isEmpty
+                  ? const SizedBox.shrink()
+                  : BotAppBar(appStore: appStore),
+        ),
       ),
     );
   }
