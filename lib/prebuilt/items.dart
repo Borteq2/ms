@@ -103,9 +103,9 @@ Clothing saratovTrousers = Clothing(
 
 Clothing scoutMaskingCloak = Clothing(
   name: 'Маскировочный костюм "Скаут"',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
   features: [],
-  image: '',
+  image: 'assets/images/scout.jpg',
   inSuitLayer: 4,
   isNecessary: true,
   isHasAlready: false,
