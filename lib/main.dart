@@ -87,8 +87,9 @@ Future<void> main() async {
     );
 
     // try {
-    //   throw Exception('тест');
+    //   throw Exception('тест 2');
     // } catch (e, st) {
+    //   talker.critical('швыряю в сентрю');
     //   await Sentry.captureException(
     //     e,
     //     stackTrace: st,

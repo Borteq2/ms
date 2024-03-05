@@ -31,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     appStore.currentWeatherStore.getLocationAndWeatherData();
 
     appStore.checkTimestamp().then((_) => setState(() {}));
-    if (!appStore.isNeedLoadData) {
+    if (appStore.isNeedLoadData) {
       appStore.weatherPresetsStore.fetchCityWeatherData();
     } else {
       appStore.weatherPresetsStore.dropPresetWeatherData();

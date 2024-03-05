@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
@@ -30,17 +31,34 @@ class _SetScreenState extends State<SetScreen> {
   final PageController pageController2 = PageController(initialPage: 0);
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    Map<String, dynamic> weather =
+        GoRouterState.of(context).extra! as Map<String, dynamic>;
+    appStore.currentWeatherStore.setSuitByWeatherManually(weather);
+    appStore.suitStore.setSuitByTemperatureType();
+    talker.warning(appStore.currentWeatherStore.weatherDataMap);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(
-            // title: TitleWidget(appStore: appStore)
           title: Text(
-            'Комплект: ${appStore.suitStore.suit.name}',
+            'Комплект: ${appStore.suitStore.suit.name}, ${appStore.currentWeatherStore.city}',
             style: const TextStyle(fontSize: 16),
           ),
         ),
-        body: Column(
+        body:
+            // Placeholder(),
+            Column(
           children: [
             Row(
               children: [
@@ -158,11 +176,10 @@ class _SetScreenState extends State<SetScreen> {
                     ),
                   ),
         floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar: appStore.currentWeatherStore.city
-                .toString()
-                .isEmpty
-            ? const SizedBox.shrink()
-            : BotAppBar(appStore: appStore),
+        bottomNavigationBar:
+            appStore.currentWeatherStore.city.toString().isEmpty
+                ? const SizedBox.shrink()
+                : BotAppBar(appStore: appStore),
       ),
     );
   }

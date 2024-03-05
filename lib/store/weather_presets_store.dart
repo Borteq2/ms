@@ -109,6 +109,7 @@ abstract class _WeatherPresetsStore with Store {
     }
     talker.debug('Пишу в кэш $presetCityWeatherData');
     await setFileToCache(cacheManager, presetCityWeatherData);
+
   }
 
 // =============================================================================
@@ -208,6 +209,7 @@ abstract class _WeatherPresetsStore with Store {
       talker.debug('Данные получились $dataList');
     } else {
       talker.debug('Кэш нуловый, не ок $dataList');
+      await fetchCityWeatherData();
       setFileToCache(cacheManager, presetCityWeatherData);
       getFileFromCache(cacheManager);
     }

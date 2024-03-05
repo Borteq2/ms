@@ -18,6 +18,8 @@ enum TemperatureTypes {
   heat,
 }
 
+// TODO: смешана логика конкретного пресета и локальной темпы, надо что-то делать
+
 class CurrentWeatherStore = _CurrentWeatherStore with _$CurrentWeatherStore;
 
 abstract class _CurrentWeatherStore with Store {
@@ -102,6 +104,12 @@ abstract class _CurrentWeatherStore with Store {
       'name': '',
       'main': {'temp': ''}
     };
+  }
+
+  @action
+  void setSuitByWeatherManually(Map<String, dynamic> weather) {
+    dropCurrentWeatherData();
+    weatherDataMap = weather;
   }
 
   @action
