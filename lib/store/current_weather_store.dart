@@ -131,6 +131,7 @@ abstract class _CurrentWeatherStore with Store {
 // =============================================================================
 
   Future<Position> getLocation() async {
+    talker.debug('Запрашиваю локацию');
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // locationMessage = 'Пожалуйста, включите службу геолокации';

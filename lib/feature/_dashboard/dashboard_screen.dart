@@ -19,29 +19,65 @@ class DashboardScreen extends StatefulWidget {
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
+
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
+  void _requestPermissions() async {
+    Map<Permission, PermissionStatus> permissions = await [
+      Permission.location,
+      Permission.storage,
+    ].request();
+
+    if (permissions[Permission.location] == PermissionStatus.granted &&
+        permissions[Permission.storage] == PermissionStatus.granted) {
+      talker.critical(permissions[Permission.location] == PermissionStatus.granted);
+      talker.critical(permissions[Permission.storage] == PermissionStatus.granted);
+      appStore.currentWeatherStore.getLocationAndWeatherData();
+      await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.cacheManager);
+      appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
+      await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+    } else {
+      talker.critical('пук');
+      // Если хотя бы одно разрешение не получено, обрабатываем это
+      // Например, выводим сообщение пользователю о том, что без этих разрешений приложение работает ограниченно
+      print('Не удалось получить все необходимые разрешения');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    appStore.currentWeatherStore.geoPermission = true;
-    appStore.currentWeatherStore.getLocationAndWeatherData();
-
-    appStore.checkTimestamp().then((_) => setState(() {}));
-    if (appStore.isNeedLoadData) {
-      appStore.weatherPresetsStore.fetchCityWeatherData();
-    } else {
-      appStore.weatherPresetsStore.dropPresetWeatherData();
-      appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
-      talker.critical('Беру данные из кэша');
-      appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
-    }
-    setState(() {});
+    _requestPermissions();
   }
+
+
+    // // appStore.currentWeatherStore.geoPermission = true;
+    // appStore.currentWeatherStore.dropCurrentWeatherData();
+    // // appStore.currentWeatherStore.getLocation();
+    // appStore.currentWeatherStore.getLocationAndWeatherData();
+    //
+    // if (appStore.currentWeatherStore.geoPermission == true) {
+    //   // Если разрешение получено, записываем данные в кэш
+    //   appStore.checkTimestamp().then((_) => setState(() {}));
+    //   if (appStore.isNeedLoadData) {
+    //     appStore.weatherPresetsStore.fetchCityWeatherData();
+    //   } else {
+    //     appStore.weatherPresetsStore.dropPresetWeatherData();
+    //     appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
+    //     talker.critical('Беру данные из кэша');
+    //     appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+    //   }
+    //   setState(() {});
+    // } else {
+    //   // Если разрешение не получено, обрабатываем это
+    //   // Например, показываем пользователю сообщение о том, что без доступа к геолокации приложение работает ограниченно
+    //   print('Доступ к геолокации не получен');
+    // }
+
 
   @override
   Widget build(BuildContext context) {

@@ -121,18 +121,18 @@ abstract class _AppStore with Store {
       utf8.encode(currentTime.toString()),
       maxAge: Duration(minutes: ttlInMinutes),
     );
-    talker.info('УСТАНОВИЛ');
-    talker.warning('рефрешу таймштамп');
+    // talker.info('УСТАНОВИЛ');
+    // talker.warning('рефрешу таймштамп');
     FileInfo? timestampFile = await _getFileFromCache(cacheManager);
-    talker.info('2: Получение таймштампа из кэша завершено');
+    // talker.info('2: Получение таймштампа из кэша завершено');
 
     if (timestampFile != null) {
       String timestampString = await timestampFile.file.readAsString();
-      talker.info('3: Чтение таймштампа из файла завершено');
+      // talker.info('3: Чтение таймштампа из файла завершено');
       DateTime cachedTimestamp = DateTime.parse(timestampString);
       time =
           '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
-      talker.info('ОТРЕФРЕШЕНЫЙ');
+      // talker.info('ОТРЕФРЕШЕНЫЙ');
     }
   }
 

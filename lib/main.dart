@@ -98,5 +98,6 @@ Future<void> main() async {
 
   }, (exception, stack) async {
     await Sentry.captureException(exception, stackTrace: stack);
+    GetIt.I<Talker>().handle(exception, stack);
   });
 }

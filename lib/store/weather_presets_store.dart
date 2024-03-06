@@ -53,7 +53,7 @@ abstract class _WeatherPresetsStore with Store {
       presetCityWeatherData[index]['weather'][0]['main'].toString();
 
   String description(index) =>
-      presetCityWeatherData[index]['main']['temp'].toString();
+      presetCityWeatherData[index]['weather'][0]['description'].toString();
 
   String humidity(index) =>
       presetCityWeatherData[index]['main']['humidity'].toString();
@@ -73,6 +73,8 @@ abstract class _WeatherPresetsStore with Store {
 
     Map<String, dynamic> cityData = await fetchWeatherByCity(city);
     presetCityWeatherData.add(cityData);
+    await dropWeatherPresetsCache(cacheManager);
+    await setFileToCache(cacheManager, presetCityWeatherData);
   }
 
   @action
@@ -88,18 +90,18 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> fetchCityWeatherData() async {
 
     talker.info('Данные из сети');
-    talker.debug('очищаю данные пресетов в приложении');
-    talker.debug('дропаю кэш пресетов');
-    talker.debug('рефрешу кэш таймштампа (чаще чем примерно раз в минуту всё равно не сработает)');
+    // talker.debug('очищаю данные пресетов в приложении');
+    // talker.debug('дропаю кэш пресетов');
+    // talker.debug('рефрешу кэш таймштампа (чаще чем примерно раз в минуту всё равно не сработает)');
 
     dropPresetWeatherData();
-    appStore.dropTimestampCache(appStore.cacheManager);
-    appStore.refreshTimestampCache(
-      appStore.cacheManager,
-      appStore.currentTime,
-      appStore.ttlInMinutes,
-    );
-    dropWeatherPresetsCache(cacheManager);
+    // appStore.dropTimestampCache(appStore.cacheManager);
+    // appStore.refreshTimestampCache(
+    //   appStore.cacheManager,
+    //   appStore.currentTime,
+    //   appStore.ttlInMinutes,
+    // );
+    await dropWeatherPresetsCache(cacheManager);
 
     cityNamesStore.syncCityNamesWithBox();
 
@@ -107,8 +109,8 @@ abstract class _WeatherPresetsStore with Store {
       Map<String, dynamic> cityData = await fetchWeatherByCity(city);
       presetCityWeatherData.add(cityData);
     }
-    talker.debug('Пишу в кэш $presetCityWeatherData');
-    await setFileToCache(cacheManager, presetCityWeatherData);
+    // talker.debug('Пишу в кэш $presetCityWeatherData');
+    // await setFileToCache(cacheManager, presetCityWeatherData);
 
   }
 
@@ -150,6 +152,7 @@ abstract class _WeatherPresetsStore with Store {
 // =============================================================================
 
   Future<void> dropWeatherPresetsCache(DefaultCacheManager cacheManager) async {
+    talker.warning('дропаю кэш пресетов');
     await cacheManager.emptyCache();
   }
 
@@ -169,12 +172,12 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> getWeatherPresetsListFromCache() async {
-    checkStoragePermissions();
+    // checkStoragePermissions();
 
-    ObservableList<Map<String, dynamic>> weatherPresetsList =
-        await getFileFromCache(cacheManager);
+    talker.warning('getWeatherPresetsListFromCache');
+    ObservableList<Map<String, dynamic>> weatherPresetsList = await getFileFromCache(cacheManager);
 
-    talker.info('Данные из кэша: $weatherPresetsList}');
+    talker.info('Данные из кэша: $weatherPresetsList');
     presetCityWeatherData = weatherPresetsList;
   }
 
@@ -182,6 +185,7 @@ abstract class _WeatherPresetsStore with Store {
     DefaultCacheManager cacheManager,
     ObservableList<Map<String, dynamic>> weatherPresetsList,
   ) async {
+    talker.debug('пишу в кэш $weatherPresetsList');
     String jsonData = jsonEncode(weatherPresetsList);
     await cacheManager.putFile(
       'weatherPresetsList',
@@ -211,7 +215,7 @@ abstract class _WeatherPresetsStore with Store {
       talker.debug('Кэш нуловый, не ок $dataList');
       await fetchCityWeatherData();
       await setFileToCache(cacheManager, presetCityWeatherData);
-      await getFileFromCache(cacheManager);
+      dataList = await getFileFromCache(cacheManager);
     }
     talker.warning('возвращаю данные $dataList');
     return dataList;
