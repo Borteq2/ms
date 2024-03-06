@@ -37,14 +37,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       talker.critical(permissions[Permission.location] == PermissionStatus.granted);
       talker.critical(permissions[Permission.storage] == PermissionStatus.granted);
       appStore.currentWeatherStore.getLocationAndWeatherData();
-      await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.cacheManager);
+      // await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.cacheManager);
       appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
       await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     } else {
       talker.critical('пук');
-      // Если хотя бы одно разрешение не получено, обрабатываем это
-      // Например, выводим сообщение пользователю о том, что без этих разрешений приложение работает ограниченно
-      print('Не удалось получить все необходимые разрешения');
+      talker.critical('Не удалось получить все необходимые разрешения');
     }
   }
 
