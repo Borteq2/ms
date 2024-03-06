@@ -59,8 +59,8 @@ class TitleTemperatureWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.currentWeatherStore.isWeatherLoaded
-          ? Text('${appStore.currentWeatherStore.temperature.toString()}°C')
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+          ? Text('${appStore.localWeatherStore.temperature.toString()}°C')
           : const SizedBox.shrink(),
     );
   }
@@ -80,7 +80,7 @@ class TitleCityNameWidget extends StatelessWidget {
       builder: (_) => SizedBox(
         width: MediaQuery.of(context).size.width * 0.4,
         child: Text(
-          appStore.currentWeatherStore.city,
+          appStore.localWeatherStore.city,
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -99,7 +99,7 @@ class TitleIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.currentWeatherStore.weatherIcon,
+      builder: (_) => appStore.localWeatherStore.weatherIcon,
     );
   }
 }
@@ -115,7 +115,7 @@ class WeatherDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.currentWeatherStore.isWeatherLoaded
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
           ? PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -136,15 +136,15 @@ class WeatherDetailWidget extends StatelessWidget {
                           style: const TextStyle(fontSize: 20),
                         ),
                         Text(
-                          'Ощущается как: ${appStore.currentWeatherStore.feelsLikeTemp} °С',
+                          'Ощущается как: ${appStore.localWeatherStore.feelsLikeTemp} °С',
                           style: const TextStyle(fontSize: 20),
                         ),
                         Text(
-                            'Влажность: ${appStore.currentWeatherStore.weatherDataMap['main']['humidity']}%',
+                            'Влажность: ${appStore.localWeatherStore.localWeatherDataMap['main']['humidity']}%',
                             style: const TextStyle(fontSize: 20),
                             overflow: TextOverflow.ellipsis),
                         Text(
-                            'Ветер: ${appStore.currentWeatherStore.weatherDataMap['wind']['speed']} м/с',
+                            'Ветер: ${appStore.localWeatherStore.localWeatherDataMap['wind']['speed']} м/с',
                             style: const TextStyle(fontSize: 20),
                             overflow: TextOverflow.ellipsis),
                       ],

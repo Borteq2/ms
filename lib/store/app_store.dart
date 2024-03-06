@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/store/local_weather_store.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -39,6 +40,9 @@ abstract class _AppStore with Store {
   @observable
   WeatherPresetsStore weatherPresetsStore =
       WeatherPresetsStore(talker: GetIt.I<Talker>());
+
+  @observable
+  LocalWeatherStore localWeatherStore = LocalWeatherStore(talker: GetIt.I<Talker>());
 
   @observable
   String time = '';

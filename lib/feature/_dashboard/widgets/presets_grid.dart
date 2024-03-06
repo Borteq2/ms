@@ -21,8 +21,6 @@ class PresetsGridWidget extends StatefulWidget {
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   @override
   Widget build(BuildContext context) {
-
-
     reaction(
         (_) => widget.appStore.weatherPresetsStore.presetCityWeatherData.length,
         (_) => setState(() {}));
@@ -41,9 +39,14 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                 itemBuilder: (context, index) => GestureDetector(
                   onLongPress: () =>
                       widget.appStore.weatherPresetsStore.removePreset(index),
-                  onTap: () => context.go('/set',
-                      extra: widget.appStore.weatherPresetsStore
-                          .presetCityWeatherData[index]),
+                  onTap: () {
+                    widget.appStore.currentWeatherStore
+                        .setSuitByWeatherManually(widget.appStore
+                            .weatherPresetsStore.presetCityWeatherData[index]);
+                    context.go('/set',
+                        extra: widget.appStore.weatherPresetsStore
+                            .presetCityWeatherData[index]);
+                  },
                   child: widget.appStore.weatherPresetsStore
                               .presetCityWeatherDataCount >
                           index

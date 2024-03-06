@@ -77,14 +77,16 @@ Future<void> main() async {
       ),
     );
 
-    await SentryFlutter.init(
-      (options) {
-        options.dsn =
-            'https://23755c9480e743f8a853ddb54b4a93c2@sentry.mateline.ru/6';
-        options.tracesSampleRate = 1.0;
-      },
-      appRunner: () => runApp(const MyApp()),
-    );
+    // await SentryFlutter.init(
+    //   (options) {
+    //     options.dsn =
+    //         'https://23755c9480e743f8a853ddb54b4a93c2@sentry.mateline.ru/6';
+    //     options.tracesSampleRate = 1.0;
+    //   },
+    //   appRunner: () =>
+          runApp(const MyApp());
+    // ,
+    // );
 
     // try {
     //   throw Exception('тест 2');
@@ -97,7 +99,7 @@ Future<void> main() async {
     // }
 
   }, (exception, stack) async {
-    await Sentry.captureException(exception, stackTrace: stack);
+    // await Sentry.captureException(exception, stackTrace: stack);
     GetIt.I<Talker>().handle(exception, stack);
   });
 }

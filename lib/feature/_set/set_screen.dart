@@ -48,7 +48,7 @@ class _SetScreenState extends State<SetScreen> {
 
   Future<void> clearCurrentWeatherDataOnBack() async {
     appStore.currentWeatherStore.dropCurrentWeatherData();
-    await appStore.currentWeatherStore.getLocationAndWeatherData();
+    // await appStore.currentWeatherStore.getLocationAndWeatherData();
   }
 
   @override
@@ -62,7 +62,7 @@ class _SetScreenState extends State<SetScreen> {
             leading: IconButton(
               onPressed: () async {
                 context.pop();
-                clearCurrentWeatherDataOnBack();
+                // clearCurrentWeatherDataOnBack();
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -157,7 +157,11 @@ class _SetScreenState extends State<SetScreen> {
                             currentPage = page;
                             currentPage2 = 0;
                           });
-                          pageController2.jumpToPage(0);
+                          try {
+                            pageController2.jumpToPage(0);
+                          } catch (e, st) {
+                            talker.debug('Скроллконтроллер недоволен');
+                          }
                         },
                       ),
                     ),
