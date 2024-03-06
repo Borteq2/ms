@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HorizontalCardWidget extends StatelessWidget {
-  const HorizontalCardWidget({
+class VerticalCardWidget extends StatelessWidget {
+  const VerticalCardWidget({
     super.key,
     required this.appStore,
     required this.currentPage,
@@ -23,18 +23,14 @@ class HorizontalCardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _ImageWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _NameWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _LinkWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _FeaturesListWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _ImageWidget(appStore: appStore, index: index),
+            _NameWidget(appStore: appStore, index: index),
+            _LinkWidget(appStore: appStore, index: index),
+            _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+                appStore: appStore, index: index, currentPage: currentPage),
             _NecessaryWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+                appStore: appStore, index: index, currentPage: currentPage),
           ],
         ),
       ),
@@ -45,12 +41,10 @@ class HorizontalCardWidget extends StatelessWidget {
 class _ImageWidget extends StatelessWidget {
   const _ImageWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
 
   @override
@@ -58,7 +52,8 @@ class _ImageWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Image.asset(
-          '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}'),
+        '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].image}',
+      ),
     );
   }
 }
@@ -66,20 +61,18 @@ class _ImageWidget extends StatelessWidget {
 class _NameWidget extends StatelessWidget {
   const _NameWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Text(
-        '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
+        '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}',
         style: const TextStyle(fontSize: 18),
       ),
     );
@@ -89,27 +82,16 @@ class _NameWidget extends StatelessWidget {
 class _LinkWidget extends StatelessWidget {
   const _LinkWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
-
-  // launchUrl(
-  // Uri.parse(
-  // appStore.suitStore.resultMap.entries
-  //     .elementAt(currentPage)
-  //     .value[index]
-  //     .linkToStore,
-  // ),
-  // )
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GestureDetector(
         onTap: () => showDialog(
           context: context,
@@ -130,8 +112,8 @@ class _LinkWidget extends StatelessWidget {
                       launchUrl(
                         Uri.parse(
                           appStore.suitStore.resultMap.entries
-                              .elementAt(currentPage)
-                              .value[index]
+                              .elementAt(index)
+                              .value[0]
                               .linkToStore,
                         ),
                       );
@@ -241,28 +223,26 @@ class _LinkWidget extends StatelessWidget {
 class _FeaturesListWidget extends StatelessWidget {
   const _FeaturesListWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: appStore.suitStore.resultMap.entries
-              .elementAt(currentPage)
-              .value[index]
+              .elementAt(index)
+              .value[0]
               .features
               .length,
           itemBuilder: (context, featureIndex) => Text(
-            '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
+            '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
           ),
         ),
       ),
@@ -273,42 +253,42 @@ class _FeaturesListWidget extends StatelessWidget {
 class _LayerWidget extends StatelessWidget {
   const _LayerWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
+    required this.currentPage,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
-    return appStore.suitStore.resultMap.entries
-                .elementAt(currentPage)
-                .value[index]
-                .inSuitLayer !=
-            null
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: appStore.suitStore.resultMap.entries
+                  .elementAt(currentPage)
+                  .value[0]
+                  .inSuitLayer !=
+              null
+          ? Text(
+              'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
-            ),
-          )
-        : const SizedBox.shrink();
+            )
+          : const SizedBox.shrink(),
+    );
   }
 }
 
 class _NecessaryWidget extends StatelessWidget {
   const _NecessaryWidget({
     required this.appStore,
-    required this.currentPage,
     required this.index,
+    required this.currentPage,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
@@ -316,15 +296,15 @@ class _NecessaryWidget extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: Text(
         appStore.suitStore.resultMap.entries
-                .elementAt(currentPage)
-                .value[index]
+                .elementAt(index)
+                .value[0]
                 .isNecessary
             ? 'Рекомендуется'
             : 'По необходимости',
         style: TextStyle(
           color: appStore.suitStore.resultMap.entries
                   .elementAt(currentPage)
-                  .value[index]
+                  .value[0]
                   .isNecessary
               ? Colors.deepOrange
               : Colors.grey,

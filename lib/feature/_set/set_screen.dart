@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
+import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
+import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
 import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
+import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -73,8 +76,6 @@ class _SetScreenState extends State<SetScreen> {
           ),
           body:
               // Placeholder(),
-              Column(
-            children: [
               Row(
                 children: [
                   appStore.suitStore.layersWithItemsCount > 0
@@ -168,8 +169,6 @@ class _SetScreenState extends State<SetScreen> {
                   ),
                 ],
               ),
-            ],
-          ),
           floatingActionButton:
               appStore.currentWeatherStore.city.toString().isEmpty ||
                       appStore.suitStore.layersWithItemsCount > 0
@@ -194,11 +193,14 @@ class _SetScreenState extends State<SetScreen> {
                         ),
                       ),
                     ),
-          floatingActionButtonLocation: appStore.fabLocation,
-          bottomNavigationBar:
-              appStore.currentWeatherStore.city.toString().isEmpty
-                  ? const SizedBox.shrink()
-                  : BotAppBar(appStore: appStore),
+          // floatingActionButtonLocation: appStore.fabLocation,
+          // bottomNavigationBar:
+          //     appStore.currentWeatherStore.city.toString().isEmpty
+          //         ? const SizedBox.shrink()
+          //         : Padding(
+          //           padding: const EdgeInsets.only(top: 8.0),
+          //           child: BotAppBar(appStore: appStore),
+          //         ),
         ),
       ),
     );
