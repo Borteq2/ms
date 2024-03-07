@@ -24,10 +24,6 @@ abstract class _AppStore with Store {
   FloatingActionButtonLocation fabLocation =
       FloatingActionButtonLocation.centerDocked;
 
-  DefaultCacheManager cacheManager = DefaultCacheManager();
-  DateTime currentTime = DateTime.now();
-  int ttlInMinutes = 30;
-
   Talker talker = GetIt.I<Talker>();
 
   @observable
@@ -41,17 +37,14 @@ abstract class _AppStore with Store {
   WeatherPresetsStore weatherPresetsStore =
       WeatherPresetsStore(talker: GetIt.I<Talker>());
 
-  // @observable
-  // CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
+  @observable
+  CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
+
+  @observable
+  TimestampStore timestampStore = TimestampStore(talker: GetIt.I<Talker>());
 
   @observable
   LocalWeatherStore localWeatherStore = LocalWeatherStore(talker: GetIt.I<Talker>());
-
-  @observable
-  String time = '';
-
-  @observable
-  bool isNeedLoadData = false;
 
 // =============================================================================
 
@@ -59,101 +52,26 @@ abstract class _AppStore with Store {
 
 // =============================================================================
 
-  @action
-  Future<void> checkTimestamp() async {
-
-
-    try {
-      await _checkStoragePermissions();
-
-      FileInfo? timestampFile = await _getFileFromCache(cacheManager);
-
-      if (timestampFile != null) {
-        String timestampString = await timestampFile.file.readAsString();
-        if (timestampFile.validTill.isBefore(currentTime)) {
-          talker.critical('Таймштамп протух, дропаю кэш');
-          dropTimestampCache(cacheManager);
-          talker.info('рефрешу таймштамп');
-          await refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
-          isNeedLoadData = true;
-        } else {
-          talker.info('таймштамп свежий');
-          DateTime cachedTimestamp = DateTime.parse(timestampString);
-          time =
-              '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
-          isNeedLoadData = false;
-        }
-      } else {
-        await refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
-        isNeedLoadData = true;
-      }
-    } catch (e, st) {
-      talker.critical('Произошла ошибка при проверке таймштампа:');
-      talker.handle(e, st);
-    }
-    talker.debug('Нужно ли грузить данные из сети: $isNeedLoadData');
-  }
+  // @action
 
 // =============================================================================
 
-  Future<void> fullRefresh() async {
+  Future<void> fullRefreshAndGetFromCache() async {
     talker.warning('Полный рефреш данных (кроме локальной погоды)');
-    await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
+    talker.warning(
+        'Буду грузить ${timestampStore.isNeedLoadData ? 'Из сети' : 'Из кэша'}');
+    await appStore.weatherPresetsStore
+        .dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
     appStore.weatherPresetsStore.dropPresetWeatherData();
     appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
-    await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+    timestampStore.isNeedLoadData
+        ? await appStore.weatherPresetsStore.fetchCityWeatherData()
+        : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+    // await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }
 
   Future<void> goToAppSettings() async {
     await openAppSettings();
-  }
-
-  Future<void> dropTimestampCache(DefaultCacheManager cacheManager) async {
-    await cacheManager.emptyCache();
-  }
-
-  Future<void> _checkStoragePermissions() async {
-    var status = await Permission.storage.status;
-    if (status.isDenied || status.isPermanentlyDenied) {
-      status = await Permission.storage.request();
-    }
-    if (status.isGranted) {
-      talker.info('Разрешение на чтение файлов предоставлено');
-    } else {
-      talker.info('Разрешение на чтение файлов не предоставлено');
-      throw const PermissionDeniedException(
-          'Разрешение на чтение файлов не предоставлено');
-    }
-  }
-
-  Future<void> refreshTimestampCache(
-    DefaultCacheManager cacheManager,
-    DateTime currentTime,
-    int ttlInMinutes,
-  ) async {
-    await cacheManager.putFile(
-      'timestamp',
-      utf8.encode(currentTime.toString()),
-      maxAge: Duration(minutes: ttlInMinutes),
-    );
-    // talker.info('УСТАНОВИЛ');
-    // talker.warning('рефрешу таймштамп');
-    FileInfo? timestampFile = await _getFileFromCache(cacheManager);
-    // talker.info('2: Получение таймштампа из кэша завершено');
-
-    if (timestampFile != null) {
-      String timestampString = await timestampFile.file.readAsString();
-      // talker.info('3: Чтение таймштампа из файла завершено');
-      DateTime cachedTimestamp = DateTime.parse(timestampString);
-      time =
-          '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
-      // talker.info('ОТРЕФРЕШЕНЫЙ');
-    }
-  }
-
-  Future<FileInfo?> _getFileFromCache(DefaultCacheManager cacheManager) async {
-    FileInfo? timestampFile = await cacheManager.getFileFromCache('timestamp');
-    return timestampFile;
   }
 }

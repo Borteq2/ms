@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -79,7 +80,7 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> removePreset(int index) async {
     talker.warning('Удаляю пресет $index');
     await cityNamesStore.cityNamesBox.deleteAt(index);
-    await appStore.fullRefresh();
+    await appStore.fullRefreshAndGetFromCache();
   }
 
   @action
@@ -105,7 +106,7 @@ abstract class _WeatherPresetsStore with Store {
       presetCityWeatherData.add(cityData);
     }
     // talker.debug('Пишу в кэш $presetCityWeatherData');
-    // await setFileToCache(cacheManager, presetCityWeatherData);
+    await setFileToCache(cacheManager, presetCityWeatherData);
   }
 
 // =============================================================================
@@ -121,7 +122,7 @@ abstract class _WeatherPresetsStore with Store {
       '&lang=ru',
     );
     Map<String, dynamic> result = response.data;
-    talker.info('Запрос погоды в городе $city: $result');
+    // talker.info('Запрос погоды в городе $city: $result');
     return result;
   }
 
@@ -129,13 +130,12 @@ abstract class _WeatherPresetsStore with Store {
     try {
       List<Location> locations = await locationFromAddress(cityName);
       if (locations.isNotEmpty) {
-        double latitude = locations[0].latitude;
-        double longitude = locations[0].longitude;
-        talker.info('Координаты для $cityName: ($latitude, $longitude)');
+        // double latitude = locations[0].latitude;
+        // double longitude = locations[0].longitude;
+        // talker.info('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
-        talker.critical('Координаты для $cityName не найдены');
-        throw Exception('Ошибка: слишком много локаций');
+        throw Exception('Ошибка: слишком много локаций или Координаты для $cityName не найдены');
       }
     } catch (e, st) {
       talker.handle(e, st);
@@ -149,7 +149,13 @@ abstract class _WeatherPresetsStore with Store {
 
   Future<void> dropWeatherPresetsCache(DefaultCacheManager cacheManager) async {
     talker.info('дропаю кэш пресетов');
-    await cacheManager.emptyCache();
+    try {
+      await cacheManager.emptyCache();
+    } catch (e, st) {
+      talker.handle(e, st);
+      throw SentryException(type: 'minor', value: '$e /// $st');
+    }
+
   }
 
   Future<void> checkStoragePermissions() async {
@@ -174,6 +180,7 @@ abstract class _WeatherPresetsStore with Store {
         await getFileFromCache(cacheManager);
 
     talker.info('Данные из кэша: $weatherPresetsList');
+    cityNamesStore.syncCityNamesWithBox();
     presetCityWeatherData = weatherPresetsList;
   }
 
@@ -181,7 +188,7 @@ abstract class _WeatherPresetsStore with Store {
     DefaultCacheManager cacheManager,
     ObservableList<Map<String, dynamic>> weatherPresetsList,
   ) async {
-    talker.debug('пишу в кэш $weatherPresetsList');
+    talker.debug('пишу в кэш новые пресеты');
     String jsonData = jsonEncode(weatherPresetsList);
     await cacheManager.putFile(
       'weatherPresetsList',
@@ -198,7 +205,7 @@ abstract class _WeatherPresetsStore with Store {
         await cacheManager.getFileFromCache('weatherPresetsList');
 
     if (weatherPresetsList != null) {
-      talker.debug('Кэш с потрохами, ОК $weatherPresetsList');
+      // talker.debug('Кэш с потрохами, ОК $weatherPresetsList');
       String jsonData = await weatherPresetsList.file.readAsString();
 
       List<dynamic> jsonList = jsonDecode(jsonData);
@@ -206,14 +213,14 @@ abstract class _WeatherPresetsStore with Store {
         jsonList.map<Map<String, dynamic>>(
             (item) => Map<String, dynamic>.from(item)),
       );
-      talker.debug('Данные получились $dataList');
+      // talker.debug('Данные получились $dataList');
     } else {
-      talker.debug('Кэш нуловый, не ок $dataList');
+      // talker.debug('Кэш нуловый, не ок $dataList');
       await fetchCityWeatherData();
       await setFileToCache(cacheManager, presetCityWeatherData);
       dataList = await getFileFromCache(cacheManager);
     }
-    talker.info('возвращаю данные $dataList');
+    // talker.info('возвращаю данные $dataList');
     return dataList;
   }
 }

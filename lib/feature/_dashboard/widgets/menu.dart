@@ -24,7 +24,7 @@ class MenuDashboardWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Обновлено: ${appStore.time}'),
+                Text('Обновлено: ${appStore.timestampStore.cachedTimestamp}'),
               ],
             ),
           ),

@@ -170,7 +170,7 @@ abstract class _LocalWeatherStore with Store {
     );
     Map<String, dynamic> result = response.data;
     // talker.info(weatherDataMap);
-    talker.info(response.data);
+    // talker.info(response.data);
     // locationMessage = 'Широта: ${position.latitude},\nДолгота: ${position.longitude}';
     return result;
   }
