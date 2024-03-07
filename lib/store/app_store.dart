@@ -71,13 +71,13 @@ abstract class _AppStore with Store {
       if (timestampFile != null) {
         String timestampString = await timestampFile.file.readAsString();
         if (timestampFile.validTill.isBefore(currentTime)) {
-          talker.warning('Таймштамп протух, дропаю кэш');
+          talker.critical('Таймштамп протух, дропаю кэш');
           dropTimestampCache(cacheManager);
-          talker.critical('рефрешу таймштамп');
+          talker.info('рефрешу таймштамп');
           await refreshTimestampCache(cacheManager, currentTime, ttlInMinutes);
           isNeedLoadData = true;
         } else {
-          talker.critical('таймштамп свежий');
+          talker.info('таймштамп свежий');
           DateTime cachedTimestamp = DateTime.parse(timestampString);
           time =
               '${cachedTimestamp.hour}:${cachedTimestamp.minute}:${cachedTimestamp.second}';
@@ -91,10 +91,19 @@ abstract class _AppStore with Store {
       talker.critical('Произошла ошибка при проверке таймштампа:');
       talker.handle(e, st);
     }
-    talker.critical('итого: $isNeedLoadData');
+    talker.debug('Нужно ли грузить данные из сети: $isNeedLoadData');
   }
 
 // =============================================================================
+
+  Future<void> fullRefresh() async {
+    talker.warning('Полный рефреш данных (кроме локальной погоды)');
+    await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
+    appStore.weatherPresetsStore.dropPresetWeatherData();
+    cityNamesStore.syncCityNamesWithBox();
+    await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+    // talker.critical(cityNamesStore.presetsCityNamesCount);
+  }
 
   Future<void> goToAppSettings() async {
     await openAppSettings();

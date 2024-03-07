@@ -78,10 +78,10 @@ abstract class _WeatherPresetsStore with Store {
   }
 
   @action
-  void removePreset(int index) {
+  void removePreset(int index) async {
     talker.warning('Удаляю пресет $index');
-    cityNamesStore.cityNamesBox.deleteAt(index);
-    cityNamesStore.syncCityNamesWithBox();
+    await cityNamesStore.cityNamesBox.deleteAt(index);
+    await appStore.fullRefresh();
   }
 
   @action
@@ -144,6 +144,7 @@ abstract class _WeatherPresetsStore with Store {
     } catch (e, st) {
       talker.handle(e, st);
       // appStore.cityNamesStore.presetsCityNames.firstWhere((element) => element == cityName);
+      talker.info('Удаляю последний добавленный пресет');
       removePreset(cityNamesStore.cityNamesBox.length -1);
       throw Exception('Ошибка при парсинге города в координаты');
     }
@@ -152,7 +153,7 @@ abstract class _WeatherPresetsStore with Store {
 // =============================================================================
 
   Future<void> dropWeatherPresetsCache(DefaultCacheManager cacheManager) async {
-    talker.warning('дропаю кэш пресетов');
+    talker.info('дропаю кэш пресетов');
     await cacheManager.emptyCache();
   }
 
@@ -174,7 +175,6 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> getWeatherPresetsListFromCache() async {
     // checkStoragePermissions();
 
-    talker.warning('getWeatherPresetsListFromCache');
     ObservableList<Map<String, dynamic>> weatherPresetsList = await getFileFromCache(cacheManager);
 
     talker.info('Данные из кэша: $weatherPresetsList');
@@ -217,7 +217,7 @@ abstract class _WeatherPresetsStore with Store {
       await setFileToCache(cacheManager, presetCityWeatherData);
       dataList = await getFileFromCache(cacheManager);
     }
-    talker.warning('возвращаю данные $dataList');
+    talker.info('возвращаю данные $dataList');
     return dataList;
   }
 }

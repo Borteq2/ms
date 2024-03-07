@@ -58,7 +58,7 @@ abstract class _LocalWeatherStore with Store {
       return StringHelper.capitalizeFirstSymbol(
           localWeatherDataMap['weather'][0]['description']);
     } catch (e) {
-      talker.debug(e);
+      talker.critical(e);
     }
     return '';
   }
