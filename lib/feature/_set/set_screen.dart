@@ -4,13 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
-import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
-import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
-import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
-import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -74,101 +69,100 @@ class _SetScreenState extends State<SetScreen> {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          body:
-              // Placeholder(),
-              Row(
-                children: [
-                  appStore.suitStore.layersWithItemsCount > 0
-                      ? DotsIndicator(
-                          dotsCount: appStore.suitStore.layersWithItemsCount,
-                          position: currentPage.toInt(),
-                          axis: Axis.vertical,
-                          decorator: DotsDecorator(
-                            color: Theme.of(context).disabledColor,
-                            activeColor: Theme.of(context).primaryColor,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  Expanded(
-                    child: SizedBox(
-                      height: SizesConfig(context).clothingCardHeight,
-                      width: SizesConfig(context).clothingCardWidth,
-                      child: PageView.builder(
-                        controller: pageController,
-                        scrollDirection: Axis.vertical,
-                        itemCount: appStore.suitStore.layersWithItemsCount,
-                        itemBuilder: (context, index) => appStore
-                                    .suitStore.resultMap.entries
-                                    .elementAt(index)
-                                    .value
-                                    .length ==
-                                1
-                            ? VerticalCardWidget(
-                                appStore: appStore,
-                                currentPage: currentPage,
-                                index: index,
-                              )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: PageView.builder(
-                                      controller: pageController2,
-                                      itemCount: appStore
+          body: Row(
+            children: [
+              appStore.suitStore.layersWithItemsCount > 0
+                  ? DotsIndicator(
+                      dotsCount: appStore.suitStore.layersWithItemsCount,
+                      position: currentPage.toInt(),
+                      axis: Axis.vertical,
+                      decorator: DotsDecorator(
+                        color: Theme.of(context).disabledColor,
+                        activeColor: Theme.of(context).primaryColor,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              Expanded(
+                child: SizedBox(
+                  height: SizesConfig(context).clothingCardHeight,
+                  width: SizesConfig(context).clothingCardWidth,
+                  child: PageView.builder(
+                    controller: pageController,
+                    scrollDirection: Axis.vertical,
+                    pageSnapping: true,
+                    itemCount: appStore.suitStore.layersWithItemsCount,
+                    itemBuilder: (context, index) => appStore
+                                .suitStore.resultMap.entries
+                                .elementAt(index)
+                                .value
+                                .length ==
+                            1
+                        ? VerticalCardWidget(
+                            appStore: appStore,
+                            currentPage: currentPage,
+                            index: index,
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: PageView.builder(
+                                  controller: pageController2,
+                                  itemCount: appStore
+                                      .suitStore.resultMap.entries
+                                      .elementAt(index)
+                                      .value
+                                      .length,
+                                  scrollDirection: Axis.horizontal,
+                                  pageSnapping: true,
+                                  itemBuilder: (context, index) =>
+                                      HorizontalCardWidget(
+                                    appStore: appStore,
+                                    currentPage: currentPage,
+                                    index: index,
+                                  ),
+                                  onPageChanged: (int page) {
+                                    setState(() => currentPage2 = page);
+                                  },
+                                ),
+                              ),
+                              appStore.suitStore.resultMap.entries
+                                      .elementAt(index)
+                                      .value
+                                      .isNotEmpty
+                                  ? DotsIndicator(
+                                      dotsCount: appStore
                                           .suitStore.resultMap.entries
                                           .elementAt(index)
                                           .value
                                           .length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) =>
-                                          HorizontalCardWidget(
-                                        appStore: appStore,
-                                        currentPage: currentPage,
-                                        index: index,
+                                      position: currentPage2.toInt(),
+                                      axis: Axis.horizontal,
+                                      decorator: DotsDecorator(
+                                        color: Theme.of(context).disabledColor,
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
                                       ),
-                                      onPageChanged: (int page) {
-                                        setState(() => currentPage2 = page);
-                                      },
-                                    ),
-                                  ),
-                                  appStore.suitStore.resultMap.entries
-                                          .elementAt(index)
-                                          .value
-                                          .isNotEmpty
-                                      ? DotsIndicator(
-                                          dotsCount: appStore
-                                              .suitStore.resultMap.entries
-                                              .elementAt(index)
-                                              .value
-                                              .length,
-                                          position: currentPage2.toInt(),
-                                          axis: Axis.horizontal,
-                                          decorator: DotsDecorator(
-                                            color:
-                                                Theme.of(context).disabledColor,
-                                            activeColor:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                ],
-                              ),
-                        onPageChanged: (int page) {
-                          setState(() {
-                            currentPage = page;
-                            currentPage2 = 0;
-                          });
-                          try {
-                            pageController2.jumpToPage(0);
-                          } catch (e, st) {
-                            talker.debug('Скроллконтроллер недоволен');
-                          }
-                        },
-                      ),
-                    ),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ],
+                          ),
+                    onPageChanged: (int page) {
+                      setState(() {
+                        currentPage = page;
+                        currentPage2 = 0;
+                      });
+                      try {
+                        pageController2.jumpToPage(0);
+                      } catch (e, st) {
+                        talker.debug('Скроллконтроллер недоволен');
+                      }
+                    },
                   ),
-                ],
+                ),
               ),
+            ],
+          ),
           floatingActionButton:
               appStore.currentWeatherStore.city.toString().isEmpty ||
                       appStore.suitStore.layersWithItemsCount > 0

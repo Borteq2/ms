@@ -221,7 +221,7 @@ class _AddPresetModalState extends State<AddPresetModal> {
     AppStore appStore = widget.appStore;
 
     return AlertDialog(
-      title: const Text('Добавить локацию'),
+      title: const Text('Добавить город'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

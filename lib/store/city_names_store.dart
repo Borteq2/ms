@@ -38,6 +38,9 @@ abstract class _CityNamesStore with Store {
   @action
   void dropPresetsCityNames() => presetsCityNames.clear();
 
+  @action
+  void deleteLastCityName() => cityNamesBox.deleteAt(cityNamesBox.length -1);
+
 // =============================================================================
 
 

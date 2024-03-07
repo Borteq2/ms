@@ -82,8 +82,6 @@ abstract class _WeatherPresetsStore with Store {
     talker.warning('Удаляю пресет $index');
     cityNamesStore.cityNamesBox.deleteAt(index);
     cityNamesStore.syncCityNamesWithBox();
-
-    presetCityWeatherData.removeAt(index);
   }
 
   @action
@@ -145,6 +143,8 @@ abstract class _WeatherPresetsStore with Store {
       }
     } catch (e, st) {
       talker.handle(e, st);
+      // appStore.cityNamesStore.presetsCityNames.firstWhere((element) => element == cityName);
+      removePreset(cityNamesStore.cityNamesBox.length -1);
       throw Exception('Ошибка при парсинге города в координаты');
     }
   }

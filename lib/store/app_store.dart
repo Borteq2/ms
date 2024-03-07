@@ -42,6 +42,9 @@ abstract class _AppStore with Store {
       WeatherPresetsStore(talker: GetIt.I<Talker>());
 
   @observable
+  CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
+
+  @observable
   LocalWeatherStore localWeatherStore = LocalWeatherStore(talker: GetIt.I<Talker>());
 
   @observable
