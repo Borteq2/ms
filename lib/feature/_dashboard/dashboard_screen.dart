@@ -3,11 +3,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -76,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        talker.warning(appStore.cityNamesStore.presetsCityNamesCount);
+        talker.warning(appStore.weatherPresetsStore.cityNamesStore.presetsCityNamesCount);
         talker.warning(appStore.weatherPresetsStore.presetCityWeatherData.length);
         for (Map<String, dynamic >i in appStore.weatherPresetsStore.presetCityWeatherData) {
           talker.warning(i['name']);

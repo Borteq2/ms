@@ -41,8 +41,8 @@ abstract class _AppStore with Store {
   WeatherPresetsStore weatherPresetsStore =
       WeatherPresetsStore(talker: GetIt.I<Talker>());
 
-  @observable
-  CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
+  // @observable
+  // CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
 
   @observable
   LocalWeatherStore localWeatherStore = LocalWeatherStore(talker: GetIt.I<Talker>());
@@ -100,7 +100,7 @@ abstract class _AppStore with Store {
     talker.warning('Полный рефреш данных (кроме локальной погоды)');
     await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
     appStore.weatherPresetsStore.dropPresetWeatherData();
-    cityNamesStore.syncCityNamesWithBox();
+    appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
     await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }

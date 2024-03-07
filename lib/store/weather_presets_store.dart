@@ -7,10 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -78,7 +76,7 @@ abstract class _WeatherPresetsStore with Store {
   }
 
   @action
-  void removePreset(int index) async {
+  Future<void> removePreset(int index) async {
     talker.warning('Удаляю пресет $index');
     await cityNamesStore.cityNamesBox.deleteAt(index);
     await appStore.fullRefresh();
@@ -86,7 +84,6 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
-
     talker.info('Данные из сети');
     // talker.debug('очищаю данные пресетов в приложении');
     // talker.debug('дропаю кэш пресетов');
@@ -109,7 +106,6 @@ abstract class _WeatherPresetsStore with Store {
     }
     // talker.debug('Пишу в кэш $presetCityWeatherData');
     // await setFileToCache(cacheManager, presetCityWeatherData);
-
   }
 
 // =============================================================================
@@ -143,9 +139,8 @@ abstract class _WeatherPresetsStore with Store {
       }
     } catch (e, st) {
       talker.handle(e, st);
-      // appStore.cityNamesStore.presetsCityNames.firstWhere((element) => element == cityName);
       talker.info('Удаляю последний добавленный пресет');
-      removePreset(cityNamesStore.cityNamesBox.length -1);
+      removePreset(cityNamesStore.cityNamesBox.length - 1);
       throw Exception('Ошибка при парсинге города в координаты');
     }
   }
@@ -175,7 +170,8 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> getWeatherPresetsListFromCache() async {
     // checkStoragePermissions();
 
-    ObservableList<Map<String, dynamic>> weatherPresetsList = await getFileFromCache(cacheManager);
+    ObservableList<Map<String, dynamic>> weatherPresetsList =
+        await getFileFromCache(cacheManager);
 
     talker.info('Данные из кэша: $weatherPresetsList');
     presetCityWeatherData = weatherPresetsList;

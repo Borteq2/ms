@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
+
 import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
 import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class PresetsGridWidget extends StatefulWidget {
   const PresetsGridWidget({
@@ -21,6 +24,8 @@ class PresetsGridWidget extends StatefulWidget {
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   @override
   Widget build(BuildContext context) {
+    Talker talker = GetIt.I<Talker>();
+
     reaction(
         (_) => widget.appStore.weatherPresetsStore.presetCityWeatherData.length,
         (_) => setState(() {}));
