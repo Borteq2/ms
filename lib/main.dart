@@ -35,6 +35,7 @@ Future<void> main() async {
     final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
     final cityNamesBox = await Hive.openBox<String>('city_names_box');
     final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
+    final String sentryKey = dotenv.get('SENTRY_DSN');
 
     Hive.init(appDocumentDir.path);
 
@@ -79,12 +80,11 @@ Future<void> main() async {
 
     // await SentryFlutter.init(
     //   (options) {
-    //     options.dsn =
-    //         'https://23755c9480e743f8a853ddb54b4a93c2@sentry.mateline.ru/6';
+    //     options.dsn = sentryKey;
     //     options.tracesSampleRate = 1.0;
     //   },
     //   appRunner: () =>
-          runApp(const MyApp());
+    runApp(const MyApp());
     // ,
     // );
 
@@ -97,7 +97,6 @@ Future<void> main() async {
     //     stackTrace: st,
     //   );
     // }
-
   }, (exception, stack) async {
     // await Sentry.captureException(exception, stackTrace: stack);
     GetIt.I<Talker>().handle(exception, stack);

@@ -150,7 +150,9 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                   ),
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                 ),
               ),
             ),
