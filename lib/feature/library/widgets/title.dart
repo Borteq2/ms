@@ -132,7 +132,7 @@ class WeatherDetailWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Обновлено: ${appStore.timestampStore.cachedTimestamp}',
+                          'Обновлено: ${appStore.timestampStore.time}',
                           style: const TextStyle(fontSize: 20),
                         ),
                         Text(

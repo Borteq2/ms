@@ -25,36 +25,44 @@ abstract class _TimestampStore with Store {
 
   @observable
   bool isNeedLoadData = false;
+
   // => cachedTimestamp == null
   //     ? true
   //     : cachedTimestamp!.isAfter(currentTimestamp)
   //         ? false
   //         : true;
 
+  @computed
+  String get time =>
+      '${cachedTimestamp?.hour ?? ''}:${cachedTimestamp?.minute ?? ''}:${cachedTimestamp?.second ?? ''}';
+
   @action
   Future<void> checkTimestampWithRefresh() async {
     try {
-
       FileInfo? timestampFile = await _getFileFromCache(cacheManager);
 
       if (timestampFile != null) {
         String timestampString = await timestampFile.file.readAsString();
         cachedTimestamp = DateTime.parse(timestampString);
-        if (cachedTimestamp!.add(Duration(minutes: ttlInMinutes)).isBefore(currentTimestamp)) {
+        if (cachedTimestamp!
+            .add(Duration(minutes: ttlInMinutes))
+            .isBefore(currentTimestamp)) {
           talker.warning('кэшированный таймштамп устарел');
-          await refreshTimestampCache(cacheManager, currentTimestamp, ttlInMinutes);
+          await refreshTimestampCache(
+              cacheManager, currentTimestamp, ttlInMinutes);
           isNeedLoadData = true;
         } else {
           talker.debug('Таймштамп валидный: $cachedTimestamp');
-          talker.debug('Истечёт: ${cachedTimestamp!.add(Duration(minutes: ttlInMinutes))}');
+          talker.debug(
+              'Истечёт: ${cachedTimestamp!.add(Duration(minutes: ttlInMinutes))}');
         }
       } else {
         talker.warning('Таймштампа нет');
-        await refreshTimestampCache(cacheManager, currentTimestamp, ttlInMinutes);
+        await refreshTimestampCache(
+            cacheManager, currentTimestamp, ttlInMinutes);
         // isNeedLoadData = true;
         await checkTimestampWithRefresh();
       }
-
     } catch (e, st) {
       talker.critical('Произошла ошибка при проверке таймштампа:');
       talker.handle(e, st);
@@ -94,6 +102,7 @@ abstract class _TimestampStore with Store {
 
   Future<FileInfo?> _getFileFromCache(DefaultCacheManager cacheManager) async {
     FileInfo? timestampFile = await cacheManager.getFileFromCache('timestamp');
+    // talker.critical(await timestampFile!.file.readAsString());
     return timestampFile;
   }
 }

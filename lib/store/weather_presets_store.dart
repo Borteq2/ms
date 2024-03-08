@@ -8,6 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/feature/library/config/empty_weather_preset.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -112,18 +113,23 @@ abstract class _WeatherPresetsStore with Store {
 // =============================================================================
 
   Future<Map<String, dynamic>> fetchWeatherByCity(String city) async {
-    Location location = await getLocationCoordinatesByCityName(city);
-    Response response = await dio.get(
-      'https://api.openweathermap.org/data/2.5/weather'
-      '?lat=${location.latitude}'
-      '&lon=${location.longitude}'
-      '&appid=$weatherApiKey'
-      '&units=metric'
-      '&lang=ru',
-    );
-    Map<String, dynamic> result = response.data;
-    // talker.info('Запрос погоды в городе $city: $result');
-    return result;
+    try {
+      Location location = await getLocationCoordinatesByCityName(city);
+      Response response = await dio.get(
+        'https://api.openweathermap.org/data/2.5/weather'
+        '?lat=${location.latitude}'
+        '&lon=${location.longitude}'
+        '&appid=$weatherApiKey'
+        '&units=metric'
+        '&lang=ru',
+      );
+      Map<String, dynamic> result = response.data;
+      // talker.info('Запрос погоды в городе $city: $result');
+      return result;
+    } catch (e, st) {
+      talker.handle(e, st);
+      return emptyPreset;
+    }
   }
 
   Future<Location> getLocationCoordinatesByCityName(String cityName) async {
@@ -135,12 +141,13 @@ abstract class _WeatherPresetsStore with Store {
         // talker.info('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
-        throw Exception('Ошибка: слишком много локаций или Координаты для $cityName не найдены');
+        throw Exception(
+            'Ошибка: слишком много локаций или Координаты для $cityName не найдены');
       }
     } catch (e, st) {
       talker.handle(e, st);
-      talker.info('Удаляю последний добавленный пресет');
-      removePreset(cityNamesStore.cityNamesBox.length - 1);
+      // talker.info('Удаляю последний добавленный пресет');
+      // removePreset(cityNamesStore.cityNamesBox.length - 1);
       throw Exception('Ошибка при парсинге города в координаты');
     }
   }
@@ -155,7 +162,6 @@ abstract class _WeatherPresetsStore with Store {
       talker.handle(e, st);
       throw SentryException(type: 'minor', value: '$e /// $st');
     }
-
   }
 
   Future<void> checkStoragePermissions() async {
