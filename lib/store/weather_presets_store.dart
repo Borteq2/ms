@@ -99,6 +99,11 @@ abstract class _WeatherPresetsStore with Store {
     //   appStore.ttlInMinutes,
     // );
     await dropWeatherPresetsCache(cacheManager);
+    await appStore.timestampStore.refreshTimestampCache(
+      appStore.timestampStore.cacheManager,
+      appStore.timestampStore.currentTimestamp,
+      appStore.timestampStore.ttlInMinutes,
+    );
 
     cityNamesStore.syncCityNamesWithBox();
 

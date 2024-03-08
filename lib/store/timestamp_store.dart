@@ -60,7 +60,7 @@ abstract class _TimestampStore with Store {
         talker.warning('Таймштампа нет');
         await refreshTimestampCache(
             cacheManager, currentTimestamp, ttlInMinutes);
-        // isNeedLoadData = true;
+        isNeedLoadData = true;
         await checkTimestampWithRefresh();
       }
     } catch (e, st) {
