@@ -63,6 +63,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: PresetsGridWidget(appStore: appStore),
         floatingActionButton: Container(
           decoration: BoxDecoration(
+            color: Colors.black,
             shape: BoxShape.circle,
             border: Border.all(
               color: Theme.of(context).primaryColor,

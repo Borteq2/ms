@@ -13,39 +13,26 @@ class BotAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: BottomAppBar(
-    surfaceTintColor: Theme.of(context).bottomAppBarTheme.surfaceTintColor,
-    shape: const CircularNotchedRectangle(),
-    height: 64,
-    notchMargin: 8.0,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Text(appStore.isNeedLoadData.toString()),
-        // IconButton(
-        //   tooltip: 'Обновить',
-        //   icon: const Icon(Icons.refresh, size: 28),
-        //   onPressed: () {
-        //     appStore.currentWeatherStore.getLocation();
-        //     appStore.currentWeatherStore.getLocationAndWeatherData();
-        //   },
-        // ),
-        // IconButton(
-        //   onPressed: () =>
-        //       appStore.weatherPresetsStore.fetchCityWeatherData(),
-        //   icon: const Icon(Icons.play_arrow),
-        // ),
-        if (appStore.centerLocations.contains(appStore.fabLocation))
-          const Spacer(),
-        // IconButton(
-        //   onPressed: () {},
-        //   tooltip: 'Отправить баг-репорт',
-        //   icon: const Icon(Icons.bug_report_outlined, size: 28),
-        // ),
-      ],
-    ),
-            ),
-          );
+      borderRadius: BorderRadius.circular(32),
+      child: BottomAppBar(
+        elevation: 20,
+        surfaceTintColor: Theme.of(context).bottomAppBarTheme.surfaceTintColor,
+        shape: const CircularNotchedRectangle(),
+        height: 64,
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (appStore.centerLocations.contains(appStore.fabLocation))
+              const Spacer(),
+            // IconButton(
+            //   onPressed: () {},
+            //   tooltip: 'Отправить баг-репорт',
+            //   icon: const Icon(Icons.bug_report_outlined, size: 28),
+            // ),
+          ],
+        ),
+      ),
+    );
   }
 }
