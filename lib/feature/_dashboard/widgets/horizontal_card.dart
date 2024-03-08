@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mordor_suit/store/_stores.dart';
@@ -78,9 +79,10 @@ class _NameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(
+      child: AutoSizeText(
         '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
         style: const TextStyle(fontSize: 18),
+        maxLines: 1,
       ),
     );
   }
@@ -96,15 +98,6 @@ class _LinkWidget extends StatelessWidget {
   final AppStore appStore;
   final int currentPage;
   final int index;
-
-  // launchUrl(
-  // Uri.parse(
-  // appStore.suitStore.resultMap.entries
-  //     .elementAt(currentPage)
-  //     .value[index]
-  //     .linkToStore,
-  // ),
-  // )
 
   @override
   Widget build(BuildContext context) {
@@ -261,8 +254,10 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[index]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => Text(
+          itemBuilder: (context, featureIndex) => AutoSizeText(
             '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
+            style: const TextStyle(fontSize: 20),
+            maxLines: 1,
           ),
         ),
       ),

@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,9 +73,10 @@ class _NameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(
+      child: AutoSizeText(
         '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}',
         style: const TextStyle(fontSize: 18),
+        maxLines: 1,
       ),
     );
   }
@@ -90,129 +93,131 @@ class _LinkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GestureDetector(
-        onTap: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Colors.black.withOpacity(0.9),
-            surfaceTintColor: Colors.black,
-            title: const Text(
-              'Где купить?',
-              textAlign: TextAlign.center,
-            ),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      launchUrl(
-                        Uri.parse(
-                          appStore.suitStore.resultMap.entries
-                              .elementAt(index)
-                              .value[0]
-                              .linkToStore,
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/favicon.svg',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 20),
-                        const Text('Интернет-магазин'),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Нет ссылки'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/wb.svg',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 20),
-                        const Text('Wildberries'),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Нет ссылки'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/ozon.png',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 20),
-                        const Text('Ozon'),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Нет ссылки'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.man,
-                          size: 40,
-                        ),
-                        SizedBox(width: 20),
-                        Text('Шоурум'),
-                      ],
-                    ),
-                  ),
-                ],
+    return Observer(
+      builder: (_) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: GestureDetector(
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: Colors.black.withOpacity(0.8),
+              surfaceTintColor: Colors.black,
+              title: const Text(
+                'Где купить?',
+                textAlign: TextAlign.center,
               ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Отмена'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        launchUrl(
+                          Uri.parse(
+                            appStore.suitStore.resultMap.entries
+                                .elementAt(index)
+                                .value[0]
+                                .linkToStore,
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/favicon.svg',
+                            width: 40,
+                            height: 40,
+                          ),
+                          const SizedBox(width: 20),
+                          const Text('Интернет-магазин'),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Нет ссылки'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/wb.svg',
+                            width: 40,
+                            height: 40,
+                          ),
+                          const SizedBox(width: 20),
+                          const Text('Wildberries'),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Нет ссылки'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/ozon.png',
+                            width: 40,
+                            height: 40,
+                          ),
+                          const SizedBox(width: 20),
+                          const Text('Ozon'),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Нет ссылки'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.man,
+                            size: 40,
+                          ),
+                          SizedBox(width: 20),
+                          Text('Шоурум'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Отмена'),
+                ),
+              ],
+            ),
           ),
-        ),
-        child: RichText(
-          text: const TextSpan(
-            text: 'ПРИОБРЕСТИ',
-            style: TextStyle(
-                color: Colors.deepOrange, fontWeight: FontWeight.bold),
+          child: RichText(
+            text: const TextSpan(
+              text: 'ПРИОБРЕСТИ',
+              style: TextStyle(
+                  color: Colors.deepOrange, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
@@ -270,9 +275,10 @@ class _LayerWidget extends StatelessWidget {
                   .value[0]
                   .inSuitLayer !=
               null
-          ? Text(
+          ? AutoSizeText(
               'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
+        maxLines: 1,
             )
           : const SizedBox.shrink(),
     );
