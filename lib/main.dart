@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -20,85 +21,89 @@ import 'package:mordor_suit/feature/_set/set_screen.dart';
 import 'package:mordor_suit/feature/_dashboard/dashboard_screen.dart';
 
 Future<void> main() async {
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-    await dotenv.load(fileName: "lib/.env");
-    await Hive.initFlutter();
+      await dotenv.load(fileName: "lib/.env");
+      await Hive.initFlutter();
 
-    Hive.registerAdapter(ClothingAdapter());
-    Hive.registerAdapter(AccessoryAdapter());
+      Hive.registerAdapter(ClothingAdapter());
+      Hive.registerAdapter(AccessoryAdapter());
 
-    final appDocumentDir =
-        await path_provider.getApplicationDocumentsDirectory();
-    final clothingBox = await Hive.openBox<Clothing>('clothing_box');
-    final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
-    final cityNamesBox = await Hive.openBox<String>('city_names_box');
-    final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
-    final String sentryKey = dotenv.get('SENTRY_DSN');
+      final appDocumentDir =
+          await path_provider.getApplicationDocumentsDirectory();
+      final clothingBox = await Hive.openBox<Clothing>('clothing_box');
+      final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
+      final cityNamesBox = await Hive.openBox<String>('city_names_box');
+      final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
+      final String sentryKey = dotenv.get('SENTRY_DSN');
 
-    Hive.init(appDocumentDir.path);
+      Hive.init(appDocumentDir.path);
 
-    final talker = Talker();
-    final dio = Dio();
-    dio.interceptors.add(TalkerDioLogger(
-      talker: talker,
-      settings: const TalkerDioLoggerSettings(printResponseData: false),
-    ));
+      final talker = Talker();
+      final dio = Dio();
+      dio.interceptors.add(TalkerDioLogger(
+        talker: talker,
+        settings: const TalkerDioLoggerSettings(printResponseData: false),
+      ));
 
-    GetIt.I.registerSingleton(talker);
-    GetIt.I.registerSingleton(dio);
-    GetIt.I.registerSingleton(clothingBox, instanceName: 'clothing_box');
-    GetIt.I.registerSingleton(accessoryBox, instanceName: 'accessory_box');
-    GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
-    GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
-    GetIt.I.registerSingleton(AppStore());
-    GetIt.I.registerSingleton(
-      GoRouter(
-        observers: [
-          TalkerRouteObserver(GetIt.I<Talker>()),
-          SentryNavigatorObserver(),
-        ],
-        routes: [
-          GoRoute(
-            path: '/',
-            builder: (BuildContext context, GoRouterState state) {
-              return const DashboardScreen();
-            },
-            routes: [
-              GoRoute(
-                path: 'set',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const SetScreen();
-                },
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+      GetIt.I.registerSingleton(talker);
+      GetIt.I.registerSingleton(dio);
+      GetIt.I.registerSingleton(clothingBox, instanceName: 'clothing_box');
+      GetIt.I.registerSingleton(accessoryBox, instanceName: 'accessory_box');
+      GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
+      GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
+      GetIt.I.registerSingleton(AppStore());
+      GetIt.I.registerSingleton(
+        GoRouter(
+          observers: [
+            TalkerRouteObserver(GetIt.I<Talker>()),
+            SentryNavigatorObserver(),
+          ],
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (BuildContext context, GoRouterState state) {
+                return const DashboardScreen();
+              },
+              routes: [
+                GoRoute(
+                  path: 'set',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const SetScreen();
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      );
 
-    // await SentryFlutter.init(
-    //   (options) {
-    //     options.dsn = sentryKey;
-    //     options.tracesSampleRate = 1.0;
-    //   },
-    //   appRunner: () =>
-    runApp(const MyApp());
-    // ,
-    // );
+      kReleaseMode
+          ? await SentryFlutter.init((options) {
+              options.dsn = sentryKey;
+              options.tracesSampleRate = 1.0;
+            }, appRunner: () => runApp(const MyApp()))
+          : runApp(const MyApp());
 
-    // try {
-    //   throw Exception('тест 2');
-    // } catch (e, st) {
-    //   talker.critical('швыряю в сентрю');
-    //   await Sentry.captureException(
-    //     e,
-    //     stackTrace: st,
-    //   );
-    // }
-  }, (exception, stack) async {
-    // await Sentry.captureException(exception, stackTrace: stack);
-    GetIt.I<Talker>().handle(exception, stack);
-  });
+      // try {
+      //   throw Exception('тест 2');
+      // } catch (e, st) {
+      //   talker.critical('швыряю в сентрю');
+      //   await Sentry.captureException(
+      //     e,
+      //     stackTrace: st,
+      //   );
+      // }
+    },
+    (exception, stack) async {
+      if (kReleaseMode) {
+        await Sentry.captureException(exception, stackTrace: stack);
+        GetIt.I<Talker>().handle(exception, stack);
+      } else {
+        GetIt.I<Talker>().handle(exception, stack);
+      }
+    },
+  );
 }
