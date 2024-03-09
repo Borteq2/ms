@@ -27,6 +27,7 @@ class VerticalCardWidget extends StatelessWidget {
           children: [
             _ImageWidget(appStore: appStore, index: index),
             _NameWidget(appStore: appStore, index: index),
+            _IsHasAlreadyWidget(appStore: appStore, index: index),
             _LinkWidget(appStore: appStore, index: index),
             _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
@@ -72,12 +73,68 @@ class _NameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: AutoSizeText(
         '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].name}',
         style: const TextStyle(fontSize: 18),
         maxLines: 1,
       ),
+    );
+  }
+}
+
+// TODO: сомнительно, но окей
+class _IsHasAlreadyWidget extends StatefulWidget {
+  const _IsHasAlreadyWidget({
+    required this.appStore,
+    required this.index,
+  });
+
+  final AppStore appStore;
+  final int index;
+
+  @override
+  State<_IsHasAlreadyWidget> createState() => _IsHasAlreadyWidgetState();
+}
+
+class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: isChecked,
+          onChanged: (newValue) {
+            setState(
+              () {
+                isChecked = newValue ?? false;
+                appStore.suitStore.resultMap.entries
+                        .elementAt(widget.index)
+                        .value[0]
+                        .isHasAlready =
+                    !appStore.suitStore.resultMap.entries
+                        .elementAt(widget.index)
+                        .value[0]
+                        .isHasAlready;
+              },
+            );
+          },
+        ),
+        Text(
+          'Уже есть',
+          style: TextStyle(
+            color: appStore.suitStore.resultMap.entries
+                    .elementAt(widget.index)
+                    .value[0]
+                    .isHasAlready
+                ? Colors.deepOrange
+                : Colors.white,
+          ),
+        )
+      ],
     );
   }
 }
@@ -278,7 +335,7 @@ class _LayerWidget extends StatelessWidget {
           ? AutoSizeText(
               'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
-        maxLines: 1,
+              maxLines: 1,
             )
           : const SizedBox.shrink(),
     );

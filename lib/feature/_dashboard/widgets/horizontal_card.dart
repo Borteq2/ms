@@ -28,6 +28,8 @@ class HorizontalCardWidget extends StatelessWidget {
                 appStore: appStore, currentPage: currentPage, index: index),
             _NameWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
+            _IsHasAlreadyWidget(
+                appStore: appStore, currentPage: currentPage, index: index),
             _LinkWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
             _FeaturesListWidget(
@@ -84,6 +86,64 @@ class _NameWidget extends StatelessWidget {
         style: const TextStyle(fontSize: 18),
         maxLines: 1,
       ),
+    );
+  }
+}
+
+// TODO: сомнительно, но окей
+class _IsHasAlreadyWidget extends StatefulWidget {
+  const _IsHasAlreadyWidget({
+    required this.appStore,
+    required this.currentPage,
+    required this.index,
+  });
+
+  final AppStore appStore;
+  final int currentPage;
+  final int index;
+
+  @override
+  State<_IsHasAlreadyWidget> createState() => _IsHasAlreadyWidgetState();
+}
+
+class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: isChecked,
+          onChanged: (newValue) {
+            setState(
+              () {
+                isChecked = newValue ?? false;
+                appStore.suitStore.resultMap.entries
+                        .elementAt(widget.currentPage)
+                        .value[widget.index]
+                        .isHasAlready =
+                    !appStore.suitStore.resultMap.entries
+                        .elementAt(widget.currentPage)
+                        .value[widget.index]
+                        .isHasAlready;
+              },
+            );
+          },
+        ),
+        Text(
+          'Уже есть',
+          style: TextStyle(
+            color: appStore.suitStore.resultMap.entries
+                    .elementAt(widget.index)
+                    .value[0]
+                    .isHasAlready
+                ? Colors.deepOrange
+                : Colors.white,
+          ),
+        )
+      ],
     );
   }
 }
