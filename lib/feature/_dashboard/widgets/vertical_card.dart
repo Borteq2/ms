@@ -115,23 +115,18 @@ class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
 
-    bool isClothing = appStore.suitStore.resultMap.entries
-            .elementAt(widget.index)
-            .value[0]
-            .runtimeType ==
-        Clothing;
+    var currentItemVertical =
+        appStore.suitStore.resultMap.entries.elementAt(widget.index).value[0];
+
+    bool isClothing = currentItemVertical.runtimeType == Clothing;
 
     bool isChecked;
     if (isClothing) {
-      isChecked = appStore.clothingMemoryStore.boxedClothingList.contains(
-          appStore.suitStore.resultMap.entries
-              .elementAt(widget.index)
-              .value[0]);
+      isChecked = appStore.clothingMemoryStore.boxedClothingList
+          .contains(currentItemVertical);
     } else {
-      isChecked = appStore.clothingMemoryStore.boxedAccessoryList.contains(
-          appStore.suitStore.resultMap.entries
-              .elementAt(widget.index)
-              .value[0]);
+      isChecked = appStore.clothingMemoryStore.boxedAccessoryList
+          .contains(currentItemVertical);
     }
     return Observer(
       builder: (_) => Row(
@@ -143,24 +138,14 @@ class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
               isClothing
                   ? isChecked
                       ? await appStore.clothingMemoryStore
-                          .removeClothingFromBox(appStore
-                              .suitStore.resultMap.entries
-                              .elementAt(widget.index)
-                              .value[0])
-                      : await appStore.clothingMemoryStore.setClothingToBox(
-                          appStore.suitStore.resultMap.entries
-                              .elementAt(widget.index)
-                              .value[0])
+                          .removeClothingFromBox(currentItemVertical)
+                      : await appStore.clothingMemoryStore
+                          .setClothingToBox(currentItemVertical)
                   : isChecked
                       ? await appStore.clothingMemoryStore
-                          .removeAccessoryFromBox(appStore
-                              .suitStore.resultMap.entries
-                              .elementAt(widget.index)
-                              .value[0])
-                      : appStore.clothingMemoryStore.setAccessoryToBox(appStore
-                          .suitStore.resultMap.entries
-                          .elementAt(widget.index)
-                          .value[0]);
+                          .removeAccessoryFromBox(currentItemVertical)
+                      : appStore.clothingMemoryStore
+                          .setAccessoryToBox(currentItemVertical);
               setState(() {});
             },
           ),
