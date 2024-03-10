@@ -133,6 +133,7 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
         onTap: () {
           appStore.currentWeatherStore.setSuitByWeatherManually(
               appStore.localWeatherStore.localWeatherDataMap);
+          Navigator.pop(context);
           context.go(
             '/set',
             extra: appStore.currentWeatherStore.weatherDataMap,

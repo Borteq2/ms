@@ -31,7 +31,7 @@ class VerticalCardWidget extends StatelessWidget {
           children: [
             _ImageWidget(appStore: appStore, index: index),
             _NameWidget(appStore: appStore, index: index),
-            _IsHasAlreadyWidget(appStore: appStore, index: index),
+            // _IsHasAlreadyWidget(appStore: appStore, index: index),
             _LinkWidget(appStore: appStore, index: index),
             _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
@@ -87,8 +87,8 @@ class _NameWidget extends StatelessWidget {
   }
 }
 
-class _IsHasAlreadyWidget extends StatefulWidget {
-  const _IsHasAlreadyWidget({
+class _LinkWidget extends StatefulWidget {
+  const _LinkWidget({
     required this.appStore,
     required this.index,
   });
@@ -97,10 +97,10 @@ class _IsHasAlreadyWidget extends StatefulWidget {
   final int index;
 
   @override
-  State<_IsHasAlreadyWidget> createState() => _IsHasAlreadyWidgetState();
+  State<_LinkWidget> createState() => _LinkWidgetState();
 }
 
-class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
+class _LinkWidgetState extends State<_LinkWidget> {
   void _preloadBoxData() async {
     await appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
   }
@@ -114,7 +114,6 @@ class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
   @override
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
-
     var currentItemVertical =
         appStore.suitStore.resultMap.entries.elementAt(widget.index).value[0];
 
@@ -122,191 +121,189 @@ class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
 
     bool isChecked;
     if (isClothing) {
+      talker.info('Это шмотка, проверяю чекнутость');
       isChecked = appStore.clothingMemoryStore.boxedClothingList
           .contains(currentItemVertical);
     } else {
+      talker.info('Это акс, проверяю чекнутость');
       isChecked = appStore.clothingMemoryStore.boxedAccessoryList
           .contains(currentItemVertical);
     }
-    return Observer(
-      builder: (_) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Checkbox(
-            value: isChecked,
-            onChanged: (newValue) async {
-              isClothing
-                  ? isChecked
-                      ? await appStore.clothingMemoryStore
-                          .removeClothingFromBox(currentItemVertical)
-                      : await appStore.clothingMemoryStore
-                          .setClothingToBox(currentItemVertical)
-                  : isChecked
-                      ? await appStore.clothingMemoryStore
-                          .removeAccessoryFromBox(currentItemVertical)
-                      : appStore.clothingMemoryStore
-                          .setAccessoryToBox(currentItemVertical);
-              setState(() {});
-            },
-          ),
-          Text(
-            'Уже есть',
-            style: TextStyle(
-              color: isChecked ? Colors.deepOrange : Colors.white,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
-class _LinkWidget extends StatelessWidget {
-  const _LinkWidget({
-    required this.appStore,
-    required this.index,
-  });
-
-  final AppStore appStore;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: GestureDetector(
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              backgroundColor: Colors.black.withOpacity(0.8),
-              surfaceTintColor: Colors.black,
-              title: const Text(
-                'Где купить?',
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        launchUrl(
-                          Uri.parse(
-                            appStore.suitStore.resultMap.entries
-                                .elementAt(index)
-                                .value[0]
-                                .linkToStore,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isChecked
+                  ? Icons.check_box_outlined
+                  : Icons.check_box_outline_blank_outlined,
+              color: isChecked ? Colors.deepOrange : Colors.white,
+            ),
+            const SizedBox(width: 10),
+            InkWell(
+              onTap: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: Colors.black.withOpacity(0.8),
+                  surfaceTintColor: Colors.black,
+                  title: const Text(
+                    'Где купить?',
+                    textAlign: TextAlign.center,
+                  ),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            launchUrl(
+                              Uri.parse(
+                                widget.appStore.suitStore.resultMap.entries
+                                    .elementAt(widget.index)
+                                    .value[0]
+                                    .linkToStore,
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/favicon.svg',
+                                width: 40,
+                                height: 40,
+                              ),
+                              const SizedBox(width: 20),
+                              const Text('Интернет-магазин'),
+                            ],
                           ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/images/favicon.svg',
-                            width: 40,
-                            height: 40,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Нет ссылки'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/wb.svg',
+                                width: 40,
+                                height: 40,
+                              ),
+                              const SizedBox(width: 20),
+                              const Text('Wildberries'),
+                            ],
                           ),
-                          const SizedBox(width: 20),
-                          const Text('Интернет-магазин'),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Нет ссылки'),
-                            duration: Duration(seconds: 1),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Нет ссылки'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/ozon.png',
+                                width: 40,
+                                height: 40,
+                              ),
+                              const SizedBox(width: 20),
+                              const Text('Ozon'),
+                            ],
                           ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/images/wb.svg',
-                            width: 40,
-                            height: 40,
-                          ),
-                          const SizedBox(width: 20),
-                          const Text('Wildberries'),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Нет ссылки'),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/ozon.png',
-                            width: 40,
-                            height: 40,
-                          ),
-                          const SizedBox(width: 20),
-                          const Text('Ozon'),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        await launchUrl(
-                          Uri.parse(
-                            // 'https://yandex.by/maps/'
-                            //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
-                            //     '&mode=routes'
-                            //     '&rtext=55.665346%2C37.641111'
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await launchUrl(
+                              Uri.parse(
+                                // 'https://yandex.by/maps/'
+                                //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
+                                //     '&mode=routes'
+                                //     '&rtext=55.665346%2C37.641111'
 
-                            'https://yandex.ru/maps/'
-                            '?ll=${appStore.localWeatherStore.currentPosition.latitude}'
-                            '%2C${appStore.localWeatherStore.currentPosition.longitude}'
-                            '&mode=routes'
-                            '&rtext=${appStore.localWeatherStore.currentPosition.latitude}'
-                            '%2C${appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
+                                'https://yandex.ru/maps/'
+                                '?ll=${widget.appStore.localWeatherStore.currentPosition.latitude}'
+                                '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}'
+                                '&mode=routes'
+                                '&rtext=${widget.appStore.localWeatherStore.currentPosition.latitude}'
+                                '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
+                              ),
+                              // mode: LaunchMode.inAppBrowserView,
+                            );
+                          },
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.man,
+                                size: 40,
+                              ),
+                              SizedBox(width: 20),
+                              Text('Шоурум'),
+                            ],
                           ),
-                          // mode: LaunchMode.inAppBrowserView,
-                        );
-                      },
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.man,
-                            size: 40,
-                          ),
-                          SizedBox(width: 20),
-                          Text('Шоурум'),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            isClothing
+                                ? isChecked
+                                    ? await appStore.clothingMemoryStore
+                                        .removeClothingFromBox(
+                                            currentItemVertical)
+                                    : await appStore.clothingMemoryStore
+                                        .setClothingToBox(currentItemVertical)
+                                : isChecked
+                                    ? await appStore.clothingMemoryStore
+                                        .removeAccessoryFromBox(
+                                            currentItemVertical)
+                                    : appStore.clothingMemoryStore
+                                        .setAccessoryToBox(currentItemVertical);
+                            setState(() {});
+                            Navigator.pop(context);
+                          },
+                          child: Text(isChecked ? 'Продал' : 'Уже есть'),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Отмена'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Отмена'),
+              child: RichText(
+                text: TextSpan(
+                  text: isChecked ? 'ПРИОБРЕТЕНО' : 'ПРИОБРЕСТИ',
+                  style: const TextStyle(
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-          child: RichText(
-            text: const TextSpan(
-              text: 'ПРИОБРЕСТИ',
-              style: TextStyle(
-                  color: Colors.deepOrange, fontWeight: FontWeight.bold),
-            ),
-          ),
+          ],
         ),
       ),
     );
