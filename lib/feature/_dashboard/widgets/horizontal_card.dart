@@ -287,13 +287,22 @@ class _LinkWidget extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Нет ссылки'),
-                          duration: Duration(seconds: 1),
+                    onPressed: () async {
+                      await launchUrl(
+                        Uri.parse(
+                          // 'https://yandex.by/maps/'
+                          //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
+                          //     '&mode=routes'
+                          //     '&rtext=55.665346%2C37.641111'
+
+                          'https://yandex.ru/maps/'
+                          '?ll=${appStore.localWeatherStore.currentPosition.latitude}'
+                          '%2C${appStore.localWeatherStore.currentPosition.longitude}'
+                          '&mode=routes'
+                          '&rtext=${appStore.localWeatherStore.currentPosition.latitude}'
+                          '%2C${appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
                         ),
+                        // mode: LaunchMode.inAppBrowserView,
                       );
                     },
                     child: const Row(

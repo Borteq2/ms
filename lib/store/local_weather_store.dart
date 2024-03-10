@@ -153,6 +153,7 @@ abstract class _LocalWeatherStore with Store {
         desiredAccuracy: LocationAccuracy.high);
 
     currentPosition = result;
+    // talker.info(currentPosition);
 
     return result;
   }

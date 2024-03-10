@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BotAppBar extends StatelessWidget {
   const BotAppBar({
