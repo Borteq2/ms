@@ -104,10 +104,15 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                             ? MainAxisAlignment.end
                                             : MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.cancel,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                          InkWell(
+                                            onTap: () => appStore
+                                                .weatherPresetsStore
+                                                .removePreset(index),
+                                            child: Icon(
+                                              Icons.cancel,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -136,10 +141,15 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                             ? MainAxisAlignment.end
                                             : MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.cancel,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                          InkWell(
+                                            onTap: () => appStore
+                                                .weatherPresetsStore
+                                                .removePreset(index),
+                                            child: Icon(
+                                              Icons.cancel,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                           ),
                                         ],
                                       ),
