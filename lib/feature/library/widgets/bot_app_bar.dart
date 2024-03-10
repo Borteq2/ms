@@ -23,37 +23,37 @@ class BotAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              onPressed: () {
-                appStore.clothingMemoryStore.getClothingListFromBox();
-              },
-              tooltip: '',
-              icon: const Icon(Icons.arrow_upward, size: 28),
-            ),
-            IconButton(
-              onPressed: () {
-                appStore.clothingMemoryStore.setClothingToBox(appStore.suitStore.suit.layer_1![0]);
-              },
-              tooltip: '',
-              icon: const Icon(Icons.arrow_downward, size: 28),
-            ),
-            if (appStore.centerLocations.contains(appStore.fabLocation))
-              const Spacer(),
-            IconButton(
-              onPressed: () async {
-                appStore.clothingMemoryStore.dropUnboxedLists();
-                await appStore.clothingMemoryStore.dropBoxes();
-              },
-              tooltip: '',
-              icon: const Icon(Icons.clear, size: 28),
-            ),
-            IconButton(
-              onPressed: () {
-                appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
-              },
-              tooltip: '',
-              icon: const Icon(Icons.sync, size: 28),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     appStore.clothingMemoryStore.getClothingListFromBox();
+            //   },
+            //   tooltip: '',
+            //   icon: const Icon(Icons.arrow_upward, size: 28),
+            // ),
+            // IconButton(
+            //   onPressed: () {
+            //     appStore.clothingMemoryStore.setClothingToBox(appStore.suitStore.suit.layer_1![0]);
+            //   },
+            //   tooltip: '',
+            //   icon: const Icon(Icons.arrow_downward, size: 28),
+            // ),
+            // if (appStore.centerLocations.contains(appStore.fabLocation))
+            //   const Spacer(),
+            // IconButton(
+            //   onPressed: () async {
+            //     appStore.clothingMemoryStore.dropUnboxedLists();
+            //     await appStore.clothingMemoryStore.dropBoxes();
+            //   },
+            //   tooltip: '',
+            //   icon: const Icon(Icons.clear, size: 28),
+            // ),
+            // IconButton(
+            //   onPressed: () {
+            //     appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
+            //   },
+            //   tooltip: '',
+            //   icon: const Icon(Icons.sync, size: 28),
+            // ),
           ],
         ),
       ),
