@@ -31,7 +31,6 @@ class VerticalCardWidget extends StatelessWidget {
           children: [
             _ImageWidget(appStore: appStore, index: index),
             _NameWidget(appStore: appStore, index: index),
-            // _IsHasAlreadyWidget(appStore: appStore, index: index),
             _LinkWidget(appStore: appStore, index: index),
             _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
