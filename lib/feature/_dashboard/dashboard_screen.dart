@@ -43,7 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ? await appStore.weatherPresetsStore.fetchCityWeatherData()
           : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
       await appStore.localWeatherStore.getLocationAndWeatherData();
-
     } else {
       talker.critical('Не удалось получить все необходимые разрешения');
     }
@@ -93,26 +92,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(color: Colors.deepOrange),
                 ),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 2,
-                onTap: () {
-                  appStore.currentWeatherStore.setSuitByWeatherManually(
-                      appStore.localWeatherStore.localWeatherDataMap);
-                  context.go(
-                    '/set',
-                    extra: appStore.currentWeatherStore.weatherDataMap,
-                  );
-                },
-                child: const Text(
-                  'Одеться здесь и сейчас',
-                  style: TextStyle(color: Colors.deepOrange),
-                ),
+                child: CustomPopupMenuItem(),
               ),
             ],
           ),
         ),
         floatingActionButtonLocation: appStore.fabLocation,
         bottomNavigationBar: BotAppBar(appStore: appStore),
+      ),
+    );
+  }
+}
+
+class CustomPopupMenuItem extends StatefulWidget {
+  const CustomPopupMenuItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _CustomPopupMenuItemState createState() => _CustomPopupMenuItemState();
+}
+
+class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => ListTile(
+        trailing: appStore.localWeatherStore.isWeatherLoaded
+            ? const SizedBox.shrink()
+            : const SizedBox(
+                width: 10,
+                height: 10,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
+        enabled: appStore.localWeatherStore.isWeatherLoaded,
+        onTap: () {
+          appStore.currentWeatherStore.setSuitByWeatherManually(
+              appStore.localWeatherStore.localWeatherDataMap);
+          context.go(
+            '/set',
+            extra: appStore.currentWeatherStore.weatherDataMap,
+          );
+        },
+        title: Text(
+          appStore.localWeatherStore.isWeatherLoaded
+              ? 'Одеться здесь и сейчас'
+              : 'Загрузка текущей локации...',
+          style: TextStyle(
+            color: appStore.localWeatherStore.isWeatherLoaded
+                ? Colors.deepOrange
+                : Colors.grey,
+          ),
+        ),
       ),
     );
   }

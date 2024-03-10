@@ -1,7 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HorizontalCardWidget extends StatelessWidget {
@@ -80,7 +84,7 @@ class _NameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: AutoSizeText(
         '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
         style: const TextStyle(fontSize: 18),
@@ -107,43 +111,80 @@ class _IsHasAlreadyWidget extends StatefulWidget {
 }
 
 class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
-  bool isChecked = false;
+  void _preloadBoxData() async {
+    await appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
+  }
+
+  @override
+  void initState() {
+    _preloadBoxData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Checkbox(
-          value: isChecked,
-          onChanged: (newValue) {
-            setState(
-              () {
-                isChecked = newValue ?? false;
-                appStore.suitStore.resultMap.entries
-                        .elementAt(widget.currentPage)
-                        .value[widget.index]
-                        .isHasAlready =
-                    !appStore.suitStore.resultMap.entries
-                        .elementAt(widget.currentPage)
-                        .value[widget.index]
-                        .isHasAlready;
-              },
-            );
-          },
-        ),
-        Text(
-          'Уже есть',
-          style: TextStyle(
-            color: appStore.suitStore.resultMap.entries
-                    .elementAt(widget.index)
-                    .value[0]
-                    .isHasAlready
-                ? Colors.deepOrange
-                : Colors.white,
+    Talker talker = GetIt.I<Talker>();
+
+    bool isClothing = appStore.suitStore.resultMap.entries
+            .elementAt(widget.currentPage)
+            .value[widget.index]
+            .runtimeType ==
+        Clothing;
+
+    bool isChecked;
+    if (isClothing) {
+      talker.info('Это шмотка, проверяю чекнутость');
+      isChecked = appStore.clothingMemoryStore.boxedClothingList.contains(
+          appStore.suitStore.resultMap.entries
+              .elementAt(widget.currentPage)
+              .value[widget.index]);
+    } else {
+      talker.info('Это акс, проверяю чекнутость');
+      isChecked = appStore.clothingMemoryStore.boxedAccessoryList.contains(
+          appStore.suitStore.resultMap.entries
+              .elementAt(widget.currentPage)
+              .value[widget.index]);
+      talker.info(isChecked);
+    }
+
+    return Observer(
+      builder: (_) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Checkbox(
+            value: isChecked,
+            onChanged: (newValue) async {
+              isClothing
+                  ? isChecked
+                      ? await appStore.clothingMemoryStore.removeClothingFromBox(
+                          appStore.suitStore.resultMap.entries
+                              .elementAt(widget.currentPage)
+                              .value[widget.index])
+                      : await appStore.clothingMemoryStore.setClothingToBox(
+                          appStore.suitStore.resultMap.entries
+                              .elementAt(widget.currentPage)
+                              .value[widget.index])
+                  : isChecked
+                      ? await appStore.clothingMemoryStore
+                          .removeAccessoryFromBox(appStore
+                              .suitStore.resultMap.entries
+                              .elementAt(widget.currentPage)
+                              .value[widget.index])
+                      : appStore.clothingMemoryStore.setAccessoryToBox(appStore
+                          .suitStore.resultMap.entries
+                          .elementAt(widget.currentPage)
+                          .value[widget.index]);
+              setState(() {});
+            },
           ),
-        )
-      ],
+          Text(
+            'Уже есть',
+            style: TextStyle(
+              color: isChecked ? Colors.deepOrange : Colors.white,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -316,7 +357,6 @@ class _FeaturesListWidget extends StatelessWidget {
               .length,
           itemBuilder: (context, featureIndex) => AutoSizeText(
             '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-            style: const TextStyle(fontSize: 20),
             maxLines: 1,
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:hive/hive.dart';
+
 import 'package:mordor_suit/feature/library/config/hive_types.dart';
 
 part 'accessory.g.dart';
@@ -29,6 +30,34 @@ class Accessory extends _Accessory with _$Accessory {
   factory Accessory.fromJson(Map<String, dynamic> json) => _$AccessoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccessoryToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Accessory &&
+        other.name == name &&
+        other.linkToStore == linkToStore &&
+        // ListEquality().equals(other.features, features) &&
+        other.image == image &&
+        other.inSuitLayer == inSuitLayer &&
+        other.isNecessary == isNecessary;
+    // &&
+    // other.isHasAlready == isHasAlready;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      name,
+      linkToStore,
+      // ListEquality().hash(features),
+      image,
+      inSuitLayer,
+      isNecessary,
+      // isHasAlready,
+    );
+  }
 }
 
 

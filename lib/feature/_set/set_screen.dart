@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/feature/library/config/sizes.dart';
+import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -56,10 +57,7 @@ class _SetScreenState extends State<SetScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () async {
-              context.pop();
-              // clearCurrentWeatherDataOnBack();
-            },
+            onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back),
           ),
           title: Text(
@@ -106,8 +104,7 @@ class _SetScreenState extends State<SetScreen> {
                             Expanded(
                               child: PageView.builder(
                                 controller: pageController2,
-                                itemCount: appStore
-                                    .suitStore.resultMap.entries
+                                itemCount: appStore.suitStore.resultMap.entries
                                     .elementAt(index)
                                     .value
                                     .length,
@@ -190,9 +187,9 @@ class _SetScreenState extends State<SetScreen> {
         //     appStore.currentWeatherStore.city.toString().isEmpty
         //         ? const SizedBox.shrink()
         //         : Padding(
-        //           padding: const EdgeInsets.only(top: 8.0),
-        //           child: BotAppBar(appStore: appStore),
-        //         ),
+        //             padding: const EdgeInsets.only(top: 8.0),
+        //             child: BotAppBar(appStore: appStore),
+        //           ),
       ),
     );
   }

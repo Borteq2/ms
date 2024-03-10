@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
+
 import 'package:mordor_suit/feature/library/config/hive_types.dart';
 
 part 'cloth.g.dart';
@@ -30,6 +31,34 @@ class Clothing extends _Cloth with _$Clothing {
       _$ClothingFromJson(json);
 
   Map<String, dynamic> toJson() => _$ClothingToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Clothing &&
+        other.name == name &&
+        other.linkToStore == linkToStore &&
+        // ListEquality().equals(other.features, features) &&
+        other.image == image &&
+        other.inSuitLayer == inSuitLayer &&
+        other.isNecessary == isNecessary;
+    // &&
+    // other.isHasAlready == isHasAlready;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      name,
+      linkToStore,
+      // ListEquality().hash(features),
+      image,
+      inSuitLayer,
+      isNecessary,
+      // isHasAlready,
+    );
+  }
 }
 
 abstract class _Cloth with Store {

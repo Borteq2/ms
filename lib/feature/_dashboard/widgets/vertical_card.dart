@@ -2,7 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VerticalCardWidget extends StatelessWidget {
@@ -83,7 +87,6 @@ class _NameWidget extends StatelessWidget {
   }
 }
 
-// TODO: сомнительно, но окей
 class _IsHasAlreadyWidget extends StatefulWidget {
   const _IsHasAlreadyWidget({
     required this.appStore,
@@ -98,43 +101,77 @@ class _IsHasAlreadyWidget extends StatefulWidget {
 }
 
 class _IsHasAlreadyWidgetState extends State<_IsHasAlreadyWidget> {
-  bool isChecked = false;
+  void _preloadBoxData() async {
+    await appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
+  }
+
+  @override
+  void initState() {
+    _preloadBoxData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Checkbox(
-          value: isChecked,
-          onChanged: (newValue) {
-            setState(
-              () {
-                isChecked = newValue ?? false;
-                appStore.suitStore.resultMap.entries
-                        .elementAt(widget.index)
-                        .value[0]
-                        .isHasAlready =
-                    !appStore.suitStore.resultMap.entries
-                        .elementAt(widget.index)
-                        .value[0]
-                        .isHasAlready;
-              },
-            );
-          },
-        ),
-        Text(
-          'Уже есть',
-          style: TextStyle(
-            color: appStore.suitStore.resultMap.entries
-                    .elementAt(widget.index)
-                    .value[0]
-                    .isHasAlready
-                ? Colors.deepOrange
-                : Colors.white,
+    Talker talker = GetIt.I<Talker>();
+
+    bool isClothing = appStore.suitStore.resultMap.entries
+            .elementAt(widget.index)
+            .value[0]
+            .runtimeType ==
+        Clothing;
+
+    bool isChecked;
+    if (isClothing) {
+      isChecked = appStore.clothingMemoryStore.boxedClothingList.contains(
+          appStore.suitStore.resultMap.entries
+              .elementAt(widget.index)
+              .value[0]);
+    } else {
+      isChecked = appStore.clothingMemoryStore.boxedAccessoryList.contains(
+          appStore.suitStore.resultMap.entries
+              .elementAt(widget.index)
+              .value[0]);
+    }
+    return Observer(
+      builder: (_) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Checkbox(
+            value: isChecked,
+            onChanged: (newValue) async {
+              isClothing
+                  ? isChecked
+                      ? await appStore.clothingMemoryStore
+                          .removeClothingFromBox(appStore
+                              .suitStore.resultMap.entries
+                              .elementAt(widget.index)
+                              .value[0])
+                      : await appStore.clothingMemoryStore.setClothingToBox(
+                          appStore.suitStore.resultMap.entries
+                              .elementAt(widget.index)
+                              .value[0])
+                  : isChecked
+                      ? await appStore.clothingMemoryStore
+                          .removeAccessoryFromBox(appStore
+                              .suitStore.resultMap.entries
+                              .elementAt(widget.index)
+                              .value[0])
+                      : appStore.clothingMemoryStore.setAccessoryToBox(appStore
+                          .suitStore.resultMap.entries
+                          .elementAt(widget.index)
+                          .value[0]);
+              setState(() {});
+            },
           ),
-        )
-      ],
+          Text(
+            'Уже есть',
+            style: TextStyle(
+              color: isChecked ? Colors.deepOrange : Colors.white,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -303,8 +340,9 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[0]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => Text(
+          itemBuilder: (context, featureIndex) => AutoSizeText(
             '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
+            maxLines: 1,
           ),
         ),
       ),
