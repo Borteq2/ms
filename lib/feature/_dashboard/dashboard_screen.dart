@@ -27,17 +27,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Permission.storage,
     ].request();
 
-    // TODO: вернуть проверку таймштампа
-
     if (permissions[Permission.location] == PermissionStatus.granted &&
         permissions[Permission.storage] == PermissionStatus.granted) {
       await appStore.timestampStore.checkTimestampWithRefresh();
-
-      // await appStore.weatherPresetsStore.dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
-
-      // appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
-
-      // await appStore.timestampStore.dropTimestampCache(appStore.timestampStore.cacheManager);
 
       appStore.timestampStore.isNeedLoadData
           ? await appStore.weatherPresetsStore.fetchCityWeatherData()

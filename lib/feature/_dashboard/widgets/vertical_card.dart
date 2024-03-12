@@ -322,7 +322,7 @@ class _FeaturesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: appStore.suitStore.resultMap.entries
@@ -334,10 +334,16 @@ class _FeaturesListWidget extends StatelessWidget {
                   appStore.suitStore.resultMap.entries
                       .elementAt(index)
                       .value[0]
-                      .features.length
-              ? AutoSizeText(
-                  '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
-                  maxLines: 2,
+                      .features
+                      .length
+              ? Column(
+                  children: [
+                    const Divider(thickness: 1),
+                    AutoSizeText(
+                      '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
+                      maxLines: 2,
+                    ),
+                  ],
                 )
               : AutoSizeText(
                   '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
@@ -363,19 +369,12 @@ class _LayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: appStore.suitStore.resultMap.entries
-                  .elementAt(currentPage)
-                  .value[0]
-                  .inSuitLayer !=
-              null
-          ? AutoSizeText(
-              '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
-              style: const TextStyle(fontSize: 20),
-              maxLines: 1,
-            )
-          : const SizedBox.shrink(),
-    );
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        child: AutoSizeText(
+          '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
+          maxLines: 2,
+          style: const TextStyle(fontSize: 20),
+        ));
   }
 }
 

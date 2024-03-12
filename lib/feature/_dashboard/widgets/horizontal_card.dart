@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -22,6 +23,10 @@ class HorizontalCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currentItem = appStore.suitStore.resultMap.entries
+        .elementAt(currentPage)
+        .value[index];
+
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Card(
@@ -34,8 +39,7 @@ class HorizontalCardWidget extends StatelessWidget {
                 appStore: appStore, currentPage: currentPage, index: index),
             _LinkWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
-            _FeaturesListWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _FeaturesListWidget(item: currentItem),
             _LayerWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
             _NecessaryWidget(
@@ -320,41 +324,29 @@ class _LinkWidgetState extends State<_LinkWidget> {
 
 class _FeaturesListWidget extends StatelessWidget {
   const _FeaturesListWidget({
-    required this.appStore,
-    required this.currentPage,
-    required this.index,
+    required this.item,
   });
 
-  final AppStore appStore;
-  final int currentPage;
-  final int index;
+  // TODO: отрефачить всё на айтемы (и в вертикалках тоже)
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: appStore.suitStore.resultMap.entries
-              .elementAt(currentPage)
-              .value[index]
-              .features
-              .length,
+          itemCount: item.features.length,
           itemBuilder: (context, featureIndex) => featureIndex + 1 ==
-                  appStore.suitStore.resultMap.entries
-                      .elementAt(currentPage)
-                      .value[index]
-                      .features
-                      .length
-              ? AutoSizeText(
-                  '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-                  maxLines: 2,
+                  item.features.length
+              ? Column(
+                  children: [
+                    const Divider(thickness: 1),
+                    AutoSizeText('${item.features[featureIndex]}', maxLines: 2),
+                  ],
                 )
-              : AutoSizeText(
-                  '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-                  maxLines: 2,
-                ),
+              : AutoSizeText('● ${item.features[featureIndex]}', maxLines: 2),
         ),
       ),
     );
@@ -406,8 +398,7 @@ class _NecessaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child:
-          Text(
+      child: Text(
         index == 0 ? 'Рекомендуется' : 'По необходимости',
         style: TextStyle(color: index == 0 ? Colors.deepOrange : Colors.grey),
       ),
