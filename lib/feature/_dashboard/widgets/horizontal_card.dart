@@ -303,10 +303,12 @@ class _LinkWidgetState extends State<_LinkWidget> {
               ),
             ),
             child: RichText(
-              text: const TextSpan(
-                text: 'ПРИОБРЕСТИ',
-                style: TextStyle(
-                    color: Colors.deepOrange, fontWeight: FontWeight.bold),
+              text: TextSpan(
+                text: isChecked ? 'ПРИОБРЕТЕНО' : 'ПРИОБРЕСТИ',
+                style: const TextStyle(
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

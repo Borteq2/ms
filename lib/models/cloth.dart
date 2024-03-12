@@ -14,7 +14,7 @@ class Clothing extends _Cloth with _$Clothing {
     required String linkToStore,
     required List<String> features,
     required String image,
-    required int inSuitLayer,
+    required String inSuitLayer,
     required bool isNecessary,
     required bool isHasAlready,
   }) : super(
@@ -90,7 +90,7 @@ abstract class _Cloth with Store {
 
   @HiveField(4)
   @observable
-  int inSuitLayer;
+  String inSuitLayer;
 
   @HiveField(5)
   @observable

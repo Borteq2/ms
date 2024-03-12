@@ -41,7 +41,7 @@ Future<void> main() async {
 
       Hive.init(appDocumentDir.path);
 
-      final talker = Talker();
+      final Talker talker = Talker();
       final dio = Dio();
       dio.interceptors.add(TalkerDioLogger(
         talker: talker,
@@ -80,12 +80,14 @@ Future<void> main() async {
         ),
       );
 
-      kReleaseMode
-          ? await SentryFlutter.init((options) {
-              options.dsn = sentryKey;
-              options.tracesSampleRate = 1.0;
-            }, appRunner: () => runApp(const MyApp()))
-          : runApp(const MyApp());
+      // kReleaseMode
+      //     ? await SentryFlutter.init((options) {
+      //         options.dsn = sentryKey;
+      //         options.tracesSampleRate = 1.0;
+      //       }, appRunner: () => runApp(const MyApp()))
+      //     :
+      talker.debug('1');
+      runApp(const MyApp());
 
       // try {
       //   throw Exception('тест 2');
@@ -100,9 +102,9 @@ Future<void> main() async {
     (exception, stack) async {
       if (kReleaseMode) {
         await Sentry.captureException(exception, stackTrace: stack);
-        GetIt.I<Talker>().handle(exception, stack);
+        // GetIt.I<Talker>().handle(exception, stack);
       } else {
-        GetIt.I<Talker>().handle(exception, stack);
+        // GetIt.I<Talker>().handle(exception, stack);
       }
     },
   );

@@ -11,18 +11,30 @@ class Suit extends _Suit with _$Suit {
     required List<Clothing>? layer_1,
     required List<Clothing>? layer_2,
     required List<Clothing>? layer_3,
-    required List<Clothing>? layer_4,
-    required List<Clothing>? layer_4a,
-    required List<Clothing>? layer_5,
-    required List<Accessory> accessories,
+    required List<Clothing>? layer_4_top,
+    required List<Clothing>? layer_4_bot,
+    required List<Clothing>? layer_5_top,
+    required List<Clothing>? layer_5_bot,
+    required List<Clothing>? layer_6,
+    required List<Clothing>? layer_7,
+    required List<Clothing>? layer_8,
+    required List<Clothing>? layer_9,
+    required List<Accessory>? head,
+    required List<Accessory>? accessories,
   }) : super(
           name: name,
           layer_1: layer_1,
           layer_2: layer_2,
           layer_3: layer_3,
-          layer_4: layer_4,
-          layer_4a: layer_4a,
-          layer_5: layer_5,
+          layer_4_top: layer_4_top,
+          layer_4_bot: layer_4_bot,
+          layer_5_top: layer_5_top,
+          layer_5_bot: layer_5_bot,
+          layer_6: layer_6,
+          layer_7: layer_7,
+          layer_8: layer_8,
+          layer_9: layer_9,
+          head: head,
           accessories: accessories,
         );
 
@@ -37,9 +49,15 @@ abstract class _Suit with Store {
     required this.layer_1,
     required this.layer_2,
     required this.layer_3,
-    required this.layer_4,
-    required this.layer_4a,
-    required this.layer_5,
+    required this.layer_4_top,
+    required this.layer_4_bot,
+    required this.layer_5_top,
+    required this.layer_5_bot,
+    required this.layer_6,
+    required this.layer_7,
+    required this.layer_8,
+    required this.layer_9,
+    required this.head,
     required this.accessories,
   });
 
@@ -59,11 +77,32 @@ abstract class _Suit with Store {
   List<Clothing>? layer_4;
 
   @observable
-  List<Clothing>? layer_4a;
+  List<Clothing>? layer_4_top;
 
   @observable
-  List<Clothing>? layer_5;
+  List<Clothing>? layer_4_bot;
 
   @observable
-  List<Accessory> accessories;
+  List<Clothing>? layer_5_top;
+
+  @observable
+  List<Clothing>? layer_5_bot;
+
+  @observable
+  List<Clothing>? layer_6;
+
+  @observable
+  List<Clothing>? layer_7;
+
+  @observable
+  List<Clothing>? layer_8;
+
+  @observable
+  List<Clothing>? layer_9;
+
+  @observable
+  List<Accessory>? head;
+
+  @observable
+  List<Accessory>? accessories;
 }

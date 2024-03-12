@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/prebuilt/suits.dart';
@@ -28,10 +29,16 @@ abstract class _SuitStore with Store {
         'layer_1': suit.layer_1?.length ?? 0,
         'layer_2': suit.layer_2?.length ?? 0,
         'layer_3': suit.layer_3?.length ?? 0,
-        'layer_4': suit.layer_4?.length ?? 0,
-        'layer_4a': suit.layer_4a?.length ?? 0,
-        'layer_5': suit.layer_5?.length ?? 0,
-        'accessories': suit.accessories.length,
+        'layer_4_top': suit.layer_4?.length ?? 0,
+        'layer_4_bot': suit.layer_4_bot?.length ?? 0,
+        'layer_5_top': suit.layer_5_top?.length ?? 0,
+        'layer_5_bot': suit.layer_5_bot?.length ?? 0,
+        'layer_6': suit.layer_6?.length ?? 0,
+        'layer_7': suit.layer_7?.length ?? 0,
+        'layer_8': suit.layer_8?.length ?? 0,
+        'layer_9': suit.layer_9?.length ?? 0,
+        'head': suit.head?.length ?? 0,
+        'accessories': suit.accessories?.length ?? 0,
       };
 
   @computed
@@ -69,14 +76,22 @@ abstract class _SuitStore with Store {
     switch (appStore.currentWeatherStore.currentTemperatureType) {
       case TemperatureTypes.notSupported:
         suit = notSupportedSuit;
+      case TemperatureTypes.frostPunk:
+      // TODO: Handle this case.
       case TemperatureTypes.cold:
         suit = coldTempSuit;
+      case TemperatureTypes.belowZero:
+      // TODO: Handle this case.
+      case TemperatureTypes.aboveZero:
+      // TODO: Handle this case.
       case TemperatureTypes.low:
         suit = lowTempSuit;
       case TemperatureTypes.warm:
         suit = warmTempSuit;
       case TemperatureTypes.heat:
         suit = heatTempSuit;
+      case TemperatureTypes.melting:
+      // TODO: Handle this case.
     }
     talker.warning(suit.name);
   }
@@ -85,7 +100,6 @@ abstract class _SuitStore with Store {
 
   Map<String, dynamic> mapFromLayersWithItemsNames(
       Suit suit, List<String> layersWithItemsNames) {
-
     Map<String, dynamic> resultMap = {};
 
     for (String layerName in layersWithItemsNames) {
@@ -99,14 +113,32 @@ abstract class _SuitStore with Store {
         case 'layer_3':
           resultMap['3'] = suit.layer_3;
           break;
-        case 'layer_4':
-          resultMap['4'] = suit.layer_4;
+        case 'layer_4_top':
+          resultMap['4_top'] = suit.layer_4_top;
           break;
-        case 'layer_4a':
-          resultMap['4a'] = suit.layer_4a;
+        case 'layer_4_bot':
+          resultMap['4_bot'] = suit.layer_4_bot;
           break;
-        case 'layer_5':
-          resultMap['5'] = suit.layer_5;
+        case 'layer_5_top':
+          resultMap['5_top'] = suit.layer_5_top;
+          break;
+        case 'layer_5_bot':
+          resultMap['5_bot'] = suit.layer_5_bot;
+          break;
+        case 'layer_6':
+          resultMap['6'] = suit.layer_6;
+          break;
+        case 'layer_7':
+          resultMap['7'] = suit.layer_7;
+          break;
+        case 'layer_8':
+          resultMap['8'] = suit.layer_8;
+          break;
+        case 'layer_9':
+          resultMap['9'] = suit.layer_9;
+          break;
+        case 'head':
+          resultMap['head'] = suit.head;
           break;
         case 'accessories':
           resultMap['accessories'] = suit.accessories;

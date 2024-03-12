@@ -52,6 +52,9 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    talker.warning('Слоёв по вертикали: ${appStore.suitStore.layersWithItemsCount}');
+    print(appStore.suitStore.suit.head?.length);
+    print(appStore.suitStore.suit.accessories?.length);
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(

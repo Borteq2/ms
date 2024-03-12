@@ -10,10 +10,14 @@ part 'current_weather_store.g.dart';
 
 enum TemperatureTypes {
   notSupported,
+  frostPunk,
   cold,
+  belowZero,
+  aboveZero,
   low,
   warm,
   heat,
+  melting
 }
 
 class CurrentWeatherStore = _CurrentWeatherStore with _$CurrentWeatherStore;
@@ -69,24 +73,36 @@ abstract class _CurrentWeatherStore with Store {
 
   @computed
   TemperatureTypes get currentTemperatureType {
-    return temperature >= -15 && temperature < 0
-        ? TemperatureTypes.cold
-        : temperature >= 0 && temperature < 10
-            ? TemperatureTypes.low
-            : temperature >= 10 && temperature < 20
-                ? TemperatureTypes.warm
-                : temperature >= 25
-                    ? TemperatureTypes.heat
-                    : TemperatureTypes.notSupported;
+    return temperature >= -15 && temperature < -10
+        ? TemperatureTypes.frostPunk
+        : temperature >= -10 && temperature < -5
+            ? TemperatureTypes.cold
+            : temperature >= -5 && temperature < 0
+                ? TemperatureTypes.belowZero
+                : temperature >= 0 && temperature < 5
+                    ? TemperatureTypes.aboveZero
+                    : temperature >= 5 && temperature < 10
+                        ? TemperatureTypes.low
+                        : temperature >= 10 && temperature < 15
+                            ? TemperatureTypes.warm
+                            : temperature >= 15 && temperature < 20
+                                ? TemperatureTypes.heat
+                                : temperature > 20
+                                    ? TemperatureTypes.melting
+                                    : TemperatureTypes.notSupported;
   }
 
   @computed
   String get temperatureName => switch (currentTemperatureType) {
         TemperatureTypes.notSupported => 'Не поддерживается',
+        TemperatureTypes.frostPunk => 'Дубак',
         TemperatureTypes.cold => 'Холодно',
+        TemperatureTypes.belowZero => 'Чуть ниже нуля',
+        TemperatureTypes.aboveZero => 'Чуть выше нуля',
         TemperatureTypes.low => 'Прохладно',
         TemperatureTypes.warm => 'Тепло',
         TemperatureTypes.heat => 'Жарко',
+        TemperatureTypes.melting => 'Жарища',
       };
 
 // =============================================================================
