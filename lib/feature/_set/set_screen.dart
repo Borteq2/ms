@@ -52,9 +52,8 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    talker.warning('Слоёв по вертикали: ${appStore.suitStore.layersWithItemsCount}');
-    print(appStore.suitStore.suit.head?.length);
-    print(appStore.suitStore.suit.accessories?.length);
+    talker.warning('Текущая погода: ${appStore.currentWeatherStore.weather}');
+    talker.warning('Нужен ли дождевик снеговик: ${appStore.suitStore.isNeedToLayer6}');
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(

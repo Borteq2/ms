@@ -330,10 +330,19 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[0]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => AutoSizeText(
-            '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
-            maxLines: 1,
-          ),
+          itemBuilder: (context, featureIndex) => featureIndex + 1 ==
+                  appStore.suitStore.resultMap.entries
+                      .elementAt(index)
+                      .value[0]
+                      .features.length
+              ? AutoSizeText(
+                  '${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
+                  maxLines: 2,
+                )
+              : AutoSizeText(
+                  '● ${appStore.suitStore.resultMap.entries.elementAt(index).value[0].features[featureIndex]}',
+                  maxLines: 2,
+                ),
         ),
       ),
     );
@@ -361,7 +370,7 @@ class _LayerWidget extends StatelessWidget {
                   .inSuitLayer !=
               null
           ? AutoSizeText(
-              'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
+              '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
               maxLines: 1,
             )

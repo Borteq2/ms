@@ -24,6 +24,34 @@ abstract class _SuitStore with Store {
 
 // =============================================================================
 
+  // List<String> layer6Weathers = [
+  //   'snow',
+  //   'light snow',
+  //   'heavy snow',
+  //   'sleet',
+  //   'light shower sleet',
+  //   'shower sleet',
+  //   'light rain and snow',
+  //   'rain and snow',
+  //   'light shower snow',
+  //   'shower snow',
+  //   'heavy shower snow',
+  // ];
+  List<String> layer6Weathers = [
+    'Снег',
+    'Небольшой снег',
+    'Сильный снег',
+    'Слякоть',
+    'Дождь',
+    'Гроза',
+    'Шторм',
+  ];
+
+
+  @computed
+  bool get isNeedToLayer6 =>
+      layer6Weathers.contains(appStore.currentWeatherStore.weather);
+
   @computed
   Map<String, int?> get itemsCountByLayer => {
         'layer_1': suit.layer_1?.length ?? 0,
@@ -33,7 +61,7 @@ abstract class _SuitStore with Store {
         'layer_4_bot': suit.layer_4_bot?.length ?? 0,
         'layer_5_top': suit.layer_5_top?.length ?? 0,
         'layer_5_bot': suit.layer_5_bot?.length ?? 0,
-        'layer_6': suit.layer_6?.length ?? 0,
+        'layer_6': isNeedToLayer6 ? suit.layer_6?.length ?? 0 : 0,
         'layer_7': suit.layer_7?.length ?? 0,
         'layer_8': suit.layer_8?.length ?? 0,
         'layer_9': suit.layer_9?.length ?? 0,
@@ -77,13 +105,13 @@ abstract class _SuitStore with Store {
       case TemperatureTypes.notSupported:
         suit = notSupportedSuit;
       case TemperatureTypes.frostPunk:
-      // TODO: Handle this case.
+        suit = frostPunkTempSuit;
       case TemperatureTypes.cold:
         suit = coldTempSuit;
       case TemperatureTypes.belowZero:
-      // TODO: Handle this case.
+        suit = belowZeroTempSuit;
       case TemperatureTypes.aboveZero:
-      // TODO: Handle this case.
+        suit = aboveZeroTempSuit;
       case TemperatureTypes.low:
         suit = lowTempSuit;
       case TemperatureTypes.warm:
@@ -91,7 +119,7 @@ abstract class _SuitStore with Store {
       case TemperatureTypes.heat:
         suit = heatTempSuit;
       case TemperatureTypes.melting:
-      // TODO: Handle this case.
+        suit = meltingTempSuit;
     }
     talker.warning(suit.name);
   }

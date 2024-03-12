@@ -341,10 +341,20 @@ class _FeaturesListWidget extends StatelessWidget {
               .value[index]
               .features
               .length,
-          itemBuilder: (context, featureIndex) => AutoSizeText(
-            '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
-            maxLines: 1,
-          ),
+          itemBuilder: (context, featureIndex) => featureIndex + 1 ==
+                  appStore.suitStore.resultMap.entries
+                      .elementAt(currentPage)
+                      .value[index]
+                      .features
+                      .length
+              ? AutoSizeText(
+                  '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
+                  maxLines: 2,
+                )
+              : AutoSizeText(
+                  '● ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].features[featureIndex]}',
+                  maxLines: 2,
+                ),
         ),
       ),
     );
@@ -370,10 +380,11 @@ class _LayerWidget extends StatelessWidget {
                 .inSuitLayer !=
             null
         ? Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Слой: ${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: AutoSizeText(
+              '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
+              maxLines: 1,
             ),
           )
         : const SizedBox.shrink();
@@ -395,21 +406,10 @@ class _NecessaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: Text(
-        appStore.suitStore.resultMap.entries
-                .elementAt(currentPage)
-                .value[index]
-                .isNecessary
-            ? 'Рекомендуется'
-            : 'По необходимости',
-        style: TextStyle(
-          color: appStore.suitStore.resultMap.entries
-                  .elementAt(currentPage)
-                  .value[index]
-                  .isNecessary
-              ? Colors.deepOrange
-              : Colors.grey,
-        ),
+      child:
+          Text(
+        index == 0 ? 'Рекомендуется' : 'По необходимости',
+        style: TextStyle(color: index == 0 ? Colors.deepOrange : Colors.grey),
       ),
     );
   }

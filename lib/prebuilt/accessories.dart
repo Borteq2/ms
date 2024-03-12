@@ -3,7 +3,7 @@ import 'package:mordor_suit/models/_models.dart';
 // ============================ hats ===========================================
 
 Accessory nordHat = Accessory(
-  name: 'Шапка флисовая «Норд»',
+  name: 'Шапка флисовая "Норд"',
   linkToStore: 'https://mordor-tac.com/product/mordortac-fleece-hat-nord',
   features: [
     'Теплая шапка из флиса',
@@ -18,7 +18,7 @@ Accessory nordHat = Accessory(
 );
 
 Accessory windPanama = Accessory(
-  name: 'Панама «Ветер»',
+  name: 'Панама "Ветер"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-panama-veter',
   features: [
     'Летняя панама с дополнительной вентиляцией',
@@ -33,10 +33,10 @@ Accessory windPanama = Accessory(
 );
 
 Accessory peasantUnderhelmet = Accessory(
-  name: 'Шапка-подшлемник «Пизант»',
+  name: 'Шапка-подшлемник "Пизант"',
   linkToStore: 'https://mordor-tac.com/product/hat-liner-peasant',
   features: [
-    'Теплая шапка из «Вафли»',
+    'Теплая шапка из "Вафли"',
     'Отводит влагу от тела и согревает',
     'Идеально для использования под шлемом',
     'Состав: 98% полиэстер, 2% эластан',
@@ -48,29 +48,29 @@ Accessory peasantUnderhelmet = Accessory(
 );
 
 Accessory gasBaseball = Accessory(
-  name: 'Бейсболка «Гас»',
-  linkToStore: '',
+  name: 'Бейсболка "Гас"',
+  linkToStore: 'https://mordor-tac.com/product/mordor-tac-baseball-cap-gaz',
   features: [
     'Бейсболка из ткани плотного плетения',
     'Защищает от ветра и слабого дождя',
     'Велкро панели для патчей',
     'Состав: 50% хлопок, 50% полиамид',
   ],
-  image: '',
+  image: 'assets/images/gasBaseball.jpg',
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
 );
 
 Accessory neoBandana = Accessory(
-  name: 'Бандана «Нео»',
-  linkToStore: '',
+  name: 'Бандана "Нео"',
+  linkToStore: 'https://mordor-tac.com/product/mordortac-bandana-setka',
   features: [
     'Отводит влагу от тела',
     'Легкая бандана из эластичной ткани',
     'Состав: 97% полиэфир, 3% эластан',
   ],
-  image: '',
+  image: 'assets/images/neoBandana.jpg',
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
@@ -94,10 +94,10 @@ Accessory fjordBuff = Accessory(
 );
 
 Accessory dozorBuff = Accessory(
-  name: 'Демисезонный бафф «Дозор»',
+  name: 'Демисезонный бафф "Дозор"',
   linkToStore: 'https://mordor-tac.com/product/mordortacfleece-buff-dozor',
   features: [
-    'Теплая балаклава из «Вафли»',
+    'Теплая балаклава из "Вафли"',
     'Отводит влагу от тела и согревает',
     'Эластичная ткань',
     'Состав: 98% полиэстер, 2% эластан',
@@ -109,7 +109,7 @@ Accessory dozorBuff = Accessory(
 );
 
 Accessory raiderBuff = Accessory(
-  name: 'Бафф «Рейдер»',
+  name: 'Бафф "Рейдер"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-buff-raider',
   features: [
     'Отводит влагу от тела',
@@ -141,10 +141,10 @@ Accessory vaderBalaclava = Accessory(
 );
 
 Accessory koifBalavlava = Accessory(
-  name: 'Балаклава «Койф»',
+  name: 'Балаклава "Койф"',
   linkToStore: 'https://mordor-tac.com/product/MordorTac-winter-balaclava-coif',
   features: [
-    'Теплая балаклава из «Вафли»',
+    'Теплая балаклава из "Вафли"',
     'Отводит влагу от тела и согревает',
     'Эластичная ткань',
     'Состав: 98% полиэстер, 2% эластан',
@@ -156,7 +156,7 @@ Accessory koifBalavlava = Accessory(
 );
 
 Accessory ninjaBalaclava = Accessory(
-  name: 'Балаклава «Ниндзя»',
+  name: 'Балаклава "Ниндзя"',
   linkToStore: 'https://mordor-tac.com/product/mordor-tac-balaclava-ninja',
   features: [
     'Отводит влагу от тела',
@@ -172,15 +172,15 @@ Accessory ninjaBalaclava = Accessory(
 // ============================ gloves =========================================
 
 Accessory dlanGloves = Accessory(
-  name: 'Флисовые перчатки «Длань»',
-  linkToStore: '',
+  name: 'Флисовые перчатки "Длань"',
+  linkToStore: 'https://mordor-tac.com/product/fleece-gloves-dlan',
   features: [
     'Теплые перчатки из флиса',
     'Отводят влагу от тела и согревают',
     'Быстро сохнут при намокании',
     'Состав: 100% полиэстер',
   ],
-  image: '',
+  image: 'assets/images/dlanGloves.jpg',
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
