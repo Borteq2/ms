@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
@@ -272,37 +274,116 @@ class _LinkWidgetState extends State<_LinkWidget> {
                   ),
                 ),
                 actions: <Widget>[
-                  Row(
+                  Column(
                     children: [
-                      TextButton(
-                        onPressed: () async {
-                          isClothing
-                              ? isChecked
-                                  ? await appStore.clothingMemoryStore
-                                      .removeClothingFromBox(
-                                          currentItemVertical)
-                                  : await appStore.clothingMemoryStore
-                                      .setClothingToBox(currentItemVertical)
-                              : isChecked
-                                  ? await appStore.clothingMemoryStore
-                                      .removeAccessoryFromBox(
-                                          currentItemVertical)
-                                  : appStore.clothingMemoryStore
-                                      .setAccessoryToBox(currentItemVertical);
-                          setState(() {});
-                          Navigator.pop(context);
-                        },
-                        child: Text(isChecked ? 'Продал' : 'Уже есть'),
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              isClothing
+                                  ? isChecked
+                                      ? await appStore.clothingMemoryStore
+                                          .removeClothingFromBox(
+                                              currentItemVertical)
+                                      : await appStore.clothingMemoryStore
+                                          .setClothingToBox(currentItemVertical)
+                                  : isChecked
+                                      ? await appStore.clothingMemoryStore
+                                          .removeAccessoryFromBox(
+                                              currentItemVertical)
+                                      : appStore.clothingMemoryStore
+                                          .setAccessoryToBox(
+                                              currentItemVertical);
+                              setState(() {});
+                              Navigator.pop(context);
+                            },
+                            child: Text(isChecked ? 'Продал' : 'Уже есть'),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Отмена'),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          // Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.black.withOpacity(0.9),
+                                surfaceTintColor: Colors.black,
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  const _SizeSolutionWidget(
+                                                sizerType: 'Грудь',
+                                              ),
+                                            );
+                                          },
+                                          child:
+                                              const Text('По замерам груди')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  const _SizeSolutionWidget(
+                                                sizerType: 'Талия',
+                                              ),
+                                            );
+                                          },
+                                          child:
+                                              const Text('По размерам талии')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  const _SizeSolutionWidget(
+                                                sizerType: 'Брюки',
+                                              ),
+                                            );
+                                          },
+                                          child: const Text(
+                                              'По размеру брюк/джинс')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  const _SizeSolutionWidget(
+                                                sizerType: 'Рост',
+                                              ),
+                                            );
+                                          },
+                                          child: const Text('По росту')),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
-                        child: const Text('Отмена'),
+                        child: const Text('Как выбрать размер/рост?'),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
@@ -322,6 +403,150 @@ class _LinkWidgetState extends State<_LinkWidget> {
   }
 }
 
+class _SizeSolutionWidget extends StatefulWidget {
+  const _SizeSolutionWidget({
+    required this.sizerType,
+  });
+
+  final String sizerType;
+
+  @override
+  State<_SizeSolutionWidget> createState() => _SizeSolutionWidgetState();
+}
+
+class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
+  final TextEditingController _controller = TextEditingController();
+  String size = '';
+
+  String _calculateSize(String size) {
+    double? result = double.tryParse(size.replaceAll(',', '.'));
+    return result == null
+        ? 'размер не распознан'
+        : widget.sizerType == 'Грудь'
+            ? result >= 78 && result <= 85
+                ? 'размер: 40-42'
+                : result >= 86 && result <= 93
+                    ? 'размер: 44-46'
+                    : result >= 94 && result <= 101
+                        ? 'размер: 48-50'
+                        : result >= 102 && result <= 109
+                            ? 'размер: 52-54'
+                            : result >= 110 && result <= 117
+                                ? 'размер: 56-58'
+                                : result >= 118 && result <= 125
+                                    ? 'размер: 60-62'
+                                    : result >= 126 && result <= 133
+                                        ? 'размер: 64-66'
+                                        : 'размер: не поддерживается'
+            : widget.sizerType == 'Талия'
+                ? result >= 66 && result <= 73
+                    ? 'размер: 40-42'
+                    : result >= 74 && result <= 81
+                        ? 'размер: 44-46'
+                        : result >= 82 && result <= 89
+                            ? 'размер: 48-50'
+                            : result >= 90 && result <= 97
+                                ? 'размер: 52-54'
+                                : result >= 98 && result <= 105
+                                    ? 'размер: 56-58'
+                                    : result >= 106 && result <= 113
+                                        ? 'размер: 60-62'
+                                        : result >= 114 && result <= 121
+                                            ? 'размер: 64-66'
+                                            : 'размер: не поддерживается'
+                : widget.sizerType == 'Брюки'
+                    ? result >= 26 && result <= 29
+                        ? 'размер: 40-42'
+                        : result >= 30 && result <= 31
+                            ? 'размер: 44-46'
+                            : result >= 32 && result <= 34
+                                ? 'размер: 48-50'
+                                : result >= 35 && result <= 38
+                                    ? 'размер: 52-54'
+                                    : result >= 39 && result <= 42
+                                        ? 'размер: 56-58'
+                                        : result >= 44 && result <= 48
+                                            ? 'размер: 60-62'
+                                            : result >= 49 && result <= 51
+                                                ? 'размер: 64-66'
+                                                : 'размер: не поддерживается'
+                    : widget.sizerType == 'Рост'
+                        ? result >= 155 && result <= 169
+                            ? 'рост: 1-2'
+                            : result >= 170 && result <= 179
+                                ? 'рост: 3-4'
+                                : result >= 180 && result <= 195
+                                    ? 'рост: 5-7'
+                                    : 'рост не поддерживается'
+                        : throw Exception('Ошибка');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.black.withOpacity(0.9),
+      surfaceTintColor: Colors.black,
+      title: Text(
+        widget.sizerType == 'Грудь'
+            ? 'Замер груди'
+            : widget.sizerType == 'Талия'
+                ? 'Замер талии'
+                : widget.sizerType == 'Брюки'
+                    ? 'Размер брюк/джинс'
+                    : 'Подобрать по росту',
+        style: const TextStyle(color: Colors.deepOrange),
+        textAlign: TextAlign.center,
+      ),
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: Column(
+          children: [
+            Placeholder(
+              fallbackHeight: MediaQuery.of(context).size.height * 0.3,
+              fallbackWidth: MediaQuery.of(context).size.width * 0.5,
+            ),
+            TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              onSubmitted: (String value) => setState(() {
+                size = _calculateSize(value);
+              }),
+              decoration: const InputDecoration(
+                hintText: 'сантиметров',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            const Spacer(),
+            Text(
+              size.isEmpty ? '' : 'Ваш $size',
+              style: const TextStyle(color: Colors.white),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    onPressed: () => setState(() {
+                          size = _calculateSize(_controller.text);
+                        }),
+                    // Navigator.pop(context);
+
+                    child: const Text('Рассчитать\nразмер')),
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Вернуться\nк магазинам')),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _FeaturesListWidget extends StatelessWidget {
   const _FeaturesListWidget({
     required this.item,
@@ -334,7 +559,7 @@ class _FeaturesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: item.features.length,
@@ -372,7 +597,7 @@ class _LayerWidget extends StatelessWidget {
                 .inSuitLayer !=
             null
         ? Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: AutoSizeText(
               '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
               style: const TextStyle(fontSize: 20),
@@ -399,7 +624,7 @@ class _NecessaryWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Text(
-        index == 0 ? 'Рекомендуется' : 'По необходимости',
+        index == 0 ? 'Рекомендуется' : 'Альтернатива',
         style: TextStyle(color: index == 0 ? Colors.deepOrange : Colors.grey),
       ),
     );

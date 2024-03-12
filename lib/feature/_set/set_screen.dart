@@ -52,8 +52,6 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    talker.warning('Текущая погода: ${appStore.currentWeatherStore.weather}');
-    talker.warning('Нужен ли дождевик снеговик: ${appStore.suitStore.isNeedToLayer6}');
     return Observer(
       builder: (_) => Scaffold(
         appBar: AppBar(
@@ -160,30 +158,6 @@ class _SetScreenState extends State<SetScreen> {
             ),
           ],
         ),
-        floatingActionButton:
-            appStore.currentWeatherStore.city.toString().isEmpty ||
-                    appStore.suitStore.layersWithItemsCount > 0
-                ? const SizedBox.shrink()
-                : Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      ),
-                    ),
-                    child: FloatingActionButton(
-                      onPressed: () =>
-                          appStore.suitStore.setSuitByTemperatureType(),
-                      tooltip: 'Как экипироваться по погоде?',
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(
-                        'assets/images/favicon.svg',
-                        width: 60,
-                        height: 60,
-                      ),
-                    ),
-                  ),
         // floatingActionButtonLocation: appStore.fabLocation,
         // bottomNavigationBar:
         //     appStore.currentWeatherStore.city.toString().isEmpty

@@ -35,8 +35,7 @@ class VerticalCardWidget extends StatelessWidget {
             _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
                 appStore: appStore, index: index, currentPage: currentPage),
-            _NecessaryWidget(
-                appStore: appStore, index: index, currentPage: currentPage),
+            _NecessaryWidget(),
           ],
         ),
       ),
@@ -322,7 +321,7 @@ class _FeaturesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: appStore.suitStore.resultMap.entries
@@ -369,7 +368,7 @@ class _LayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: AutoSizeText(
           '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
           maxLines: 2,
@@ -379,35 +378,13 @@ class _LayerWidget extends StatelessWidget {
 }
 
 class _NecessaryWidget extends StatelessWidget {
-  const _NecessaryWidget({
-    required this.appStore,
-    required this.index,
-    required this.currentPage,
-  });
-
-  final AppStore appStore;
-  final int index;
-  final int currentPage;
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 16),
       child: Text(
-        appStore.suitStore.resultMap.entries
-                .elementAt(index)
-                .value[0]
-                .isNecessary
-            ? 'Рекомендуется'
-            : 'По необходимости',
-        style: TextStyle(
-          color: appStore.suitStore.resultMap.entries
-                  .elementAt(currentPage)
-                  .value[0]
-                  .isNecessary
-              ? Colors.deepOrange
-              : Colors.grey,
-        ),
+        'Рекомендуется',
+        style: TextStyle(color: Colors.deepOrange),
       ),
     );
   }
