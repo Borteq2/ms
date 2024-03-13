@@ -123,7 +123,6 @@ class _LinkWidgetState extends State<_LinkWidget> {
     super.initState();
   }
 
-
   void openLink(BuildContext context, LinkType linkType) async {
     switch (linkType) {
       case LinkType.mordor:
@@ -198,54 +197,60 @@ class _LinkWidgetState extends State<_LinkWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          openLink(context, LinkType.mordor);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/images/favicon.svg',
-                              width: 40,
-                              height: 40,
-                            ),
-                            const SizedBox(width: 20),
-                            const Text('Фирменный магазин'),
-                          ],
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          openLink(context, LinkType.wb);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/images/wb.svg',
-                              width: 40,
-                              height: 40,
-                            ),
-                            const SizedBox(width: 20),
-                            const Text('Wildberries'),
-                          ],
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          openLink(context, LinkType.ozon);
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/ozon.png',
-                              width: 40,
-                              height: 40,
-                            ),
-                            const SizedBox(width: 20),
-                            const Text('Ozon'),
-                          ],
-                        ),
-                      ),
+                      widget.item.linkToStore != null
+                          ? TextButton(
+                              onPressed: () {
+                                openLink(context, LinkType.mordor);
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/images/favicon.svg',
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  const Text('Фирменный магазин'),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      widget.item.linkToWb != null
+                          ? TextButton(
+                              onPressed: () {
+                                openLink(context, LinkType.wb);
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/images/wb.svg',
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  const Text('Wildberries'),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      widget.item.linkToOzon != null
+                          ? TextButton(
+                              onPressed: () {
+                                openLink(context, LinkType.ozon);
+                              },
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/ozon.png',
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  const Text('Ozon'),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       TextButton(
                         onPressed: () async {
                           Map<String, Object> reportMap = {
@@ -399,7 +404,6 @@ class _LinkWidgetState extends State<_LinkWidget> {
       ),
     );
   }
-
 }
 
 class _SizeSolutionWidget extends StatefulWidget {

@@ -188,7 +188,8 @@ class _LinkWidgetState extends State<_LinkWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextButton(
+                      widget.item.linkToStore != null
+                          ? TextButton(
                         onPressed: () {
                           openLink(context, LinkType.mordor);
                         },
@@ -203,8 +204,10 @@ class _LinkWidgetState extends State<_LinkWidget> {
                             const Text('Фирменный магазин'),
                           ],
                         ),
-                      ),
-                      TextButton(
+                      )
+                          : const SizedBox.shrink(),
+                      widget.item.linkToWb != null
+                          ? TextButton(
                         onPressed: () {
                           openLink(context, LinkType.wb);
                         },
@@ -219,8 +222,10 @@ class _LinkWidgetState extends State<_LinkWidget> {
                             const Text('Wildberries'),
                           ],
                         ),
-                      ),
-                      TextButton(
+                      )
+                          : const SizedBox.shrink(),
+                      widget.item.linkToOzon != null
+                          ? TextButton(
                         onPressed: () {
                           openLink(context, LinkType.ozon);
                         },
@@ -235,7 +240,8 @@ class _LinkWidgetState extends State<_LinkWidget> {
                             const Text('Ozon'),
                           ],
                         ),
-                      ),
+                      )
+                          : const SizedBox.shrink(),
                       TextButton(
                         onPressed: () async {
                           Map<String, Object> reportMap = {
