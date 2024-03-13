@@ -1,9 +1,11 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/feature/library/enums.dart';
 import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -112,6 +114,44 @@ class _LinkWidgetState extends State<_LinkWidget> {
     super.initState();
   }
 
+  void openLink(BuildContext context, LinkType linkType) async {
+    switch (linkType) {
+      case LinkType.mordor:
+        Map<String, Object> reportMap = {
+          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
+        };
+        AppMetrica.reportEventWithMap('Переход на сайт Мордор', reportMap);
+        Navigator.of(context).pop();
+        launchUrl(
+          Uri.parse(
+            widget.item.linkToStore,
+          ),
+        );
+      case LinkType.wb:
+        Map<String, Object> reportMap = {
+          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
+        };
+        AppMetrica.reportEventWithMap('Переход на Wildberries', reportMap);
+        Navigator.of(context).pop();
+        launchUrl(
+          Uri.parse(
+            widget.item.linkToWb,
+          ),
+        );
+      case LinkType.ozon:
+        Map<String, Object> reportMap = {
+          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
+        };
+        AppMetrica.reportEventWithMap('Переход на Ozon', reportMap);
+        Navigator.of(context).pop();
+        launchUrl(
+          Uri.parse(
+            widget.item.linkToOzon,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
@@ -150,12 +190,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          launchUrl(
-                            Uri.parse(
-                              widget.item.linkToStore,
-                            ),
-                          );
+                          openLink(context, LinkType.mordor);
                         },
                         child: Row(
                           children: [
@@ -171,13 +206,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Нет ссылки'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
+                          openLink(context, LinkType.wb);
                         },
                         child: Row(
                           children: [
@@ -193,13 +222,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Нет ссылки'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
+                          openLink(context, LinkType.ozon);
                         },
                         child: Row(
                           children: [
@@ -215,13 +238,15 @@ class _LinkWidgetState extends State<_LinkWidget> {
                       ),
                       TextButton(
                         onPressed: () async {
+                          Map<String, Object> reportMap = {
+                            'переход':
+                                '${widget.item.name} -> Маршрут навигатора в шоурум'
+                          };
+                          AppMetrica.reportEventWithMap(
+                              'Построение маршрута в шоурум', reportMap);
+                          Navigator.of(context).pop();
                           await launchUrl(
                             Uri.parse(
-                              // 'https://yandex.by/maps/'
-                              //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
-                              //     '&mode=routes'
-                              //     '&rtext=55.665346%2C37.641111'
-
                               'https://yandex.ru/maps/'
                               '?ll=${widget.appStore.localWeatherStore.currentPosition.latitude}'
                               '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}'
@@ -229,7 +254,6 @@ class _LinkWidgetState extends State<_LinkWidget> {
                               '&rtext=${widget.appStore.localWeatherStore.currentPosition.latitude}'
                               '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
                             ),
-                            // mode: LaunchMode.inAppBrowserView,
                           );
                         },
                         child: const Row(
