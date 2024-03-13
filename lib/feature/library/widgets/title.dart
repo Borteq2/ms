@@ -1,22 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/store/_stores.dart';
-
-// enum WeatherTypes {
-//   clear,
-//   clouds,
-//   rain,
-//   snow,
-//   thunderstorm,
-//   mist,
-//   haze,
-//   sleet,
-//   freezingRain,
-//   dust,
-//   sand,
-//   ash,
-//   volcanicAsh,
-// }
 
 class TitleWidget extends StatelessWidget {
   const TitleWidget({
@@ -28,22 +14,31 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+
+
+    return Observer(
+      builder: (_) => !appStore.localWeatherStore.isHasError
+          ? Column(
               children: [
-                WeatherDetailWidget(appStore: appStore),
-                TitleCityNameWidget(appStore: appStore),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        WeatherDetailWidget(appStore: appStore),
+                        TitleCityNameWidget(appStore: appStore),
+                      ],
+                    ),
+                    TitleIconWidget(appStore: appStore),
+                    TitleTemperatureWidget(appStore: appStore),
+                  ],
+                ),
               ],
+            )
+          : AutoSizeText(
+              appStore.localWeatherStore.city,
+              maxLines: 1,
             ),
-            TitleIconWidget(appStore: appStore),
-            TitleTemperatureWidget(appStore: appStore),
-          ],
-        ),
-      ],
     );
   }
 }

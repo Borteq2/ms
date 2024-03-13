@@ -54,6 +54,9 @@ abstract class _LocalWeatherStore with Store {
   String get city => localWeatherDataMap['name'];
 
   @computed
+  bool get isHasError => city == 'Не могу определить местоположение';
+
+  @computed
   bool get isWeatherLoaded => city != '';
 
   @computed

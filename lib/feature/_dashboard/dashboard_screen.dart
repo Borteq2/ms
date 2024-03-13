@@ -31,13 +31,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         permissions[Permission.storage] == PermissionStatus.granted) {
       await appStore.timestampStore.checkTimestampWithRefresh();
 
-      appStore.timestampStore.isNeedLoadData
-          ? await appStore.weatherPresetsStore.fetchCityWeatherData()
-          : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+
       await appStore.localWeatherStore.getLocationAndWeatherData();
     } else {
       talker.critical('Не удалось получить все необходимые разрешения');
+      appStore.localWeatherStore.localWeatherDataMap = {'name': 'Не могу определить местоположение'};
     }
+    appStore.timestampStore.isNeedLoadData
+        ? await appStore.weatherPresetsStore.fetchCityWeatherData()
+        : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
   }
 
   @override
