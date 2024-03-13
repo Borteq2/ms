@@ -371,7 +371,7 @@ class _LayerWidget extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: AutoSizeText(
           '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[0].inSuitLayer}',
-          maxLines: 2,
+          maxLines: 1,
           style: const TextStyle(fontSize: 20),
         ));
   }

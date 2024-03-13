@@ -24,19 +24,6 @@ abstract class _SuitStore with Store {
 
 // =============================================================================
 
-  // List<String> layer6Weathers = [
-  //   'snow',
-  //   'light snow',
-  //   'heavy snow',
-  //   'sleet',
-  //   'light shower sleet',
-  //   'shower sleet',
-  //   'light rain and snow',
-  //   'rain and snow',
-  //   'light shower snow',
-  //   'shower snow',
-  //   'heavy shower snow',
-  // ];
   List<String> layer6Weathers = [
     'Снег',
     'Небольшой снег',
@@ -57,7 +44,7 @@ abstract class _SuitStore with Store {
         'layer_1': suit.layer_1?.length ?? 0,
         'layer_2': suit.layer_2?.length ?? 0,
         'layer_3': suit.layer_3?.length ?? 0,
-        'layer_4_top': suit.layer_4?.length ?? 0,
+        'layer_4_top': suit.layer_4_top?.length ?? 0,
         'layer_4_bot': suit.layer_4_bot?.length ?? 0,
         'layer_5_top': suit.layer_5_top?.length ?? 0,
         'layer_5_bot': suit.layer_5_bot?.length ?? 0,

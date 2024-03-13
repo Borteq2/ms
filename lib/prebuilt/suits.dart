@@ -259,7 +259,7 @@ Suit meltingTempSuit = Suit(
   layer_4_top: [
     saratovJacket..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
     instructorShirt..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
-    soloLongsleave..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
+    soloLongsleave..inSuitLayer = Layer.mapNumberToName(4, 'верх')
   ],
   layer_4_bot: [saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ')],
   layer_5_top: null,
@@ -271,7 +271,7 @@ Suit meltingTempSuit = Suit(
   head: [
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null),
     windPanama..inSuitLayer = Layer.mapNumberToName(10, null),
-    neoBandana..inSuitLayer = Layer.mapNumberToName(10, null)
+    neoBandana..inSuitLayer = Layer.mapNumberToName(10, null),
   ],
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
