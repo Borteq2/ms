@@ -9,6 +9,8 @@ Clothing noClothing = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb: null,
+  linkToOzon: null,
 );
 
 // =========================== underwear =======================================
@@ -26,12 +28,16 @@ Clothing python = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158417838/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/komplekt-termobelya-mordor-tac-815934423/',
 );
 
 Clothing varan = Clothing(
   name: 'Термобелье утепляющее "Варан"',
   linkToStore:
-  'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
+      'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
   features: [
     'Базовый утепляющий слой',
     'Отводит влагу от тела и сохраняет тепло',
@@ -42,6 +48,10 @@ Clothing varan = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158745592/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/komplekt-termobelya-mordor-tac-840581188/',
 );
 
 // ============================ shirts =========================================
@@ -59,6 +69,10 @@ Clothing instructorShirt = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/196657428/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/futbolka-mordor-tac-1-sht-1342984776/',
 );
 
 Clothing soloLongsleave = Clothing(
@@ -74,6 +88,9 @@ Clothing soloLongsleave = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158362200/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/longsliv-mordor-tac-805917493/',
 );
 
 // =========================== jackets =========================================
@@ -91,6 +108,10 @@ Clothing cheburashka = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/168935555/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/kurtka-flisovaya-cheburashka-1077579966/',
 );
 
 Clothing uralHoodie = Clothing(
@@ -106,6 +127,9 @@ Clothing uralHoodie = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155808472/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/tolstovka-ural-525947655/',
 );
 
 Clothing saratovJacket = Clothing(
@@ -121,12 +145,16 @@ Clothing saratovJacket = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155800365/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/boevaya-rubashka-saratov-nyco-oliva-od-52-54-170-176-525942483/',
 );
 
 Clothing wolfJacket = Clothing(
   name: 'Демисезонная боевая куртка "Волк"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
+      'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
   features: [
     'Универсальный демисезонный слой',
     'Высокопрочное изделие с базовой ветро-влаго защитой',
@@ -137,6 +165,10 @@ Clothing wolfJacket = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158369720/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/demisezonnaya-boevaya-kurtka-volk-912528762/',
 );
 
 // ============================ pants ==========================================
@@ -155,12 +187,16 @@ Clothing saratovTrousers = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155806730/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/letnie-bryuki-saratov-multikam-44-46-158-164-570619576/',
 );
 
 Clothing wolfTrousers = Clothing(
   name: 'Демисезонная боевые брюки "Волк"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
+      'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
   features: [
     'Универсальный демисезонный слой',
     'Высокопрочное изделие с базовой ветро-влаго защитой',
@@ -171,6 +207,10 @@ Clothing wolfTrousers = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155825955/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/demisezonnye-bryuki-volk-tsifrovaya-flora-emr-48-50-170-176-881358356/',
 );
 
 Clothing citizenTrousers = Clothing(
@@ -186,6 +226,9 @@ Clothing citizenTrousers = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/211641589/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/bryuki-mordor-tac-1431703088/',
 );
 
 Clothing uralTrousers = Clothing(
@@ -201,12 +244,15 @@ Clothing uralTrousers = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158751459/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/bryuki-uteplennye-mordor-tac-1365215909/',
 );
 
 Clothing freelancerShorts = Clothing(
   name: 'Шорты "Фрилансер"',
-  linkToStore:
-  'https://mordor-tac.com/product/mordor-tac-shorts-freelancer',
+  linkToStore: 'https://mordor-tac.com/product/mordor-tac-shorts-freelancer',
   features: [
     'Легкие шорты из сорочечной ткани',
     'Дышащая ткань, быстро сохнут',
@@ -217,6 +263,8 @@ Clothing freelancerShorts = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb: null,
+  linkToOzon: null,
 );
 
 // =========================== cloaks ==========================================
@@ -234,6 +282,9 @@ Clothing inokMembranPoncho = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/182817009/detail.aspx?targetUrl=GP',
+  linkToOzon: null,
 );
 
 Clothing snowmanMaskSuit = Clothing(
@@ -248,11 +299,16 @@ Clothing snowmanMaskSuit = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/193026658/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/zimniy-maskirovochnyy-kostyum-snegovik-1319273526/',
 );
 
 Clothing sugrobBackpackCover = Clothing(
   name: 'Чехол для рюкзака «Сугроб»',
-  linkToStore: 'https://mordor-tac.com/product/winter-camouflage-backpack-cover-sugrob',
+  linkToStore:
+      'https://mordor-tac.com/product/winter-camouflage-backpack-cover-sugrob',
   features: [
     'Ткань не замерзает и не шуршит',
     'Чехол для рюкзака объемом до 45 литров',
@@ -262,11 +318,16 @@ Clothing sugrobBackpackCover = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/193026409/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/zimniy-maskirovochnyy-chehol-dlya-ryukzaka-sugrob-1319278211/',
 );
 
 Clothing snowballHelmetCover = Clothing(
   name: 'Чехол для шлема «Снежок»',
-  linkToStore: 'https://mordor-tac.com/product/winter-camouflage-helmet-cover-snezhok',
+  linkToStore:
+      'https://mordor-tac.com/product/winter-camouflage-helmet-cover-snezhok',
   features: [
     'Ткань не замерзает и не шуршит',
     'Подходит для любого шлема',
@@ -276,6 +337,10 @@ Clothing snowballHelmetCover = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/193027092/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/search/?deny_category_prediction=true&from_global=true&text=%D0%A7%D0%B5%D1%85%D0%BE%D0%BB+%D0%B4%D0%BB%D1%8F+%D1%88%D0%BB%D0%B5%D0%BC%D0%B0&product_id=1319279775',
 );
 
 Clothing frakSniperCloak = Clothing(
@@ -290,6 +355,10 @@ Clothing frakSniperCloak = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/168937316/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/maskirovochnaya-setka-snayperskaya-nakidka-frak-bolshaya-1077841166/',
 );
 
 Clothing evokSniperCloak = Clothing(
@@ -304,11 +373,16 @@ Clothing evokSniperCloak = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158416721/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/snayperskaya-nakidka-evok-multikam-644371393/',
 );
 
 Clothing pokrovSniperScarf = Clothing(
   name: 'Снайперский шарф «Покров»',
-  linkToStore: 'https://mordor-tac.com/product/universal-camouflage-cape-pokrov',
+  linkToStore:
+      'https://mordor-tac.com/product/universal-camouflage-cape-pokrov',
   features: [
     'Сетчатый шарф маскировочных цветов',
     'Отлично вентилируется и маскирует голову пользователя',
@@ -318,11 +392,16 @@ Clothing pokrovSniperScarf = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/166278525/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/snayperskiy-sharf-pokrov-1046129997/',
 );
 
 Clothing scoutMaskCover = Clothing(
   name: 'Маскировочный чехол «Следопыт»',
-  linkToStore: 'https://mordor-tac.com/product/universal-masking-cover-sledopit',
+  linkToStore:
+      'https://mordor-tac.com/product/universal-masking-cover-sledopit',
   features: [
     'Маскировочный чехол с сеточной основой и нашитыми листьями',
     'Подходит для любого шлема',
@@ -332,11 +411,16 @@ Clothing scoutMaskCover = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/156779023/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/universalnyy-maskirovochnyy-chehol-sledopyt-890941990/',
 );
 
 Clothing vorohMaskCover = Clothing(
   name: 'Маскировочный чехол «Ворох»',
-  linkToStore: 'https://mordor-tac.com/product/camouflage-cover-for-backpack-voroh',
+  linkToStore:
+      'https://mordor-tac.com/product/camouflage-cover-for-backpack-voroh',
   features: [
     'Маскировочный чехол с сеточной основой и нашитыми листьями',
     'Маскирует рюкзаки объемом до 45 литров',
@@ -346,6 +430,10 @@ Clothing vorohMaskCover = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/167633684/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/maskirovochnyy-chehol-na-ryukzak-voroh-1061274037/',
 );
 
 // ============================ sets ===========================================
@@ -353,7 +441,7 @@ Clothing vorohMaskCover = Clothing(
 Clothing scoutMaskingSet = Clothing(
   name: 'Маскировочный костюм "Скаут"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
+      'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
   features: [
     'Отлично скрывает силуэт человека в растительности',
     'Произведен из легкой, быстросохнущей ткани не сковывающей движение',
@@ -363,12 +451,15 @@ Clothing scoutMaskingSet = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155822956/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/maskirovochnyy-kostyum-skaut-tsifrovaya-flora-emr-56-58-170-176-525941884/',
 );
 
 Clothing gopTacSet = Clothing(
   name: 'Костюм "Гоп Так"',
-  linkToStore:
-  'https://mordor-tac.com/product/mordortac-gop-tac-suit',
+  linkToStore: 'https://mordor-tac.com/product/mordortac-gop-tac-suit',
   features: [
     'Тактический костюм из легкой сорочечной ткани',
     'Отлично подходит для страйкбольных мероприятий и поведневной носки',
@@ -378,6 +469,10 @@ Clothing gopTacSet = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155870976/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/takticheskiy-kostyum-gop-tak-koyot-braun-52-54-182-188-1454472922/',
 );
 
 // ============================ hats ===========================================
@@ -395,6 +490,9 @@ Clothing nordHat = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158979278/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/shapka-mordor-tac-1398026284/',
 );
 
 Clothing windPanama = Clothing(
@@ -410,6 +508,9 @@ Clothing windPanama = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158936608/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/panama-mordor-tac-672733401/',
 );
 
 Clothing peasantUnderhelmet = Clothing(
@@ -425,6 +526,8 @@ Clothing peasantUnderhelmet = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb: null,
+  linkToOzon: null,
 );
 
 Clothing gasBaseball = Clothing(
@@ -440,6 +543,10 @@ Clothing gasBaseball = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/216739051/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/search/?deny_category_prediction=true&from_global=true&text=%D0%91%D0%B5%D0%B9%D1%81%D0%B1%D0%BE%D0%BB%D0%BA%D0%B0&product_id=531320546',
 );
 
 Clothing neoBandana = Clothing(
@@ -454,6 +561,10 @@ Clothing neoBandana = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/164798283/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/bandana-dlya-rybalki-i-ohoty-mordor-tac-1025347862/',
 );
 
 // ============================ buff ===========================================
@@ -471,6 +582,10 @@ Clothing fjordBuff = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/174983822/detail.aspx?targetUrl=GP',
+  linkToOzon:
+      'https://www.ozon.ru/product/zimniy-flisovyy-baff-ford-1400485314/',
 );
 
 Clothing dozorBuff = Clothing(
@@ -486,6 +601,9 @@ Clothing dozorBuff = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158930168/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/baff-demisezonnyy-dozor-840555470/',
 );
 
 Clothing raiderBuff = Clothing(
@@ -500,6 +618,9 @@ Clothing raiderBuff = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158344515/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/baff-reyder-chernyy-629291353/',
 );
 
 // ========================= balaclavas ========================================
@@ -507,7 +628,7 @@ Clothing raiderBuff = Clothing(
 Clothing vaderBalaclava = Clothing(
   name: 'Зимняя флисовая балаклава "Вейдер"',
   linkToStore:
-  'https://mordor-tac.com/product/mordortac-winter-balaclava-vader',
+      'https://mordor-tac.com/product/mordortac-winter-balaclava-vader',
   features: [
     'Теплая балаклава из флиса',
     'Отводит влагу от тела и согревает',
@@ -518,6 +639,9 @@ Clothing vaderBalaclava = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/200696350/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-1160216676/',
 );
 
 Clothing koifBalavlava = Clothing(
@@ -533,6 +657,9 @@ Clothing koifBalavlava = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158927711/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-825402771/',
 );
 
 Clothing ninjaBalaclava = Clothing(
@@ -547,6 +674,9 @@ Clothing ninjaBalaclava = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158344415/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-629498341/',
 );
 
 // ============================ gloves =========================================
@@ -564,13 +694,7 @@ Clothing dlanGloves = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/197283776/detail.aspx?targetUrl=GP',
+  linkToOzon: 'https://www.ozon.ru/product/perchatki-mordor-tac-1350864392/',
 );
-
-
-
-
-
-
-
-
-

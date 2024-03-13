@@ -17,6 +17,8 @@ class Clothing extends _Cloth with _$Clothing {
     required String? inSuitLayer,
     required bool isNecessary,
     required bool isHasAlready,
+    required String? linkToWb,
+    required String? linkToOzon,
   }) : super(
           name: name,
           linkToStore: linkToStore,
@@ -25,6 +27,8 @@ class Clothing extends _Cloth with _$Clothing {
           inSuitLayer: inSuitLayer,
           isNecessary: isNecessary,
           isHasAlready: isHasAlready,
+    linkToWb: linkToWb,
+    linkToOzon: linkToOzon,
         );
 
   factory Clothing.fromJson(Map<String, dynamic> json) =>
@@ -42,9 +46,10 @@ class Clothing extends _Cloth with _$Clothing {
         // ListEquality().equals(other.features, features) &&
         other.image == image &&
         other.inSuitLayer == inSuitLayer &&
-        other.isNecessary == isNecessary;
-    // &&
-    // other.isHasAlready == isHasAlready;
+        other.isNecessary == isNecessary &&
+        // other.isHasAlready == isHasAlready;
+        other.linkToWb == linkToWb &&
+        other.linkToOzon == linkToOzon;
   }
 
   @override
@@ -57,6 +62,8 @@ class Clothing extends _Cloth with _$Clothing {
       inSuitLayer,
       isNecessary,
       // isHasAlready,
+      linkToWb,
+      linkToOzon,
     );
   }
 }
@@ -70,6 +77,8 @@ abstract class _Cloth with Store {
     required this.inSuitLayer,
     required this.isNecessary,
     required this.isHasAlready,
+    required this.linkToWb,
+    required this.linkToOzon,
   });
 
   @HiveField(0)
@@ -99,4 +108,12 @@ abstract class _Cloth with Store {
   @HiveField(6)
   @observable
   bool isHasAlready;
+
+  @HiveField(7)
+  @observable
+  String? linkToWb;
+
+  @HiveField(8)
+  @observable
+  String? linkToOzon;
 }

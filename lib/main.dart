@@ -40,25 +40,6 @@ Future<void> main() async {
       );
 
       // AppMetrica.reportEvent('Запуск приложения');
-      // AppMetrica.reportError(
-      //   message: 'Тестовая ошибка (верх)',
-      //   errorDescription:
-      //   AppMetricaErrorDescription.fromCurrentStackTrace(
-      //       message: 'Тестовая ошибка (низ)', type: 'Тестовая ошибка'),
-      // ).ignore();
-      // AppMetrica.reportUnhandledException(
-      //   AppMetricaErrorDescription.fromCurrentStackTrace(
-      //       message: 'Error message 1', type: 'Error type 1'),
-      // );
-      // try {
-      //   await Future.delayed(
-      //       Duration.zero, () => throw Exception('Error'));
-      // } on Exception catch (e, stacktrace) {
-      //   AppMetrica.reportUnhandledException(
-      //     AppMetricaErrorDescription.fromObjectAndStackTrace(
-      //         e, stacktrace),
-      //   );
-      // }
 
       Hive.registerAdapter(ClothingAdapter());
 
