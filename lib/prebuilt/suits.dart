@@ -98,14 +98,23 @@ Suit belowZeroTempSuit = Suit(
   layer_4_bot: null,
   layer_5_top: [
     wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
-    cheburashka..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
-    uralHoodie..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+    cheburashka
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
+    uralHoodie
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
-    uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    uralTrousers
+      ..inSuitLayer = Layer.mapNumberToName(5, 'низ')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
   ],
   layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
   layer_7: null,
@@ -134,14 +143,23 @@ Suit aboveZeroTempSuit = Suit(
   layer_4_bot: null,
   layer_5_top: [
     wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
-    cheburashka..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
-    uralHoodie..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
+    cheburashka
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
+    uralHoodie
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
-    uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    uralTrousers
+      ..inSuitLayer = Layer.mapNumberToName(5, 'низ')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
   ],
   layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
   layer_7: null,
@@ -172,8 +190,14 @@ Suit lowTempSuit = Suit(
   layer_5_top: [
     wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
-    cheburashka..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
-    uralHoodie..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
+    cheburashka
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
+    uralHoodie
+      ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
+      ..features[0] = 'Универсальный демизонный слой'
+      ..features[2] = 'Одевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
@@ -275,6 +299,7 @@ Suit meltingTempSuit = Suit(
   ],
   layer_4_bot: [
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
+    freelancerShorts..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
   ],
   layer_5_top: null,
   layer_5_bot: null,

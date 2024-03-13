@@ -11,7 +11,7 @@ Clothing noClothing = Clothing(
   isHasAlready: false,
 );
 
-// ============================== 1 ============================================
+// =========================== underwear =======================================
 
 Clothing python = Clothing(
   name: 'Термобелье влагоотводящее "Питон"',
@@ -27,6 +27,24 @@ Clothing python = Clothing(
   isNecessary: true,
   isHasAlready: false,
 );
+
+Clothing varan = Clothing(
+  name: 'Термобелье утепляющее "Варан"',
+  linkToStore:
+  'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
+  features: [
+    'Базовый утепляющий слой',
+    'Отводит влагу от тела и сохраняет тепло',
+    'Одевается на первый слой',
+    'Состав: 98% полиэстер, 2% эластан',
+  ],
+  image: 'assets/images/varan.jpg',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+// ============================ shirts =========================================
 
 Clothing instructorShirt = Clothing(
   name: 'Футболка "Инструктор"',
@@ -58,25 +76,7 @@ Clothing soloLongsleave = Clothing(
   isHasAlready: false,
 );
 
-// ============================== 2 ============================================
-
-Clothing varan = Clothing(
-  name: 'Термобелье утепляющее "Варан"',
-  linkToStore:
-      'https://mordor-tac.com/product/MordorTac-mid-weight-thermosuit-varan',
-  features: [
-    'Базовый утепляющий слой',
-    'Отводит влагу от тела и сохраняет тепло',
-    'Одевается на первый слой',
-    'Состав: 98% полиэстер, 2% эластан',
-  ],
-  image: 'assets/images/varan.jpg',
-  inSuitLayer: null,
-  isNecessary: true,
-  isHasAlready: false,
-);
-
-// ============================== 3 ============================================
+// =========================== jackets =========================================
 
 Clothing cheburashka = Clothing(
   name: 'Куртка флисовая "Чебурашка"',
@@ -108,8 +108,6 @@ Clothing uralHoodie = Clothing(
   isHasAlready: false,
 );
 
-// ============================== 4 ============================================
-
 Clothing saratovJacket = Clothing(
   name: 'Боевая рубашка "Саратов"',
   linkToStore: 'https://mordor-tac.com/product/light-combat-shirt-SARatov',
@@ -124,6 +122,24 @@ Clothing saratovJacket = Clothing(
   isNecessary: true,
   isHasAlready: false,
 );
+
+Clothing wolfJacket = Clothing(
+  name: 'Демисезонная боевая куртка "Волк"',
+  linkToStore:
+  'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
+  features: [
+    'Универсальный демисезонный слой',
+    'Высокопрочное изделие с базовой ветро-влаго защитой',
+    'Одевается поверх всех слоев',
+    'Состав: 80% полиэстер, 20% вискоза',
+  ],
+  image: 'assets/images/wolfJacket.jpg',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+// ============================ pants ==========================================
 
 Clothing saratovTrousers = Clothing(
   name: 'Боевые брюки "Саратов"',
@@ -141,39 +157,10 @@ Clothing saratovTrousers = Clothing(
   isHasAlready: false,
 );
 
-// Clothing scoutMaskingCloak = Clothing(
-//   name: 'Маскировочный костюм "Скаут"',
-//   linkToStore:
-//   'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
-//   features: [],
-//   image: 'assets/images/scout.jpg',
-//     inSuitLayer: null,
-//   isNecessary: true,
-//   isHasAlready: false,
-// );
-
-// ============================== 5 ============================================
-
-Clothing wolfJacket = Clothing(
-  name: 'Демисезонная боевая куртка "Волк"',
-  linkToStore:
-      'https://mordor-tac.com/product/mordortac-demi-season-combat-jacket-volk',
-  features: [
-    'Универсальный демисезонный слой',
-    'Высокопрочное изделие с базовой ветро-влаго защитой',
-    'Одевается поверх всех слоев',
-    'Состав: 80% полиэстер, 20% вискоза',
-  ],
-  image: 'assets/images/wolfJacket.jpg',
-  inSuitLayer: null,
-  isNecessary: true,
-  isHasAlready: false,
-);
-
 Clothing wolfTrousers = Clothing(
   name: 'Демисезонная боевые брюки "Волк"',
   linkToStore:
-      'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
+  'https://mordor-tac.com/product/mordortac-demi-season-trousers-volk',
   features: [
     'Универсальный демисезонный слой',
     'Высокопрочное изделие с базовой ветро-влаго защитой',
@@ -216,7 +203,23 @@ Clothing uralTrousers = Clothing(
   isHasAlready: false,
 );
 
-// ============================== 6 ============================================
+Clothing freelancerShorts = Clothing(
+  name: 'Шорты "Фрилансер"',
+  linkToStore:
+  'https://mordor-tac.com/product/mordor-tac-shorts-freelancer',
+  features: [
+    'Легкие шорты из сорочечной ткани',
+    'Дышащая ткань, быстро сохнут',
+    'Эластичная вставка в поясе',
+    'Состав: 65% полиэстер, 35% вискоза',
+  ],
+  image: 'assets/images/freelancerShorts.jpg',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+// =========================== cloaks ==========================================
 
 Clothing inokMembranPoncho = Clothing(
   name: 'Мембранное пончо "Инок"',
@@ -233,8 +236,19 @@ Clothing inokMembranPoncho = Clothing(
   isHasAlready: false,
 );
 
-// ============================== 7 ============================================
+// Clothing scoutMaskingCloak = Clothing(
+//   name: 'Маскировочный костюм "Скаут"',
+//   linkToStore:
+//   'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
+//   features: [],
+//   image: 'assets/images/scout.jpg',
+//     inSuitLayer: null,
+//   isNecessary: true,
+//   isHasAlready: false,
+// );
 
-// ============================== 8 ============================================
 
-// ============================== 9 ============================================
+
+
+
+

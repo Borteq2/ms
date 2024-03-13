@@ -100,9 +100,9 @@ abstract class _CurrentWeatherStore with Store {
         TemperatureTypes.belowZero => 'Чуть ниже нуля',
         TemperatureTypes.aboveZero => 'Чуть выше нуля',
         TemperatureTypes.low => 'Прохладно',
-        TemperatureTypes.warm => 'Тепло',
-        TemperatureTypes.heat => 'Жарко',
-        TemperatureTypes.melting => 'Жарища',
+        TemperatureTypes.warm => 'Жарко"',
+        TemperatureTypes.heat => 'Очень жарко',
+        TemperatureTypes.melting => 'Жара',
       };
 
 // =============================================================================
