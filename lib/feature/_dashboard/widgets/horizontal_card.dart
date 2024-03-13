@@ -39,8 +39,7 @@ class HorizontalCardWidget extends StatelessWidget {
                 appStore: appStore, currentPage: currentPage, index: index),
             _NameWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
-            _LinkWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _LinkWidget(appStore: appStore, item: currentItem),
             _FeaturesListWidget(item: currentItem),
             _LayerWidget(
                 appStore: appStore, currentPage: currentPage, index: index),
@@ -100,14 +99,12 @@ class _NameWidget extends StatelessWidget {
 
 class _LinkWidget extends StatefulWidget {
   const _LinkWidget({
+    required this.item,
     required this.appStore,
-    required this.currentPage,
-    required this.index,
   });
 
   final AppStore appStore;
-  final int currentPage;
-  final int index;
+  final item;
 
   @override
   State<_LinkWidget> createState() => _LinkWidgetState();
@@ -128,21 +125,17 @@ class _LinkWidgetState extends State<_LinkWidget> {
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
 
-    var currentItemVertical = appStore.suitStore.resultMap.entries
-        .elementAt(widget.currentPage)
-        .value[widget.index];
-
-    bool isClothing = currentItemVertical.runtimeType == Clothing;
+    bool isClothing = widget.item.runtimeType == Clothing;
 
     bool isChecked;
     if (isClothing) {
       talker.info('Это шмотка, проверяю чекнутость');
-      isChecked = appStore.clothingMemoryStore.boxedClothingList
-          .contains(currentItemVertical);
+      isChecked =
+          appStore.clothingMemoryStore.boxedClothingList.contains(widget.item);
     } else {
       talker.info('Это акс, проверяю чекнутость');
-      isChecked = appStore.clothingMemoryStore.boxedAccessoryList
-          .contains(currentItemVertical);
+      isChecked =
+          appStore.clothingMemoryStore.boxedAccessoryList.contains(widget.item);
       talker.info(isChecked);
     }
 
@@ -177,10 +170,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                           Navigator.of(context).pop();
                           launchUrl(
                             Uri.parse(
-                              widget.appStore.suitStore.resultMap.entries
-                                  .elementAt(widget.currentPage)
-                                  .value[widget.index]
-                                  .linkToStore,
+                              widget.item.linkToStore,
                             ),
                           );
                         },
@@ -283,17 +273,14 @@ class _LinkWidgetState extends State<_LinkWidget> {
                               isClothing
                                   ? isChecked
                                       ? await appStore.clothingMemoryStore
-                                          .removeClothingFromBox(
-                                              currentItemVertical)
+                                          .removeClothingFromBox(widget.item)
                                       : await appStore.clothingMemoryStore
-                                          .setClothingToBox(currentItemVertical)
+                                          .setClothingToBox(widget.item)
                                   : isChecked
                                       ? await appStore.clothingMemoryStore
-                                          .removeAccessoryFromBox(
-                                              currentItemVertical)
+                                          .removeAccessoryFromBox(widget.item)
                                       : appStore.clothingMemoryStore
-                                          .setAccessoryToBox(
-                                              currentItemVertical);
+                                          .setAccessoryToBox(widget.item);
                               setState(() {});
                               Navigator.pop(context);
                             },
@@ -513,7 +500,7 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
                 size = _calculateSize(value);
               }),
               decoration: const InputDecoration(
-                hintText: 'сантиметров',
+                hintText: 'Сантиметров',
                 hintStyle: TextStyle(
                   color: Colors.grey,
                 ),

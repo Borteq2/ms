@@ -23,6 +23,9 @@ class VerticalCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var currentItem = appStore.suitStore.resultMap.entries.elementAt(index).value[0];
+
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Card(
@@ -31,7 +34,7 @@ class VerticalCardWidget extends StatelessWidget {
           children: [
             _ImageWidget(appStore: appStore, index: index),
             _NameWidget(appStore: appStore, index: index),
-            _LinkWidget(appStore: appStore, index: index),
+            _LinkWidget(appStore: appStore, item: currentItem),
             _FeaturesListWidget(appStore: appStore, index: index),
             _LayerWidget(
                 appStore: appStore, index: index, currentPage: currentPage),
@@ -87,12 +90,12 @@ class _NameWidget extends StatelessWidget {
 
 class _LinkWidget extends StatefulWidget {
   const _LinkWidget({
+    required this.item,
     required this.appStore,
-    required this.index,
   });
 
   final AppStore appStore;
-  final int index;
+  final item;
 
   @override
   State<_LinkWidget> createState() => _LinkWidgetState();
@@ -112,195 +115,409 @@ class _LinkWidgetState extends State<_LinkWidget> {
   @override
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
-    var currentItemVertical =
-        appStore.suitStore.resultMap.entries.elementAt(widget.index).value[0];
 
-    bool isClothing = currentItemVertical.runtimeType == Clothing;
+    bool isClothing = widget.item.runtimeType == Clothing;
 
     bool isChecked;
     if (isClothing) {
       talker.info('Это шмотка, проверяю чекнутость');
-      isChecked = appStore.clothingMemoryStore.boxedClothingList
-          .contains(currentItemVertical);
+      isChecked =
+          appStore.clothingMemoryStore.boxedClothingList.contains(widget.item);
     } else {
       talker.info('Это акс, проверяю чекнутость');
-      isChecked = appStore.clothingMemoryStore.boxedAccessoryList
-          .contains(currentItemVertical);
+      isChecked =
+          appStore.clothingMemoryStore.boxedAccessoryList.contains(widget.item);
+      talker.info(isChecked);
     }
 
-    return Observer(
-      builder: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              isChecked
-                  ? Icons.check_box_outlined
-                  : Icons.check_box_outline_blank_outlined,
-              color: isChecked ? Colors.deepOrange : Colors.white,
-            ),
-            const SizedBox(width: 10),
-            InkWell(
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  backgroundColor: Colors.black.withOpacity(0.8),
-                  surfaceTintColor: Colors.black,
-                  title: const Text(
-                    'Где купить?',
-                    textAlign: TextAlign.center,
-                  ),
-                  content: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            launchUrl(
-                              Uri.parse(
-                                widget.appStore.suitStore.resultMap.entries
-                                    .elementAt(widget.index)
-                                    .value[0]
-                                    .linkToStore,
-                              ),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/favicon.svg',
-                                width: 40,
-                                height: 40,
-                              ),
-                              const SizedBox(width: 20),
-                              const Text('Интернет-магазин'),
-                            ],
-                          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            isChecked
+                ? Icons.check_box_outlined
+                : Icons.check_box_outline_blank_outlined,
+            color: isChecked ? Colors.deepOrange : Colors.white,
+          ),
+          const SizedBox(width: 10),
+          InkWell(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                backgroundColor: Colors.black.withOpacity(0.9),
+                surfaceTintColor: Colors.black,
+                title: const Text(
+                  'Где купить?',
+                  textAlign: TextAlign.center,
+                ),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          launchUrl(
+                            Uri.parse(
+                              widget.item.linkToStore,
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/favicon.svg',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const SizedBox(width: 20),
+                            const Text('Интернет-магазин'),
+                          ],
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Нет ссылки'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/wb.svg',
-                                width: 40,
-                                height: 40,
-                              ),
-                              const SizedBox(width: 20),
-                              const Text('Wildberries'),
-                            ],
-                          ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Нет ссылки'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/wb.svg',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const SizedBox(width: 20),
+                            const Text('Wildberries'),
+                          ],
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Нет ссылки'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/ozon.png',
-                                width: 40,
-                                height: 40,
-                              ),
-                              const SizedBox(width: 20),
-                              const Text('Ozon'),
-                            ],
-                          ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Нет ссылки'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/ozon.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const SizedBox(width: 20),
+                            const Text('Ozon'),
+                          ],
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            await launchUrl(
-                              Uri.parse(
-                                // 'https://yandex.by/maps/'
-                                //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
-                                //     '&mode=routes'
-                                //     '&rtext=55.665346%2C37.641111'
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await launchUrl(
+                            Uri.parse(
+                              // 'https://yandex.by/maps/'
+                              //     '?ll=${appStore.localWeatherStore.currentPosition.latitude}.${appStore.localWeatherStore.currentPosition.longitude}'
+                              //     '&mode=routes'
+                              //     '&rtext=55.665346%2C37.641111'
 
-                                'https://yandex.ru/maps/'
-                                '?ll=${widget.appStore.localWeatherStore.currentPosition.latitude}'
-                                '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}'
-                                '&mode=routes'
-                                '&rtext=${widget.appStore.localWeatherStore.currentPosition.latitude}'
-                                '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
-                              ),
-                              // mode: LaunchMode.inAppBrowserView,
-                            );
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.man,
-                                size: 40,
-                              ),
-                              SizedBox(width: 20),
-                              Text('Шоурум'),
-                            ],
-                          ),
+                              'https://yandex.ru/maps/'
+                                  '?ll=${widget.appStore.localWeatherStore.currentPosition.latitude}'
+                                  '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}'
+                                  '&mode=routes'
+                                  '&rtext=${widget.appStore.localWeatherStore.currentPosition.latitude}'
+                                  '%2C${widget.appStore.localWeatherStore.currentPosition.longitude}~55.665346%2C37.641111',
+                            ),
+                            // mode: LaunchMode.inAppBrowserView,
+                          );
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.man,
+                              size: 40,
+                            ),
+                            SizedBox(width: 20),
+                            Text('Шоурум'),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  actions: <Widget>[
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () async {
-                            isClothing
-                                ? isChecked
-                                    ? await appStore.clothingMemoryStore
-                                        .removeClothingFromBox(
-                                            currentItemVertical)
-                                    : await appStore.clothingMemoryStore
-                                        .setClothingToBox(currentItemVertical)
-                                : isChecked
-                                    ? await appStore.clothingMemoryStore
-                                        .removeAccessoryFromBox(
-                                            currentItemVertical)
-                                    : appStore.clothingMemoryStore
-                                        .setAccessoryToBox(currentItemVertical);
-                            setState(() {});
-                            Navigator.pop(context);
-                          },
-                          child: Text(isChecked ? 'Продал' : 'Уже есть'),
-                        ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Отмена'),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
+                actions: <Widget>[
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              isClothing
+                                  ? isChecked
+                                  ? await appStore.clothingMemoryStore
+                                  .removeClothingFromBox(widget.item)
+                                  : await appStore.clothingMemoryStore
+                                  .setClothingToBox(widget.item)
+                                  : isChecked
+                                  ? await appStore.clothingMemoryStore
+                                  .removeAccessoryFromBox(widget.item)
+                                  : appStore.clothingMemoryStore
+                                  .setAccessoryToBox(widget.item);
+                              setState(() {});
+                              Navigator.pop(context);
+                            },
+                            child: Text(isChecked ? 'Продал' : 'Уже есть'),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Отмена'),
+                          ),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.black.withOpacity(0.9),
+                                surfaceTintColor: Colors.black,
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                              const _SizeSolutionWidget(
+                                                sizerType: 'Грудь',
+                                              ),
+                                            );
+                                          },
+                                          child:
+                                          const Text('По замерам груди')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                              const _SizeSolutionWidget(
+                                                sizerType: 'Талия',
+                                              ),
+                                            );
+                                          },
+                                          child:
+                                          const Text('По размерам талии')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                              const _SizeSolutionWidget(
+                                                sizerType: 'Брюки',
+                                              ),
+                                            );
+                                          },
+                                          child: const Text(
+                                              'По размеру брюк/джинс')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                              const _SizeSolutionWidget(
+                                                sizerType: 'Рост',
+                                              ),
+                                            );
+                                          },
+                                          child: const Text('По росту')),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: const Text('Как выбрать размер/рост?'),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              child: RichText(
-                text: TextSpan(
-                  text: isChecked ? 'ПРИОБРЕТЕНО' : 'ПРИОБРЕСТИ',
-                  style: const TextStyle(
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
+            ),
+            child: RichText(
+              text: TextSpan(
+                text: isChecked ? 'ПРИОБРЕТЕНО' : 'ПРИОБРЕСТИ',
+                style: const TextStyle(
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SizeSolutionWidget extends StatefulWidget {
+  const _SizeSolutionWidget({
+    required this.sizerType,
+  });
+
+  final String sizerType;
+
+  @override
+  State<_SizeSolutionWidget> createState() => _SizeSolutionWidgetState();
+}
+
+class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
+  final TextEditingController _controller = TextEditingController();
+  String size = '';
+
+  String _calculateSize(String size) {
+    double? result = double.tryParse(size.replaceAll(',', '.'));
+    return result == null
+        ? 'размер не распознан'
+        : widget.sizerType == 'Грудь'
+        ? result >= 78 && result <= 85
+        ? 'размер: 40-42'
+        : result >= 86 && result <= 93
+        ? 'размер: 44-46'
+        : result >= 94 && result <= 101
+        ? 'размер: 48-50'
+        : result >= 102 && result <= 109
+        ? 'размер: 52-54'
+        : result >= 110 && result <= 117
+        ? 'размер: 56-58'
+        : result >= 118 && result <= 125
+        ? 'размер: 60-62'
+        : result >= 126 && result <= 133
+        ? 'размер: 64-66'
+        : 'размер: не поддерживается'
+        : widget.sizerType == 'Талия'
+        ? result >= 66 && result <= 73
+        ? 'размер: 40-42'
+        : result >= 74 && result <= 81
+        ? 'размер: 44-46'
+        : result >= 82 && result <= 89
+        ? 'размер: 48-50'
+        : result >= 90 && result <= 97
+        ? 'размер: 52-54'
+        : result >= 98 && result <= 105
+        ? 'размер: 56-58'
+        : result >= 106 && result <= 113
+        ? 'размер: 60-62'
+        : result >= 114 && result <= 121
+        ? 'размер: 64-66'
+        : 'размер: не поддерживается'
+        : widget.sizerType == 'Брюки'
+        ? result >= 26 && result <= 29
+        ? 'размер: 40-42'
+        : result >= 30 && result <= 31
+        ? 'размер: 44-46'
+        : result >= 32 && result <= 34
+        ? 'размер: 48-50'
+        : result >= 35 && result <= 38
+        ? 'размер: 52-54'
+        : result >= 39 && result <= 42
+        ? 'размер: 56-58'
+        : result >= 44 && result <= 48
+        ? 'размер: 60-62'
+        : result >= 49 && result <= 51
+        ? 'размер: 64-66'
+        : 'размер: не поддерживается'
+        : widget.sizerType == 'Рост'
+        ? result >= 155 && result <= 169
+        ? 'рост: 1-2'
+        : result >= 170 && result <= 179
+        ? 'рост: 3-4'
+        : result >= 180 && result <= 195
+        ? 'рост: 5-7'
+        : 'рост не поддерживается'
+        : throw Exception('Ошибка');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.black.withOpacity(0.9),
+      surfaceTintColor: Colors.black,
+      title: Text(
+        widget.sizerType == 'Грудь'
+            ? 'Замер груди'
+            : widget.sizerType == 'Талия'
+            ? 'Замер талии'
+            : widget.sizerType == 'Брюки'
+            ? 'Размер брюк/джинс'
+            : 'Подобрать по росту',
+        style: const TextStyle(color: Colors.deepOrange),
+        textAlign: TextAlign.center,
+      ),
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: Column(
+          children: [
+            Placeholder(
+              fallbackHeight: MediaQuery.of(context).size.height * 0.3,
+              fallbackWidth: MediaQuery.of(context).size.width * 0.5,
+            ),
+            TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              onSubmitted: (String value) => setState(() {
+                size = _calculateSize(value);
+              }),
+              decoration: const InputDecoration(
+                hintText: 'Сантиметров',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            const Spacer(),
+            Text(
+              size.isEmpty ? '' : 'Ваш $size',
+              style: const TextStyle(color: Colors.white),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    onPressed: () => setState(() {
+                      size = _calculateSize(_controller.text);
+                    }),
+                    // Navigator.pop(context);
+
+                    child: const Text('Рассчитать\nразмер')),
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Вернуться\nк магазинам')),
+              ],
+            )
           ],
         ),
       ),
