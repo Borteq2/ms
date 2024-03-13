@@ -14,8 +14,6 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Observer(
       builder: (_) => !appStore.localWeatherStore.isHasError
           ? Column(
@@ -35,9 +33,21 @@ class TitleWidget extends StatelessWidget {
                 ),
               ],
             )
-          : AutoSizeText(
-              appStore.localWeatherStore.city,
-              maxLines: 1,
+          : Row(
+              children: [
+                IconButton(
+                  onPressed: () =>
+                      appStore.localWeatherStore.getLocationAndWeatherData(),
+                  icon: const Icon(Icons.refresh),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: AutoSizeText(
+                    appStore.localWeatherStore.city,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
             ),
     );
   }
