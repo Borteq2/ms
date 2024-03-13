@@ -424,7 +424,7 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
                                     ? 'размер: 60-62'
                                     : result >= 126 && result <= 133
                                         ? 'размер: 64-66'
-                                        : 'размер: не поддерживается'
+                                        : 'размер не поддерживается'
             : widget.sizerType == 'Талия'
                 ? result >= 66 && result <= 73
                     ? 'размер: 40-42'
@@ -440,7 +440,7 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
                                         ? 'размер: 60-62'
                                         : result >= 114 && result <= 121
                                             ? 'размер: 64-66'
-                                            : 'размер: не поддерживается'
+                                            : 'размер не поддерживается'
                 : widget.sizerType == 'Брюки'
                     ? result >= 26 && result <= 29
                         ? 'размер: 40-42'
@@ -456,7 +456,7 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
                                             ? 'размер: 60-62'
                                             : result >= 49 && result <= 51
                                                 ? 'размер: 64-66'
-                                                : 'размер: не поддерживается'
+                                                : 'размер не поддерживается'
                     : widget.sizerType == 'Рост'
                         ? result >= 155 && result <= 169
                             ? 'рост: 1-2'

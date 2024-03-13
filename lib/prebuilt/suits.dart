@@ -30,12 +30,15 @@ Suit frostPunkTempSuit = Suit(
   layer_2: [varan..inSuitLayer = Layer.mapNumberToName(2, null)],
   layer_3: [
     cheburashka..inSuitLayer = Layer.mapNumberToName(3, null),
-    uralHoodie..inSuitLayer = Layer.mapNumberToName(3, null)
+    uralHoodie..inSuitLayer = Layer.mapNumberToName(3, null),
   ],
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх')],
-  layer_5_bot: [wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ')],
+  layer_5_bot: [
+    wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+  ],
   layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
   layer_7: null,
   layer_8: null,
@@ -66,6 +69,7 @@ Suit coldTempSuit = Suit(
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
@@ -99,6 +103,7 @@ Suit belowZeroTempSuit = Suit(
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
@@ -134,6 +139,7 @@ Suit aboveZeroTempSuit = Suit(
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
@@ -165,11 +171,13 @@ Suit lowTempSuit = Suit(
   layer_4_bot: null,
   layer_5_top: [
     wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     cheburashka..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
     uralHoodie..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
@@ -198,7 +206,7 @@ Suit warmTempSuit = Suit(
   layer_3: null,
   layer_4_top: [
     cheburashka..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
-    uralHoodie..inSuitLayer = Layer.mapNumberToName(4, 'верх')
+    uralHoodie..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
   ],
   layer_4_bot: [
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
@@ -206,7 +214,9 @@ Suit warmTempSuit = Suit(
   ],
   layer_5_top: null,
   layer_5_bot: null,
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: null,
@@ -236,18 +246,20 @@ Suit heatTempSuit = Suit(
   ],
   layer_5_top: null,
   layer_5_bot: null,
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: null,
   head: [
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null),
     windPanama..inSuitLayer = Layer.mapNumberToName(10, null),
-    neoBandana..inSuitLayer = Layer.mapNumberToName(10, null)
+    neoBandana..inSuitLayer = Layer.mapNumberToName(10, null),
   ],
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
-    raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null)
+    raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null),
   ],
 );
 
@@ -259,12 +271,16 @@ Suit meltingTempSuit = Suit(
   layer_4_top: [
     saratovJacket..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
     instructorShirt..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
-    soloLongsleave..inSuitLayer = Layer.mapNumberToName(4, 'верх')
+    soloLongsleave..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
   ],
-  layer_4_bot: [saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ')],
+  layer_4_bot: [
+    saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
+  ],
   layer_5_top: null,
   layer_5_bot: null,
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: null,
@@ -275,6 +291,6 @@ Suit meltingTempSuit = Suit(
   ],
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
-    raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null)
+    raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null),
   ],
 );
