@@ -236,16 +236,151 @@ Clothing inokMembranPoncho = Clothing(
   isHasAlready: false,
 );
 
-// Clothing scoutMaskingCloak = Clothing(
-//   name: 'Маскировочный костюм "Скаут"',
-//   linkToStore:
-//   'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
-//   features: [],
-//   image: 'assets/images/scout.jpg',
-//     inSuitLayer: null,
-//   isNecessary: true,
-//   isHasAlready: false,
-// );
+Clothing snowmanMaskSuit = Clothing(
+  name: 'Маскировочный костюм «Снеговик»',
+  linkToStore: '',
+  features: [
+    'Ткань не замерзает и не шуршит',
+    'Костюм состоящий из брюк, куртки, жилета и мешка',
+    'Состав: 100% полиэстер',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing sugrobBackpackCover = Clothing(
+  name: 'Чехол для рюкзака «Сугроб»',
+  linkToStore: '',
+  features: [
+    'Ткань не замерзает и не шуршит',
+    'Чехол для рюкзака объемом до 45 литров',
+    'Состав: 100% полиэстер',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing snowballHelmetCover = Clothing(
+  name: 'Чехол для шлема «Снежок»',
+  linkToStore: '',
+  features: [
+    'Ткань не замерзает и не шуршит',
+    'Подходит для любого шлема',
+    'Состав: 100% полиэстер',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing frakSniperCloak = Clothing(
+  name: 'Снайперская накидка «Фрак»',
+  linkToStore: '',
+  features: [
+    'Маскировочная накидка с сеточной основой и нашитыми листьями',
+    'Полноразмерная накидка, маскирующая ростовую фигуру',
+    'Состав: 65% полиэфир, 35% вискоза',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing evokSniperCloak = Clothing(
+  name: 'Снайперская накидка «Эвок»',
+  linkToStore: '',
+  features: [
+    'Маскировочная накидка с сеточной основой и нашитыми листьями',
+    'Накидка маскирует верхнюю часть тела',
+    'Состав: 65% полиэфир, 35% вискоза',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing pokrovSniperScarf = Clothing(
+  name: 'Снайперский шарф «Покров»',
+  linkToStore: '',
+  features: [
+    'Сетчатый шарф маскировочных цветов',
+    'Отлично вентилируется и маскирует голову пользователя',
+    'Состав: 100% полиэфир',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing scoutMaskCover = Clothing(
+  name: 'Маскировочный чехол «Следопыт»',
+  linkToStore: '',
+  features: [
+    'Маскировочный чехол с сеточной основой и нашитыми листьями',
+    'Подходит для любого шлема',
+    'Состав: 65% полиэфир, 35% вискоза',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing vorohMaskCover = Clothing(
+  name: 'Маскировочный чехол «Ворох»',
+  linkToStore: '',
+  features: [
+    'Маскировочный чехол с сеточной основой и нашитыми листьями',
+    'Маскирует рюкзаки объемом до 45 литров',
+    'Состав: 65% полиэфир, 35% вискоза',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+// ============================ sets ===========================================
+
+Clothing scoutMaskingSet = Clothing(
+  name: 'Маскировочный костюм "Скаут"',
+  linkToStore:
+  'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
+  features: [
+    'Отлично скрывает силуэт человека в растительности',
+    'Произведен из легкой, быстросохнущей ткани не сковывающей движение',
+    'Состав: 65% полиэстер, 35% вискоза',
+  ],
+  image: 'assets/images/scout.jpg',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+Clothing gopTacSet = Clothing(
+  name: 'Костюм "Гоп Так"',
+  linkToStore:
+  '',
+  features: [
+    'Тактический костюм из легкой сорочечной ткани',
+    'Отлично подходит для страйкбольных мероприятий и поведневной носки',
+    'Состав: 65% полиэстер, 35% вискоза',
+  ],
+  image: '',
+  inSuitLayer: null,
+  isNecessary: true,
+  isHasAlready: false,
+);
+
+
 
 
 
