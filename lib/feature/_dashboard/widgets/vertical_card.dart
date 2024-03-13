@@ -165,7 +165,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                               height: 40,
                             ),
                             const SizedBox(width: 20),
-                            const Text('Интернет-магазин'),
+                            const Text('Фирменный магазин'),
                           ],
                         ),
                       ),

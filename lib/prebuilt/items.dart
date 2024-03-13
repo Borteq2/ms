@@ -238,13 +238,13 @@ Clothing inokMembranPoncho = Clothing(
 
 Clothing snowmanMaskSuit = Clothing(
   name: 'Маскировочный костюм «Снеговик»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/winter-camouflage-suit-snegovik',
   features: [
     'Ткань не замерзает и не шуршит',
     'Костюм состоящий из брюк, куртки, жилета и мешка',
     'Состав: 100% полиэстер',
   ],
-  image: '',
+  image: 'assets/images/snowmanMaskSuit.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -252,13 +252,13 @@ Clothing snowmanMaskSuit = Clothing(
 
 Clothing sugrobBackpackCover = Clothing(
   name: 'Чехол для рюкзака «Сугроб»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/winter-camouflage-backpack-cover-sugrob',
   features: [
     'Ткань не замерзает и не шуршит',
     'Чехол для рюкзака объемом до 45 литров',
     'Состав: 100% полиэстер',
   ],
-  image: '',
+  image: 'assets/images/sugrobBackpackCover.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -266,13 +266,13 @@ Clothing sugrobBackpackCover = Clothing(
 
 Clothing snowballHelmetCover = Clothing(
   name: 'Чехол для шлема «Снежок»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/winter-camouflage-helmet-cover-snezhok',
   features: [
     'Ткань не замерзает и не шуршит',
     'Подходит для любого шлема',
     'Состав: 100% полиэстер',
   ],
-  image: '',
+  image: 'assets/images/snowballHelmetCover.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -280,13 +280,13 @@ Clothing snowballHelmetCover = Clothing(
 
 Clothing frakSniperCloak = Clothing(
   name: 'Снайперская накидка «Фрак»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/sniper-coat-frak-big',
   features: [
     'Маскировочная накидка с сеточной основой и нашитыми листьями',
     'Полноразмерная накидка, маскирующая ростовую фигуру',
     'Состав: 65% полиэфир, 35% вискоза',
   ],
-  image: '',
+  image: 'assets/images/frakSniperCloak.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -294,13 +294,13 @@ Clothing frakSniperCloak = Clothing(
 
 Clothing evokSniperCloak = Clothing(
   name: 'Снайперская накидка «Эвок»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/mordor-tac-sniper-coat-ewok',
   features: [
     'Маскировочная накидка с сеточной основой и нашитыми листьями',
     'Накидка маскирует верхнюю часть тела',
     'Состав: 65% полиэфир, 35% вискоза',
   ],
-  image: '',
+  image: 'assets/images/evokSniperCloak.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -308,13 +308,13 @@ Clothing evokSniperCloak = Clothing(
 
 Clothing pokrovSniperScarf = Clothing(
   name: 'Снайперский шарф «Покров»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/universal-camouflage-cape-pokrov',
   features: [
     'Сетчатый шарф маскировочных цветов',
     'Отлично вентилируется и маскирует голову пользователя',
     'Состав: 100% полиэфир',
   ],
-  image: '',
+  image: 'assets/images/pokrovSniperScarf.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -322,13 +322,13 @@ Clothing pokrovSniperScarf = Clothing(
 
 Clothing scoutMaskCover = Clothing(
   name: 'Маскировочный чехол «Следопыт»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/universal-masking-cover-sledopit',
   features: [
     'Маскировочный чехол с сеточной основой и нашитыми листьями',
     'Подходит для любого шлема',
     'Состав: 65% полиэфир, 35% вискоза',
   ],
-  image: '',
+  image: 'assets/images/scoutMaskCover.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -336,13 +336,13 @@ Clothing scoutMaskCover = Clothing(
 
 Clothing vorohMaskCover = Clothing(
   name: 'Маскировочный чехол «Ворох»',
-  linkToStore: '',
+  linkToStore: 'https://mordor-tac.com/product/camouflage-cover-for-backpack-voroh',
   features: [
     'Маскировочный чехол с сеточной основой и нашитыми листьями',
     'Маскирует рюкзаки объемом до 45 литров',
     'Состав: 65% полиэфир, 35% вискоза',
   ],
-  image: '',
+  image: 'assets/images/vorohMaskCover.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
@@ -368,13 +368,13 @@ Clothing scoutMaskingSet = Clothing(
 Clothing gopTacSet = Clothing(
   name: 'Костюм "Гоп Так"',
   linkToStore:
-  '',
+  'https://mordor-tac.com/product/mordortac-gop-tac-suit',
   features: [
     'Тактический костюм из легкой сорочечной ткани',
     'Отлично подходит для страйкбольных мероприятий и поведневной носки',
     'Состав: 65% полиэстер, 35% вискоза',
   ],
-  image: '',
+  image: 'assets/images/gopTacSet.jpg',
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,

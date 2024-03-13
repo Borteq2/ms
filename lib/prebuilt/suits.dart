@@ -1,5 +1,4 @@
 import 'package:mordor_suit/feature/library/logic/map_layers.dart';
-import 'package:mordor_suit/prebuilt/accessories.dart';
 import 'package:mordor_suit/prebuilt/items.dart';
 import 'package:mordor_suit/models/_models.dart';
 
@@ -27,19 +26,25 @@ Suit frostPunkTempSuit = Suit(
     instructorShirt..inSuitLayer = Layer.mapNumberToName(1, null),
     soloLongsleave..inSuitLayer = Layer.mapNumberToName(1, null),
   ],
-  layer_2: [varan..inSuitLayer = Layer.mapNumberToName(2, null)],
+  layer_2: [
+    varan..inSuitLayer = Layer.mapNumberToName(2, null),
+  ],
   layer_3: [
     cheburashka..inSuitLayer = Layer.mapNumberToName(3, null),
     uralHoodie..inSuitLayer = Layer.mapNumberToName(3, null),
   ],
   layer_4_top: null,
   layer_4_bot: null,
-  layer_5_top: [wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх')],
+  layer_5_top: [
+    wolfJacket..inSuitLayer = Layer.mapNumberToName(5, 'верх'),
+  ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: [
@@ -47,7 +52,9 @@ Suit frostPunkTempSuit = Suit(
     sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
     snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
-  head: [nordHat..inSuitLayer = Layer.mapNumberToName(10, null)],
+  head: [
+    nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
+  ],
   accessories: [
     vaderBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     fjordBuff..inSuitLayer = Layer.mapNumberToName(11, null),
@@ -62,7 +69,9 @@ Suit coldTempSuit = Suit(
     instructorShirt..inSuitLayer = Layer.mapNumberToName(1, null),
     soloLongsleave..inSuitLayer = Layer.mapNumberToName(1, null)
   ],
-  layer_2: [varan..inSuitLayer = Layer.mapNumberToName(2, null)],
+  layer_2: [
+    varan..inSuitLayer = Layer.mapNumberToName(2, null),
+  ],
   layer_3: null,
   layer_4_top: null,
   layer_4_bot: null,
@@ -77,7 +86,9 @@ Suit coldTempSuit = Suit(
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: [
@@ -85,7 +96,9 @@ Suit coldTempSuit = Suit(
     sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
     snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
-  head: [nordHat..inSuitLayer = Layer.mapNumberToName(10, null)],
+  head: [
+    nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
+  ],
   accessories: [
     koifBalavlava..inSuitLayer = Layer.mapNumberToName(11, null),
     dozorBuff..inSuitLayer = Layer.mapNumberToName(11, null),
@@ -124,7 +137,9 @@ Suit belowZeroTempSuit = Suit(
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Одевается поверх всех слоев',
   ],
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: [
@@ -173,7 +188,9 @@ Suit aboveZeroTempSuit = Suit(
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Одевается поверх всех слоев',
   ],
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: [
@@ -223,7 +240,9 @@ Suit lowTempSuit = Suit(
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
-  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
+  layer_6: [
+    inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
+  ],
   layer_7: null,
   layer_8: null,
   layer_9: [
@@ -286,7 +305,9 @@ Suit warmTempSuit = Suit(
 
 Suit heatTempSuit = Suit(
   name: 'Очень жарко',
-  layer_1: [python..inSuitLayer = Layer.mapNumberToName(1, null)],
+  layer_1: [
+    python..inSuitLayer = Layer.mapNumberToName(1, null),
+  ],
   layer_2: null,
   layer_3: null,
   layer_4_top: [
