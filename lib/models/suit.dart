@@ -19,8 +19,8 @@ class Suit extends _Suit with _$Suit {
     required List<Clothing>? layer_7,
     required List<Clothing>? layer_8,
     required List<Clothing>? layer_9,
-    required List<Accessory>? head,
-    required List<Accessory>? accessories,
+    required List<Clothing>? head,
+    required List<Clothing>? accessories,
   }) : super(
           name: name,
           layer_1: layer_1,
@@ -101,8 +101,8 @@ abstract class _Suit with Store {
   List<Clothing>? layer_9;
 
   @observable
-  List<Accessory>? head;
+  List<Clothing>? head;
 
   @observable
-  List<Accessory>? accessories;
+  List<Clothing>? accessories;
 }

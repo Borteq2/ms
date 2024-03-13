@@ -16,16 +16,11 @@ abstract class _ClothingMemoryStore with Store {
   final Talker talker;
   final Box<Clothing> clothingBox =
       GetIt.I<Box<Clothing>>(instanceName: 'clothing_box');
-  final Box<Accessory> accessoryBox =
-      GetIt.I<Box<Accessory>>(instanceName: 'accessory_box');
 
 // =============================== observable ==================================
 
   @observable
   ObservableList<Clothing> boxedClothingList = ObservableList.of([]);
-
-  @observable
-  ObservableList<Accessory> boxedAccessoryList = ObservableList.of([]);
 
 // =============================== computed ====================================
 
@@ -41,13 +36,11 @@ abstract class _ClothingMemoryStore with Store {
       dropUnboxedLists();
       talker.debug('Дёргаю шмотки');
       await getClothingListFromBox();
-      talker.debug('Дёргаю аксы');
-      await getAccessoryListFromBox();
     } catch (e, st) {
       talker.handle(e, st);
     }
     talker.debug(
-      'Списки синхронизированы. Шмотки: ${boxedClothingList.length}, аксы: ${boxedAccessoryList.length}',
+      'Списки синхронизированы. Шмотки: ${boxedClothingList.length}',
     );
   }
 
@@ -65,26 +58,13 @@ abstract class _ClothingMemoryStore with Store {
     }
   }
 
-  @action
-  Future<void> getAccessoryListFromBox() async {
-    talker.info('Получаю аксы из бокса');
-    try {
-      for (Accessory item in accessoryBox.values) {
-        talker.debug('Записываю в список из бокса акс\n$item');
-        boxedAccessoryList.add(item);
-      }
-      talker.info('Список анбокснутых аксов:\n$boxedAccessoryList');
-    } catch (e, st) {
-      talker.handle(e, st);
-    }
-  }
+
 
   @action
   void dropUnboxedLists() {
-    talker.warning('Дропаю листы имеющихся шмоток и аксов');
+    talker.warning('Дропаю листы имеющихся шмоток');
     try {
       boxedClothingList.clear();
-      boxedAccessoryList.clear();
     } catch (e, st) {
       talker.handle(e, st);
     }
@@ -114,33 +94,10 @@ abstract class _ClothingMemoryStore with Store {
     await syncHasAlreadyListsWithBoxes();
   }
 
-  Future<void> setAccessoryToBox(Accessory accessory) async {
-    talker.info('Сохраняю аксессуар ${accessory.name} в accessoryBox');
-    try {
-      await accessoryBox.put(accessory.name, accessory);
-    } catch (e, st) {
-      talker.handle(e, st);
-    }
-    talker.info('Синхронизирую бокс и список');
-    await syncHasAlreadyListsWithBoxes();
-  }
-
-  Future<void> removeAccessoryFromBox(Accessory accessory) async {
-    talker.info('Удаляю акс ${accessory.name} из accessoryBox');
-    try {
-      accessoryBox.delete(accessory.name);
-    } catch (e, st) {
-      talker.handle(e, st);
-    }
-    talker.info('Синхронизирую бокс и список');
-    await syncHasAlreadyListsWithBoxes();
-  }
-
   Future<void> dropBoxes() async {
     talker.warning('Дропаю сами боксы');
     try {
       await clothingBox.clear();
-      await accessoryBox.clear();
     } catch (e, st) {
       talker.handle(e, st);
     }

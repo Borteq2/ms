@@ -116,19 +116,11 @@ class _LinkWidgetState extends State<_LinkWidget> {
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
 
-    bool isClothing = widget.item.runtimeType == Clothing;
-
     bool isChecked;
-    if (isClothing) {
-      talker.info('Это шмотка, проверяю чекнутость');
-      isChecked =
-          appStore.clothingMemoryStore.boxedClothingList.contains(widget.item);
-    } else {
-      talker.info('Это акс, проверяю чекнутость');
-      isChecked =
-          appStore.clothingMemoryStore.boxedAccessoryList.contains(widget.item);
-      talker.info(isChecked);
-    }
+
+    talker.info('Это шмотка, проверяю чекнутость');
+    isChecked =
+        appStore.clothingMemoryStore.boxedClothingList.contains(widget.item);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -261,17 +253,12 @@ class _LinkWidgetState extends State<_LinkWidget> {
                         children: [
                           TextButton(
                             onPressed: () async {
-                              isClothing
-                                  ? isChecked
-                                      ? await appStore.clothingMemoryStore
-                                          .removeClothingFromBox(widget.item)
-                                      : await appStore.clothingMemoryStore
-                                          .setClothingToBox(widget.item)
-                                  : isChecked
-                                      ? await appStore.clothingMemoryStore
-                                          .removeAccessoryFromBox(widget.item)
-                                      : appStore.clothingMemoryStore
-                                          .setAccessoryToBox(widget.item);
+                              isChecked
+                                  ? await appStore.clothingMemoryStore
+                                      .removeClothingFromBox(widget.item)
+                                  : await appStore.clothingMemoryStore
+                                      .setClothingToBox(widget.item);
+
                               setState(() {});
                               Navigator.pop(context);
                             },
@@ -491,7 +478,8 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
                 size = _calculateSize(value);
               }),
               decoration: InputDecoration(
-                hintText: widget.sizerType == 'Брюки' ? 'Размер' :'Сантиметров',
+                hintText:
+                    widget.sizerType == 'Брюки' ? 'Размер' : 'Сантиметров',
                 hintStyle: const TextStyle(
                   color: Colors.grey,
                 ),

@@ -32,12 +32,10 @@ Future<void> main() async {
       await Hive.initFlutter();
 
       Hive.registerAdapter(ClothingAdapter());
-      Hive.registerAdapter(AccessoryAdapter());
 
       final appDocumentDir =
           await path_provider.getApplicationDocumentsDirectory();
       final clothingBox = await Hive.openBox<Clothing>('clothing_box');
-      final accessoryBox = await Hive.openBox<Accessory>('accessory_box');
       final cityNamesBox = await Hive.openBox<String>('city_names_box');
       final timeStampsBox = await Hive.openBox<DateTime>('timestamps_box');
       final String sentryKey = dotenv.get('SENTRY_DSN');
@@ -54,7 +52,6 @@ Future<void> main() async {
       GetIt.I.registerSingleton(talker);
       GetIt.I.registerSingleton(dio);
       GetIt.I.registerSingleton(clothingBox, instanceName: 'clothing_box');
-      GetIt.I.registerSingleton(accessoryBox, instanceName: 'accessory_box');
       GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
       GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
       GetIt.I.registerSingleton(AppStore());
@@ -106,7 +103,9 @@ Future<void> main() async {
       //   await Sentry.captureException(exception, stackTrace: stack);
       // GetIt.I<Talker>().handle(exception, stack);
       // } else {
-      GetIt.I<Talker>().handle(exception, stack);
+      // GetIt.I<Talker>().handle(exception, stack);
+      print(exception);
+      print(stack);
     },
   );
 }
