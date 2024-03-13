@@ -501,13 +501,24 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width * 0.5,
+        height: MediaQuery.of(context).size.height * 0.6,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: Column(
           children: [
-            Placeholder(
-              fallbackHeight: MediaQuery.of(context).size.height * 0.3,
-              fallbackWidth: MediaQuery.of(context).size.width * 0.5,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: Image.asset(
+                widget.sizerType == 'Грудь'
+                    ? 'assets/images/chest.JPG'
+                    : widget.sizerType == 'Талия'
+                        ? 'assets/images/waist.JPG'
+                        : widget.sizerType == 'Брюки'
+                            ? 'assets/images/pants.jpg'
+                            : widget.sizerType == 'Рост'
+                                ? 'assets/images/height.JPG'
+                                : 'assets/images/favicon.png',
+              ),
             ),
             TextField(
               controller: _controller,
