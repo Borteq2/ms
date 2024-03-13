@@ -499,9 +499,9 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
               onSubmitted: (String value) => setState(() {
                 size = _calculateSize(value);
               }),
-              decoration: const InputDecoration(
-                hintText: 'Сантиметров',
-                hintStyle: TextStyle(
+              decoration: InputDecoration(
+                hintText: widget.sizerType == 'Брюки' ? 'Размер' :'Сантиметров',
+                hintStyle: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
