@@ -66,10 +66,10 @@ abstract class _CurrentWeatherStore with Store {
   Map<String, dynamic> get mapTemp => weatherDataMap['main'];
 
   @computed
-  double get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
+  num get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
 
   @computed
-  double get feelsLikeTemp => mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
+  num get feelsLikeTemp => mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
 
   @computed
   TemperatureTypes get currentTemperatureType {

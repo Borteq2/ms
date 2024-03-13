@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: GetIt.I<GoRouter>(),
-      title: 'Mordor Suit',
+      title: 'Mordor Tac',
       theme: mordorDarkTheme,
     );
   }

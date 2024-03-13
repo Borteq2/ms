@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,6 +25,8 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // AppMetrica.activate(AppMetricaConfig('Your api key', logs: true));
 
       await dotenv.load(fileName: "lib/.env");
       await Hive.initFlutter();
@@ -86,7 +89,6 @@ Future<void> main() async {
       //         options.tracesSampleRate = 1.0;
       //       }, appRunner: () => runApp(const MyApp()))
       //     :
-      talker.debug('1');
       runApp(const MyApp());
 
       // try {
@@ -100,12 +102,11 @@ Future<void> main() async {
       // }
     },
     (exception, stack) async {
-      if (kReleaseMode) {
-        await Sentry.captureException(exception, stackTrace: stack);
-        // GetIt.I<Talker>().handle(exception, stack);
-      } else {
-        // GetIt.I<Talker>().handle(exception, stack);
-      }
+      // if (kReleaseMode) {
+      //   await Sentry.captureException(exception, stackTrace: stack);
+      // GetIt.I<Talker>().handle(exception, stack);
+      // } else {
+      GetIt.I<Talker>().handle(exception, stack);
     },
   );
 }
