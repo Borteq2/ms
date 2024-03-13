@@ -12,10 +12,14 @@ part 'local_weather_store.g.dart';
 
 enum TemperatureTypes {
   notSupported,
+  frostPunk,
   cold,
+  belowZero,
+  aboveZero,
   low,
   warm,
   heat,
+  melting
 }
 
 class LocalWeatherStore = _LocalWeatherStore with _$LocalWeatherStore;
@@ -74,25 +78,37 @@ abstract class _LocalWeatherStore with Store {
 
   @computed
   TemperatureTypes get currentTemperatureType {
-    return temperature >= -15 && temperature < 0
-        ? TemperatureTypes.cold
-        : temperature >= 0 && temperature < 10
-        ? TemperatureTypes.low
-        : temperature >= 10 && temperature < 20
-        ? TemperatureTypes.warm
-        : temperature >= 25
-        ? TemperatureTypes.heat
-        : TemperatureTypes.notSupported;
+    return temperature >= -15 && temperature < -10
+        ? TemperatureTypes.frostPunk
+        : temperature >= -10 && temperature < -5
+            ? TemperatureTypes.cold
+            : temperature >= -5 && temperature < 0
+                ? TemperatureTypes.belowZero
+                : temperature >= 0 && temperature < 5
+                    ? TemperatureTypes.aboveZero
+                    : temperature >= 5 && temperature < 10
+                        ? TemperatureTypes.low
+                        : temperature >= 10 && temperature < 15
+                            ? TemperatureTypes.warm
+                            : temperature >= 15 && temperature < 20
+                                ? TemperatureTypes.heat
+                                : temperature > 20
+                                    ? TemperatureTypes.melting
+                                    : TemperatureTypes.notSupported;
   }
 
   @computed
   String get temperatureName => switch (currentTemperatureType) {
-    TemperatureTypes.notSupported => 'Не поддерживается',
-    TemperatureTypes.cold => 'Холодно',
-    TemperatureTypes.low => 'Прохладно',
-    TemperatureTypes.warm => 'Тепло',
-    TemperatureTypes.heat => 'Жарко',
-  };
+        TemperatureTypes.notSupported => 'Не поддерживается',
+        TemperatureTypes.frostPunk => 'Дубак',
+        TemperatureTypes.cold => 'Холодно',
+        TemperatureTypes.belowZero => 'Чуть ниже нуля',
+        TemperatureTypes.aboveZero => 'Чуть выше нуля',
+        TemperatureTypes.low => 'Прохладно',
+        TemperatureTypes.warm => 'Тепло',
+        TemperatureTypes.heat => 'Жарко',
+        TemperatureTypes.melting => 'Жарища',
+      };
 
 // =============================================================================
 
@@ -118,8 +134,8 @@ abstract class _LocalWeatherStore with Store {
       geoPermission = true;
       localWeatherDataMap = await fetchWeatherByLocation();
       // setTimestamp();
-      weatherIcon =
-          IconHelper.getIconByWeather(localWeatherDataMap['weather'][0]['main']);
+      weatherIcon = IconHelper.getIconByWeather(
+          localWeatherDataMap['weather'][0]['main']);
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
@@ -163,11 +179,11 @@ abstract class _LocalWeatherStore with Store {
 
     Response response = await dio.get(
       'https://api.openweathermap.org/data/2.5/weather'
-          '?lat=${currentPosition.latitude}'
-          '&lon=${currentPosition.longitude}'
-          '&appid=$weatherApiKey'
-          '&units=metric'
-          '&lang=ru',
+      '?lat=${currentPosition.latitude}'
+      '&lon=${currentPosition.longitude}'
+      '&appid=$weatherApiKey'
+      '&units=metric'
+      '&lang=ru',
     );
     Map<String, dynamic> result = response.data;
     // talker.info(weatherDataMap);

@@ -173,7 +173,7 @@ Suit lowTempSuit = Suit(
     citizenTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
     uralTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
   ],
-  layer_6: [inokMembranPoncho],
+  layer_6: [inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null)],
   layer_7: null,
   layer_8: null,
   layer_9: null,
@@ -222,7 +222,7 @@ Suit warmTempSuit = Suit(
 
 Suit heatTempSuit = Suit(
   name: 'Очень жарко',
-  layer_1: [python],
+  layer_1: [python..inSuitLayer = Layer.mapNumberToName(1, null)],
   layer_2: null,
   layer_3: null,
   layer_4_top: [
