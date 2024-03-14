@@ -122,11 +122,11 @@ Suit belowZeroTempSuit = Suit(
     cheburashka
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
@@ -135,7 +135,7 @@ Suit belowZeroTempSuit = Suit(
     uralTrousers
       ..inSuitLayer = Layer.mapNumberToName(5, 'низ')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_6: [
     inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
@@ -173,11 +173,11 @@ Suit aboveZeroTempSuit = Suit(
     cheburashka
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
@@ -186,7 +186,7 @@ Suit aboveZeroTempSuit = Suit(
     uralTrousers
       ..inSuitLayer = Layer.mapNumberToName(5, 'низ')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_6: [
     inokMembranPoncho..inSuitLayer = Layer.mapNumberToName(6, null),
@@ -228,11 +228,11 @@ Suit lowTempSuit = Suit(
     cheburashka
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
       ..inSuitLayer = Layer.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'
-      ..features[2] = 'Одевается поверх всех слоев',
+      ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
     wolfTrousers..inSuitLayer = Layer.mapNumberToName(5, 'низ'),
