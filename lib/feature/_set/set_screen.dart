@@ -129,10 +129,11 @@ class _SetScreenState extends State<SetScreen> {
                                 .value
                                 .length ==
                             1
-                        ? VerticalCardWidget(
+                        ? ItemCardWidget(
                             appStore: appStore,
                             currentPage: currentPage,
                             index: index,
+                            type: CardType.vertical,
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -148,10 +149,11 @@ class _SetScreenState extends State<SetScreen> {
                                   scrollDirection: Axis.horizontal,
                                   pageSnapping: true,
                                   itemBuilder: (context, index) =>
-                                      HorizontalCardWidget(
+                                      ItemCardWidget(
                                     appStore: appStore,
                                     currentPage: currentPage,
                                     index: index,
+                                    type: CardType.vertical,
                                   ),
                                   onPageChanged: (int page) {
                                     setState(() => currentPage2 = page);

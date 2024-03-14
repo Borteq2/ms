@@ -2,35 +2,42 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/feature/library/enums.dart';
-import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HorizontalCardWidget extends StatelessWidget {
-  const HorizontalCardWidget({
+enum CardType { vertical, horizontal }
+
+class ItemCardWidget extends StatelessWidget {
+  const ItemCardWidget({
     super.key,
     required this.appStore,
-    required this.currentPage,
     required this.index,
+    required this.currentPage,
+    required this.type,
   });
 
   final AppStore appStore;
-  final int currentPage;
   final int index;
+  final int currentPage;
+  final CardType type;
 
   @override
   Widget build(BuildContext context) {
-    var currentItem = appStore.suitStore.resultMap.entries
-        .elementAt(currentPage)
-        .value[index];
+    dynamic currentItem;
+
+    switch (type) {
+      case CardType.vertical:
+        currentItem =
+            appStore.suitStore.resultMap.entries.elementAt(index).value[0];
+      case CardType.horizontal:
+        currentItem = appStore.suitStore.resultMap.entries
+            .elementAt(currentPage)
+            .value[index];
+    }
 
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
@@ -38,16 +45,15 @@ class HorizontalCardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _ImageWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
-            _NameWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _ImageWidget(item: currentItem),
+            _NameWidget(item: currentItem),
             _LinkWidget(appStore: appStore, item: currentItem),
             _FeaturesListWidget(item: currentItem),
-            _LayerWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+            _LayerWidget(item: currentItem),
             _NecessaryWidget(
-                appStore: appStore, currentPage: currentPage, index: index),
+              item: currentItem,
+              index: index,
+            ),
           ],
         ),
       ),
@@ -57,42 +63,33 @@ class HorizontalCardWidget extends StatelessWidget {
 
 class _ImageWidget extends StatelessWidget {
   const _ImageWidget({
-    required this.appStore,
-    required this.currentPage,
-    required this.index,
+    required this.item,
   });
 
-  final AppStore appStore;
-  final int currentPage;
-  final int index;
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(
-          '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].image}'),
+      child: Image.asset('${item.image}'),
     );
   }
 }
 
 class _NameWidget extends StatelessWidget {
   const _NameWidget({
-    required this.appStore,
-    required this.currentPage,
-    required this.index,
+    required this.item,
   });
 
-  final AppStore appStore;
-  final int currentPage;
-  final int index;
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: AutoSizeText(
-        '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].name}',
+        '${item.name}',
         style: const TextStyle(fontSize: 18),
         maxLines: 1,
       ),
@@ -273,7 +270,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                               'Построение маршрута в шоурум',
                               {
                                 'Переход':
-                                '${widget.item.name} -> Маршрут навигатора в шоурум',
+                                    '${widget.item.name} -> Маршрут навигатора в шоурум',
                               },
                             );
                           }
@@ -375,9 +372,9 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                           onPressed: () {
                                             if (kReleaseMode) {
                                               AppMetrica.reportEventWithMap(
-                                                'Выбран режим калькуляции по груди',
+                                                'Выбран режим калькуляции размера',
                                                 {
-                                                  'Кнопка': 'По замерам груди',
+                                                  'Режим': 'По замерам груди',
                                                 },
                                               );
                                             }
@@ -396,9 +393,9 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                           onPressed: () {
                                             if (kReleaseMode) {
                                               AppMetrica.reportEventWithMap(
-                                                'Выбран режим калькуляции по талии',
+                                                'Выбран режим калькуляции размера',
                                                 {
-                                                  'Кнопка': 'По размерам талии',
+                                                  'Режим': 'По замерам талии',
                                                 },
                                               );
                                             }
@@ -417,10 +414,9 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                           onPressed: () {
                                             if (kReleaseMode) {
                                               AppMetrica.reportEventWithMap(
-                                                'Выбран режим калькуляции по размеру брюк/джинс',
+                                                'Выбран режим калькуляции размера',
                                                 {
-                                                  'Кнопка':
-                                                  'По размеру брюк/джинс',
+                                                  'Режим': 'По размеру брюк/джинс',
                                                 },
                                               );
                                             }
@@ -439,9 +435,9 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                           onPressed: () {
                                             if (kReleaseMode) {
                                               AppMetrica.reportEventWithMap(
-                                                'Выбран режим калькуляции по росту',
+                                                'Выбран режим калькуляции размера',
                                                 {
-                                                  'Кнопка': 'По росту',
+                                                  'Режим': 'По росту',
                                                 },
                                               );
                                             }
@@ -655,7 +651,6 @@ class _FeaturesListWidget extends StatelessWidget {
     required this.item,
   });
 
-  // TODO: отрефачить всё на айтемы (и в вертикалках тоже)
   final dynamic item;
 
   @override
@@ -683,26 +678,18 @@ class _FeaturesListWidget extends StatelessWidget {
 
 class _LayerWidget extends StatelessWidget {
   const _LayerWidget({
-    required this.appStore,
-    required this.currentPage,
-    required this.index,
+    required this.item,
   });
 
-  final AppStore appStore;
-  final int currentPage;
-  final int index;
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
-    return appStore.suitStore.resultMap.entries
-                .elementAt(currentPage)
-                .value[index]
-                .inSuitLayer !=
-            null
+    return item.inSuitLayer != null
         ? Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: AutoSizeText(
-              '${appStore.suitStore.resultMap.entries.elementAt(currentPage).value[index].inSuitLayer}',
+              '${item.inSuitLayer}',
               style: const TextStyle(fontSize: 20),
               maxLines: 1,
             ),
@@ -713,14 +700,12 @@ class _LayerWidget extends StatelessWidget {
 
 class _NecessaryWidget extends StatelessWidget {
   const _NecessaryWidget({
-    required this.appStore,
-    required this.currentPage,
     required this.index,
+    required this.item,
   });
 
-  final AppStore appStore;
-  final int currentPage;
   final int index;
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
