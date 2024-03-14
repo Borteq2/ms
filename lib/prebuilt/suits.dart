@@ -14,9 +14,9 @@ Suit notSupportedSuit = Suit(
   layer_6: null,
   layer_7: null,
   layer_8: null,
-  layer_9: null,
   head: null,
   accessories: null,
+  layer_9: null,
 );
 
 Suit frostPunkTempSuit = Suit(
@@ -47,11 +47,6 @@ Suit frostPunkTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
-    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
   ],
@@ -59,6 +54,11 @@ Suit frostPunkTempSuit = Suit(
     vaderBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     fjordBuff..inSuitLayer = Layer.mapNumberToName(11, null),
     dlanGloves..inSuitLayer = Layer.mapNumberToName(11, null),
+  ],
+  layer_9: [
+    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
+    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -91,11 +91,6 @@ Suit coldTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
-    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
   ],
@@ -103,6 +98,11 @@ Suit coldTempSuit = Suit(
     koifBalavlava..inSuitLayer = Layer.mapNumberToName(11, null),
     dozorBuff..inSuitLayer = Layer.mapNumberToName(11, null),
     dlanGloves..inSuitLayer = Layer.mapNumberToName(11, null),
+  ],
+  layer_9: [
+    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
+    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -142,11 +142,6 @@ Suit belowZeroTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
-    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
     peasantUnderhelmet..inSuitLayer = Layer.mapNumberToName(10, null)
@@ -154,6 +149,11 @@ Suit belowZeroTempSuit = Suit(
   accessories: [
     koifBalavlava..inSuitLayer = Layer.mapNumberToName(11, null),
     dozorBuff..inSuitLayer = Layer.mapNumberToName(11, null)
+  ],
+  layer_9: [
+    snowmanMaskSuit..inSuitLayer = Layer.mapNumberToName(9, null),
+    sugrobBackpackCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    snowballHelmetCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -193,13 +193,6 @@ Suit aboveZeroTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
-    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     nordHat..inSuitLayer = Layer.mapNumberToName(10, null),
     peasantUnderhelmet..inSuitLayer = Layer.mapNumberToName(10, null)
@@ -208,6 +201,13 @@ Suit aboveZeroTempSuit = Suit(
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null),
     vaderBalaclava..inSuitLayer = Layer.mapNumberToName(11, null)
+  ],
+  layer_9: [
+    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
+    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -245,13 +245,6 @@ Suit lowTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
-    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     peasantUnderhelmet..inSuitLayer = Layer.mapNumberToName(10, null),
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null)
@@ -259,6 +252,13 @@ Suit lowTempSuit = Suit(
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null)
+  ],
+  layer_9: [
+    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
+    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -286,13 +286,6 @@ Suit warmTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
-    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null),
     windPanama..inSuitLayer = Layer.mapNumberToName(10, null)
@@ -300,6 +293,13 @@ Suit warmTempSuit = Suit(
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null)
+  ],
+  layer_9: [
+    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
+    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -326,13 +326,6 @@ Suit heatTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
-    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null),
     windPanama..inSuitLayer = Layer.mapNumberToName(10, null),
@@ -341,6 +334,13 @@ Suit heatTempSuit = Suit(
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null),
+  ],
+  layer_9: [
+    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
+    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );
 
@@ -353,10 +353,14 @@ Suit meltingTempSuit = Suit(
     saratovJacket..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
     instructorShirt..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
     soloLongsleave..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
+    gopTacSet..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
+    scoutMaskingSet..inSuitLayer = Layer.mapNumberToName(4, 'верх'),
   ],
   layer_4_bot: [
     saratovTrousers..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
     freelancerShorts..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
+    gopTacSet..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
+    scoutMaskingSet..inSuitLayer = Layer.mapNumberToName(4, 'низ'),
   ],
   layer_5_top: null,
   layer_5_bot: null,
@@ -365,13 +369,6 @@ Suit meltingTempSuit = Suit(
   ],
   layer_7: null,
   layer_8: null,
-  layer_9: [
-    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
-    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
-    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
-  ],
   head: [
     gasBaseball..inSuitLayer = Layer.mapNumberToName(10, null),
     windPanama..inSuitLayer = Layer.mapNumberToName(10, null),
@@ -380,5 +377,12 @@ Suit meltingTempSuit = Suit(
   accessories: [
     ninjaBalaclava..inSuitLayer = Layer.mapNumberToName(11, null),
     raiderBuff..inSuitLayer = Layer.mapNumberToName(11, null),
+  ],
+  layer_9: [
+    frakSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    evokSniperCloak..inSuitLayer = Layer.mapNumberToName(9, null),
+    pokrovSniperScarf..inSuitLayer = Layer.mapNumberToName(9, null),
+    scoutMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
+    vorohMaskCover..inSuitLayer = Layer.mapNumberToName(9, null),
   ],
 );

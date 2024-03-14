@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -23,6 +25,7 @@ class PresetsGridWidget extends StatefulWidget {
 
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   bool isLongPressed = false;
+  int? presetIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +50,21 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                     .presetsCityNamesCount,
                 itemBuilder: (context, index) => GestureDetector(
                   onLongPress: () {
-                    talker.warning('лонг прес');
+                    if (kReleaseMode) {
+                      AppMetrica.reportEvent(
+                          'Пресет ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]} переведён в режим удаления');
+                    }
                     setState(() {
                       isLongPressed = !isLongPressed;
+                      presetIndex = index;
                     });
                   },
                   onTap: () => isLongPressed
-                      ? setState(() => isLongPressed = !isLongPressed)
+                      ? {
+                          AppMetrica.reportEvent(
+                              'Удаление пресета ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]} отменено'),
+                          setState(() => isLongPressed = !isLongPressed)
+                        }
                       : widget.appStore.weatherPresetsStore
                                   .presetCityWeatherData[index]['name'] !=
                               'Ошибка загрузки'
@@ -69,13 +80,23 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                               .presetCityWeatherDataCount >
                           index
                       ? Card(
-                          child: isLongPressed
+                          child: isLongPressed && presetIndex == index
                               ? Center(
                                   child: IconButton(
                                     iconSize: 40,
-                                    onPressed: () => appStore
-                                        .weatherPresetsStore
-                                        .removePreset(index),
+                                    onPressed: () {
+                                      AppMetrica.reportEventWithMap(
+                                          'Удаление пресета', {
+                                        widget
+                                                .appStore
+                                                .weatherPresetsStore
+                                                .cityNamesStore
+                                                .presetsCityNames[index]:
+                                            '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]}'
+                                      });
+                                      appStore.weatherPresetsStore
+                                          .removePreset(index);
+                                    },
                                     icon: const Icon(Icons.delete_forever),
                                     color: Theme.of(context).primaryColor,
                                   ),
@@ -147,6 +168,13 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     widget.appStore.currentWeatherStore.setSuitByWeatherManually(
       widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
     );
+    if (kReleaseMode) {
+      AppMetrica.reportEventWithMap('Установлен комплект снаряжения', {
+        'Комплект':
+            '${widget.appStore.currentWeatherStore.currentTemperatureType}'
+      });
+      AppMetrica.reportEvent('Переход на экран комплекта');
+    }
     context.go(
       '/set',
       extra: widget.appStore.weatherPresetsStore.presetCityWeatherData[index],

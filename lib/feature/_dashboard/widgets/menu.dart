@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
@@ -11,6 +13,9 @@ class MenuDashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(kReleaseMode) {
+      AppMetrica.reportEvent('Открыто меню деталей локальной погоды');
+    }
     return PopupMenuButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

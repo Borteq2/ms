@@ -263,8 +263,10 @@ Clothing freelancerShorts = Clothing(
   inSuitLayer: null,
   isNecessary: true,
   isHasAlready: false,
-  linkToWb: null,
-  linkToOzon: null,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/155809469/detail.aspx?targetUrl=EX',
+  linkToOzon:
+      'https://www.ozon.ru/product/shorty-frilanser-chernyy-multikam-56-58-525949846/?asb=hE%252Bewpeh9Vu7yNKGsYuGDTISfeR4BupxdNzS5Hi0cTY%253D&asb2=61bb9N_ePo6altTFQPfRerL2dRYzDstJ9lknE9MFoj4bDc5JvJZJMK5pe68sw6dK&avtc=1&avte=4&avts=1710351572&keywords=%D1%88%D0%BE%D1%80%D1%82%D1%8B+%D1%84%D1%80%D0%B8%D0%BB%D0%B0%D0%BD%D1%81%D0%B5%D1%80',
 );
 
 // =========================== cloaks ==========================================
@@ -284,7 +286,8 @@ Clothing inokMembranPoncho = Clothing(
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/182817009/detail.aspx?targetUrl=GP',
-  linkToOzon: null,
+  linkToOzon:
+      'https://www.ozon.ru/product/poncho-dozhdevik-turisticheskiy-mordor-tac-1249078104/?avtc=1&avte=4&avts=1710350543',
 );
 
 Clothing snowmanMaskSuit = Clothing(
@@ -444,7 +447,7 @@ Clothing scoutMaskingSet = Clothing(
       'https://mordor-tac.com/product/mordortac-summer-masking-suit-scout',
   features: [
     'Отлично скрывает силуэт человека в растительности',
-    'Произведен из легкой, быстросохнущей ткани не сковывающей движение',
+    'Произведен из легкой, быстросохнущей ткани, не сковывающей движение',
     'Состав: 65% полиэстер, 35% вискоза',
   ],
   image: 'assets/images/items/scout.jpg',
@@ -526,8 +529,9 @@ Clothing peasantUnderhelmet = Clothing(
   inSuitLayer: null,
   isNecessary: false,
   isHasAlready: false,
-  linkToWb: null,
-  linkToOzon: null,
+  linkToWb:
+      'https://www.wildberries.ru/catalog/158979683/detail.aspx?targetUrl=EX',
+  linkToOzon: 'https://www.ozon.ru/product/shapka-mordor-tac-898143558/',
 );
 
 Clothing gasBaseball = Clothing(

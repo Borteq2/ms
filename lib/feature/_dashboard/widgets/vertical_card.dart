@@ -1,15 +1,13 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:mordor_suit/feature/library/enums.dart';
-import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class VerticalCardWidget extends StatelessWidget {
   const VerticalCardWidget({

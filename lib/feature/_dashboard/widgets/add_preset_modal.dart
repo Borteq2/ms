@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
@@ -54,6 +56,10 @@ class _AddPresetModalState extends State<AddPresetModal> {
         ),
         TextButton(
           onPressed: () {
+            if (kReleaseMode) {
+              AppMetrica.reportEventWithMap('Добавлен пресет',
+                  {'Название локации': _cityNameController.text});
+            }
             appStore.weatherPresetsStore.addPreset(_cityNameController.text);
             Navigator.of(context).pop();
           },

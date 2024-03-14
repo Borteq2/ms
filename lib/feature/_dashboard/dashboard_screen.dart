@@ -1,4 +1,5 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +23,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
-
   void _requestPermissions() async {
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
@@ -33,11 +33,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
         permissions[Permission.storage] == PermissionStatus.granted) {
       await appStore.timestampStore.checkTimestampWithRefresh();
 
-
       await appStore.localWeatherStore.getLocationAndWeatherData();
     } else {
       talker.critical('Не удалось получить все необходимые разрешения');
-      appStore.localWeatherStore.localWeatherDataMap = {'name': 'Не могу определить местоположение'};
+      appStore.localWeatherStore.localWeatherDataMap = {
+        'name': 'Не могу определить местоположение'
+      };
+      if (kReleaseMode) {
+        AppMetrica.reportEventWithMap('Не даны разрешения', {
+          'Локация': '${permissions[Permission.location]}',
+          'Хранилище': '${permissions[Permission.storage]}'
+        });
+        AppMetrica.reportError(
+          message: 'Не даны разрешения',
+          errorDescription: AppMetricaErrorDescription.fromCurrentStackTrace(
+              message: 'Локация: ${permissions[Permission.location]}, '
+                  'Хранилище: ${permissions[Permission.storage]}',
+              type: 'Некорректное взаимодействие с приложеннием'),
+        ).ignore();
+      }
     }
     appStore.timestampStore.isNeedLoadData
         ? await appStore.weatherPresetsStore.fetchCityWeatherData()
@@ -48,7 +62,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _requestPermissions();
-    AppMetrica.reportEvent('Открыт экран пресетов погоды');
+    if (kReleaseMode) {
+      AppMetrica.reportEvent('Открыт экран пресетов погоды');
+    }
   }
 
   @override
@@ -78,22 +94,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 1,
-                onTap: () => showDialog(
-                    context: context,
-                    builder: (context) => AddPresetModal(appStore: appStore)),
-                child: const Text(
-                  'Добавить город',
-                  style: TextStyle(color: Colors.deepOrange),
+            itemBuilder: (context) {
+              if (kReleaseMode) {
+                AppMetrica.reportEvent('Открыто меню FAB');
+              }
+              return <PopupMenuItem>[
+                PopupMenuItem(
+                  value: 1,
+                  onTap: () {
+                    if (kReleaseMode) {
+                      AppMetrica.reportEvent(
+                          'Нажата кнопка создания локации по названию города');
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (context) =>
+                            AddPresetModal(appStore: appStore));
+                  },
+                  child: const Text(
+                    'Добавить город',
+                    style: TextStyle(color: Colors.deepOrange),
+                  ),
                 ),
-              ),
-              const PopupMenuItem(
-                value: 2,
-                child: CustomPopupMenuItem(),
-              ),
-            ],
+                const PopupMenuItem(
+                  value: 2,
+                  child: CustomPopupMenuItem(),
+                ),
+              ];
+            },
           ),
         ),
         floatingActionButtonLocation: appStore.fabLocation,
@@ -128,6 +156,9 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
               ),
         enabled: appStore.localWeatherStore.isWeatherLoaded,
         onTap: () {
+          if (kReleaseMode) {
+            AppMetrica.reportEvent('Нажата кнопка "Одеться здесь и сейчас');
+          }
           appStore.currentWeatherStore.setSuitByWeatherManually(
               appStore.localWeatherStore.localWeatherDataMap);
           Navigator.pop(context);

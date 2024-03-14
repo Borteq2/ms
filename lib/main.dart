@@ -39,7 +39,9 @@ Future<void> main() async {
         ),
       );
 
-      // AppMetrica.reportEvent('Запуск приложения');
+      if (kReleaseMode) {
+        AppMetrica.reportEvent('Запуск приложения');
+      }
 
       Hive.registerAdapter(ClothingAdapter());
 

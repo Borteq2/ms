@@ -15,7 +15,6 @@ abstract class _TimestampStore with Store {
 
   final Talker talker;
   DefaultCacheManager cacheManager = DefaultCacheManager();
-  int ttlInMinutes = 30;
 
   @observable
   DateTime currentTimestamp = DateTime.now();
@@ -45,21 +44,21 @@ abstract class _TimestampStore with Store {
         String timestampString = await timestampFile.file.readAsString();
         cachedTimestamp = DateTime.parse(timestampString);
         if (cachedTimestamp!
-            .add(Duration(minutes: ttlInMinutes))
+            .add(Duration(minutes: 30))
             .isBefore(currentTimestamp)) {
           talker.warning('кэшированный таймштамп устарел');
           await refreshTimestampCache(
-              cacheManager, currentTimestamp, ttlInMinutes);
+              cacheManager, currentTimestamp);
           isNeedLoadData = true;
         } else {
           talker.debug('Таймштамп валидный: $cachedTimestamp');
           talker.debug(
-              'Истечёт: ${cachedTimestamp!.add(Duration(minutes: ttlInMinutes))}');
+              'Истечёт: ${cachedTimestamp!.add(Duration(minutes: 30))}');
         }
       } else {
         talker.warning('Таймштампа нет');
         await refreshTimestampCache(
-            cacheManager, currentTimestamp, ttlInMinutes);
+            cacheManager, currentTimestamp);
         isNeedLoadData = true;
         await checkTimestampWithRefresh();
       }
@@ -78,12 +77,10 @@ abstract class _TimestampStore with Store {
   Future<void> refreshTimestampCache(
     DefaultCacheManager cacheManager,
     DateTime currentTime,
-    int ttlInMinutes,
   ) async {
     await cacheManager.putFile(
       'timestamp',
       utf8.encode(currentTime.toString()),
-      maxAge: Duration(minutes: ttlInMinutes),
     );
     // talker.info('УСТАНОВИЛ');
     talker.warning('рефрешу таймштамп');
