@@ -79,6 +79,7 @@ class _SetScreenState extends State<SetScreen> {
           }
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             leading: IconButton(
@@ -116,8 +117,8 @@ class _SetScreenState extends State<SetScreen> {
                   : const SizedBox.shrink(),
               Expanded(
                 child: SizedBox(
-                  height: SizesConfig(context).clothingCardHeight,
-                  width: SizesConfig(context).clothingCardWidth,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
                   child: PageView.builder(
                     controller: pageController,
                     scrollDirection: Axis.vertical,
@@ -153,7 +154,7 @@ class _SetScreenState extends State<SetScreen> {
                                     appStore: appStore,
                                     currentPage: currentPage,
                                     index: index,
-                                    type: CardType.vertical,
+                                    type: CardType.horizontal,
                                   ),
                                   onPageChanged: (int page) {
                                     setState(() => currentPage2 = page);

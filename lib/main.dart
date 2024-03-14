@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mordor_suit/feature/library/config/sizes.dart';
 
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -67,6 +68,7 @@ Future<void> main() async {
       GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
       GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
       GetIt.I.registerSingleton(AppStore());
+      GetIt.I.registerSingleton(SizesConfig());
       GetIt.I.registerSingleton(
         GoRouter(
           observers: [

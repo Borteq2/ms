@@ -2,8 +2,10 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mordor_suit/feature/library/config/sizes.dart';
 import 'package:mordor_suit/feature/library/enums.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -39,22 +41,24 @@ class ItemCardWidget extends StatelessWidget {
             .value[index];
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 8.0),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _ImageWidget(item: currentItem),
-            _NameWidget(item: currentItem),
-            _LinkWidget(appStore: appStore, item: currentItem),
-            _FeaturesListWidget(item: currentItem),
-            _LayerWidget(item: currentItem),
-            _NecessaryWidget(
-              item: currentItem,
-              index: index,
-            ),
-          ],
+    return Observer(
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                  flex: GetIt.I<SizesConfig>().isKeyboardOpen ? 1 : 0,
+                  child: _ImageWidget(item: currentItem)),
+              _NameWidget(item: currentItem),
+              _LinkWidget(appStore: appStore, item: currentItem),
+              _FeaturesListWidget(item: currentItem),
+              _LayerWidget(item: currentItem),
+              _NecessaryWidget(item: currentItem, index: index),
+            ],
+          ),
         ),
       ),
     );
@@ -339,7 +343,9 @@ class _LinkWidgetState extends State<_LinkWidget> {
                           ),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await GetIt.I<SizesConfig>()
+                                  .disableKeyboardFlag();
                               Navigator.of(context).pop();
                             },
                             child: const Text('Отмена'),
@@ -416,7 +422,8 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                               AppMetrica.reportEventWithMap(
                                                 'Выбран режим калькуляции размера',
                                                 {
-                                                  'Режим': 'По размеру брюк/джинс',
+                                                  'Режим':
+                                                      'По размеру брюк/джинс',
                                                 },
                                               );
                                             }
@@ -590,7 +597,7 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.6,
               child: Image.asset(
                 widget.sizerType == 'Грудь'
@@ -607,8 +614,22 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
+              onTap: () {
+                GetIt.I<SizesConfig>().isKeyboardOpen = true;
+              },
+              onEditingComplete: () async {
+                await GetIt.I<SizesConfig>().disableKeyboardFlag();
+              },
               onSubmitted: (String value) => setState(() {
-                size = _calculateSize(value);
+                try {
+                  size = _calculateSize(value);
+                } catch (e, st) {
+                  GetIt.I<Talker>().handle(e, st);
+                  AppMetrica.reportError(
+                      message: 'Ошибка калькуляции: $e',
+                      errorDescription:
+                          AppMetricaErrorDescription.fromCurrentStackTrace());
+                }
               }),
               decoration: InputDecoration(
                 hintText:
@@ -628,14 +649,27 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                    onPressed: () => setState(() {
-                          size = _calculateSize(_controller.text);
-                        }),
+                    onPressed: () => setState(
+                          () {
+                            try {
+                              size = _calculateSize(_controller.text);
+                            } catch (e, st) {
+                              GetIt.I<Talker>().handle(e, st);
+                              AppMetrica.reportError(
+                                  message: 'Ошибка калькуляции: $e',
+                                  errorDescription: AppMetricaErrorDescription
+                                      .fromCurrentStackTrace());
+                            }
+                          },
+                        ),
                     // Navigator.pop(context);
 
                     child: const Text('Рассчитать\nразмер')),
                 TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () async {
+                      await GetIt.I<SizesConfig>().disableKeyboardFlag();
+                      Navigator.pop(context);
+                    },
                     child: const Text('Вернуться\nк магазинам')),
               ],
             )

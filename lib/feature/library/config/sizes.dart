@@ -1,15 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
-class SizesConfig {
-  SizesConfig(
-    this.context,
-  );
+part 'sizes.g.dart';
 
-  final BuildContext context;
+class SizesConfig = _SizesConfig with _$SizesConfig;
 
-  double get clothingCardHeight => MediaQuery.of(context).size.height * 1;
-  // double get clothingCardHeight => MediaQuery.of(context).size.height * 0.74;
+abstract class _SizesConfig with Store {
+  @observable
+  bool isKeyboardOpen = false;
 
-  // double get clothingCardWidth => MediaQuery.of(context).size.height * 0.9;
-  double get clothingCardWidth => MediaQuery.of(context).size.height * 1;
+  @computed
+  double get cardHeightModifier => isKeyboardOpen ? 0.8 : 1;
+
+  @computed
+  double get cardWidthModifier => isKeyboardOpen ? 1 : 1;
+
+  @action
+  Future<void> disableKeyboardFlag() async {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      isKeyboardOpen = false;
+    });
+  }
 }
