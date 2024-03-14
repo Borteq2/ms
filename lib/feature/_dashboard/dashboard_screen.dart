@@ -63,7 +63,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     _requestPermissions();
     if (kReleaseMode) {
-      AppMetrica.reportEvent('Открыт экран пресетов погоды');
+      AppMetrica.reportEventWithMap(
+        'Открыт экран пресетов погоды',
+        {
+          'Количество пресетов':
+              appStore.weatherPresetsStore.cityNamesStore.presetsCityNamesCount
+        },
+      );
     }
   }
 
@@ -96,15 +102,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             itemBuilder: (context) {
               if (kReleaseMode) {
-                AppMetrica.reportEvent('Открыто меню FAB');
+                AppMetrica.reportEventWithMap(
+                  'Открыто меню FAB',
+                  {
+                    'Локальная погода получена':
+                        appStore.localWeatherStore.isWeatherLoaded &&
+                            !appStore.localWeatherStore.isHasError
+                  },
+                );
               }
               return <PopupMenuItem>[
                 PopupMenuItem(
                   value: 1,
                   onTap: () {
                     if (kReleaseMode) {
-                      AppMetrica.reportEvent(
-                          'Нажата кнопка создания локации по названию города');
+                      AppMetrica.reportEventWithMap(
+                        'Нажата кнопка создания локации по названию города',
+                        {
+                          'Локальная погода получена':
+                              appStore.localWeatherStore.isWeatherLoaded &&
+                                  !appStore.localWeatherStore.isHasError
+                        },
+                      );
                     }
                     showDialog(
                         context: context,
@@ -156,11 +175,32 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
               ),
         enabled: appStore.localWeatherStore.isWeatherLoaded,
         onTap: () {
+          // TODO: дубликат с тапом по карточке пресета
           if (kReleaseMode) {
-            AppMetrica.reportEvent('Нажата кнопка "Одеться здесь и сейчас');
+            AppMetrica.reportEventWithMap(
+              'Нажата кнопка "Одеться здесь и сейчас',
+              {
+                'Локальная погода':
+                    '${appStore.localWeatherStore.temperature}, ${appStore.localWeatherStore.weather}'
+              },
+            );
           }
           appStore.currentWeatherStore.setSuitByWeatherManually(
               appStore.localWeatherStore.localWeatherDataMap);
+          if (kReleaseMode) {
+            AppMetrica.reportEventWithMap(
+              'Установлен комплект снаряжения',
+              {
+                'Комплект': appStore.suitStore.suit.name,
+              },
+            );
+            AppMetrica.reportEventWithMap(
+              'Переход на экран комплекта',
+              {
+                'Комплект': appStore.suitStore.suit.name,
+              },
+            );
+          }
           Navigator.pop(context);
           context.go(
             '/set',

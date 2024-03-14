@@ -35,7 +35,12 @@ class _SetScreenState extends State<SetScreen> {
   void initState() {
     super.initState();
     if (kReleaseMode) {
-      AppMetrica.reportEvent('Открыт экран комплекта');
+      AppMetrica.reportEventWithMap(
+        'Открыт экран комплекта',
+        {
+          'Комплект': appStore.suitStore.suit.name,
+        },
+      );
     }
   }
 
@@ -64,7 +69,13 @@ class _SetScreenState extends State<SetScreen> {
         canPop: true,
         onPopInvoked: (_) {
           if (kReleaseMode) {
-            AppMetrica.reportEvent('Нажата кнопка "назад" на телефоне');
+            AppMetrica.reportEventWithMap(
+              'Нажата кнопка "назад" на телефоне',
+              {
+                'С экрана': 'Комплект',
+                'На экран': 'Дашборд с пресетами',
+              },
+            );
           }
         },
         child: Scaffold(
@@ -73,8 +84,13 @@ class _SetScreenState extends State<SetScreen> {
             leading: IconButton(
               onPressed: () {
                 if (kReleaseMode) {
-                  AppMetrica.reportEvent(
-                      'Нажата кнопка-стрелка "назад" в приложении');
+                  AppMetrica.reportEventWithMap(
+                    'Нажата кнопка-стрелка "назад" в приложении (appBar)',
+                    {
+                      'С экрана': 'Комплект',
+                      'На экран': 'Дашборд с пресетами',
+                    },
+                  );
                 }
                 context.pop();
               },

@@ -61,8 +61,11 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                   },
                   onTap: () => isLongPressed
                       ? {
-                          AppMetrica.reportEvent(
-                              'Удаление пресета ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]} отменено'),
+                          AppMetrica.reportEventWithMap(
+                              'Удаление пресета локации отменено', {
+                            'Локация': widget.appStore.weatherPresetsStore
+                                .cityNamesStore.presetsCityNames[index]
+                          }),
                           setState(() => isLongPressed = !isLongPressed)
                         }
                       : widget.appStore.weatherPresetsStore
@@ -169,10 +172,8 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
       widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
     );
     if (kReleaseMode) {
-      AppMetrica.reportEventWithMap('Установлен комплект снаряжения', {
-        'Комплект':
-            '${widget.appStore.currentWeatherStore.currentTemperatureType}'
-      });
+      AppMetrica.reportEventWithMap('Установлен комплект снаряжения',
+          {'Комплект': widget.appStore.suitStore.suit.name});
       AppMetrica.reportEvent('Переход на экран комплекта');
     }
     context.go(

@@ -1,5 +1,6 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
@@ -104,6 +105,14 @@ class _LinkWidget extends StatefulWidget {
 class _LinkWidgetState extends State<_LinkWidget> {
   void _preloadBoxData() async {
     await appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
+    if (kReleaseMode) {
+      AppMetrica.reportEventWithMap(
+        'Синхронизация наличия с кэшем',
+        {
+          'Товар': '${widget.item.name}',
+        },
+      );
+    }
   }
 
   @override
@@ -115,10 +124,12 @@ class _LinkWidgetState extends State<_LinkWidget> {
   void openLink(BuildContext context, LinkType linkType) async {
     switch (linkType) {
       case LinkType.mordor:
-        Map<String, Object> reportMap = {
-          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
-        };
-        AppMetrica.reportEventWithMap('Переход на сайт Мордор', reportMap);
+        AppMetrica.reportEventWithMap(
+          'Переход на сайт Мордор',
+          {
+            'Переход': '${widget.item.name} -> ${widget.item.linkToStore}',
+          },
+        );
         Navigator.of(context).pop();
         launchUrl(
           Uri.parse(
@@ -126,10 +137,12 @@ class _LinkWidgetState extends State<_LinkWidget> {
           ),
         );
       case LinkType.wb:
-        Map<String, Object> reportMap = {
-          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
-        };
-        AppMetrica.reportEventWithMap('Переход на Wildberries', reportMap);
+        AppMetrica.reportEventWithMap(
+          'Переход на Wildberries',
+          {
+            'Переход': '${widget.item.name} -> ${widget.item.linkToStore}',
+          },
+        );
         Navigator.of(context).pop();
         launchUrl(
           Uri.parse(
@@ -137,10 +150,12 @@ class _LinkWidgetState extends State<_LinkWidget> {
           ),
         );
       case LinkType.ozon:
-        Map<String, Object> reportMap = {
-          'переход': '${widget.item.name} -> ${widget.item.linkToStore}'
-        };
-        AppMetrica.reportEventWithMap('Переход на Ozon', reportMap);
+        AppMetrica.reportEventWithMap(
+          'Переход на Ozon',
+          {
+            'Переход': '${widget.item.name} -> ${widget.item.linkToStore}',
+          },
+        );
         Navigator.of(context).pop();
         launchUrl(
           Uri.parse(
@@ -156,7 +171,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
 
     bool isChecked;
 
-    talker.info('Это шмотка, проверяю чекнутость');
+    // talker.info('Это шмотка, проверяю чекнутость');
     isChecked =
         appStore.clothingMemoryStore.boxedClothingList.contains(widget.item);
 
@@ -242,12 +257,15 @@ class _LinkWidgetState extends State<_LinkWidget> {
                           : const SizedBox.shrink(),
                       TextButton(
                         onPressed: () async {
-                          Map<String, Object> reportMap = {
-                            'переход':
-                                '${widget.item.name} -> Маршрут навигатора в шоурум'
-                          };
-                          AppMetrica.reportEventWithMap(
-                              'Построение маршрута в шоурум', reportMap);
+                          if (kReleaseMode) {
+                            AppMetrica.reportEventWithMap(
+                              'Построение маршрута в шоурум',
+                              {
+                                'Переход':
+                                    '${widget.item.name} -> Маршрут навигатора в шоурум',
+                              },
+                            );
+                          }
                           Navigator.of(context).pop();
                           await launchUrl(
                             Uri.parse(
@@ -281,12 +299,31 @@ class _LinkWidgetState extends State<_LinkWidget> {
                         children: [
                           TextButton(
                             onPressed: () async {
-                              isChecked
-                                  ? await appStore.clothingMemoryStore
-                                      .removeClothingFromBox(widget.item)
-                                  : await appStore.clothingMemoryStore
-                                      .setClothingToBox(widget.item);
-
+                              if (isChecked) {
+                                await appStore.clothingMemoryStore
+                                    .removeClothingFromBox(widget.item);
+                                if (kReleaseMode) {
+                                  AppMetrica.reportEventWithMap(
+                                    'Изменение наличия',
+                                    {
+                                      'Было': 'Есть',
+                                      'Стало': 'Нет',
+                                    },
+                                  );
+                                }
+                              } else {
+                                await appStore.clothingMemoryStore
+                                    .setClothingToBox(widget.item);
+                                if (kReleaseMode) {
+                                  AppMetrica.reportEventWithMap(
+                                    'Изменение наличия',
+                                    {
+                                      'Было': 'Нет',
+                                      'Стало': 'Есть',
+                                    },
+                                  );
+                                }
+                              }
                               setState(() {});
                               Navigator.pop(context);
                             },
@@ -304,6 +341,14 @@ class _LinkWidgetState extends State<_LinkWidget> {
                       TextButton(
                         onPressed: () {
                           // Navigator.pop(context);
+                          if (kReleaseMode) {
+                            AppMetrica.reportEventWithMap(
+                              'Открыто меню калькулятора размеров',
+                              {
+                                'Кнопка': 'Как выбрать размер/рост?',
+                              },
+                            );
+                          }
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -317,6 +362,14 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                     children: [
                                       TextButton(
                                           onPressed: () {
+                                            if (kReleaseMode) {
+                                              AppMetrica.reportEventWithMap(
+                                                'Выбран режим калькуляции по груди',
+                                                {
+                                                  'Кнопка': 'По замерам груди',
+                                                },
+                                              );
+                                            }
                                             Navigator.pop(context);
                                             showDialog(
                                               context: context,
@@ -330,6 +383,14 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                               const Text('По замерам груди')),
                                       TextButton(
                                           onPressed: () {
+                                            if (kReleaseMode) {
+                                              AppMetrica.reportEventWithMap(
+                                                'Выбран режим калькуляции по талии',
+                                                {
+                                                  'Кнопка': 'По размерам талии',
+                                                },
+                                              );
+                                            }
                                             Navigator.pop(context);
                                             showDialog(
                                               context: context,
@@ -343,6 +404,15 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                               const Text('По размерам талии')),
                                       TextButton(
                                           onPressed: () {
+                                            if (kReleaseMode) {
+                                              AppMetrica.reportEventWithMap(
+                                                'Выбран режим калькуляции по размеру брюк/джинс',
+                                                {
+                                                  'Кнопка':
+                                                      'По размеру брюк/джинс',
+                                                },
+                                              );
+                                            }
                                             Navigator.pop(context);
                                             showDialog(
                                               context: context,
@@ -356,6 +426,14 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                               'По размеру брюк/джинс')),
                                       TextButton(
                                           onPressed: () {
+                                            if (kReleaseMode) {
+                                              AppMetrica.reportEventWithMap(
+                                                'Выбран режим калькуляции по росту',
+                                                {
+                                                  'Кнопка': 'По росту',
+                                                },
+                                              );
+                                            }
                                             Navigator.pop(context);
                                             showDialog(
                                               context: context,
@@ -412,6 +490,15 @@ class _SizeSolutionWidgetState extends State<_SizeSolutionWidget> {
   String size = '';
 
   String _calculateSize(String size) {
+    if (kReleaseMode) {
+      AppMetrica.reportEventWithMap(
+        'Калькуляция размера',
+        {
+          'Режим': widget.sizerType,
+          'Размер': size,
+        },
+      );
+    }
     double? result = double.tryParse(size.replaceAll(',', '.'));
     return result == null
         ? 'размер не распознан'
