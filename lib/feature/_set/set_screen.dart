@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 class SetScreen extends StatefulWidget {
   const SetScreen({
@@ -28,6 +29,11 @@ class _SetScreenState extends State<SetScreen> {
   final PageController pageController = PageController(initialPage: 0);
   final PageController pageController2 = PageController(initialPage: 0);
 
+  void resetHorizontalPage() => setState(() {
+        currentPage2 = 0;
+        pageController2.jumpToPage(0);
+      });
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +45,7 @@ class _SetScreenState extends State<SetScreen> {
         },
       );
     }
+    appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
   }
 
   @override
@@ -61,6 +68,8 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // talker.info(appStore.suitStore.resultMap);
+    // talker.info(appStore.suitStore.resultMap.entries.elementAt(1));
     return Observer(
       builder: (_) => PopScope(
         canPop: true,
@@ -132,6 +141,7 @@ class _SetScreenState extends State<SetScreen> {
                             currentPage: currentPage,
                             index: index,
                             type: CardType.vertical,
+                            onHaveAlreadyBtnTap: resetHorizontalPage,
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -152,6 +162,7 @@ class _SetScreenState extends State<SetScreen> {
                                     currentPage: currentPage,
                                     index: index,
                                     type: CardType.horizontal,
+                                    onHaveAlreadyBtnTap: resetHorizontalPage,
                                   ),
                                   onPageChanged: (int page) {
                                     setState(() => currentPage2 = page);

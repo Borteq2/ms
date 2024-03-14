@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/prebuilt/suits.dart';
@@ -119,43 +118,134 @@ abstract class _SuitStore with Store {
     for (String layerName in layersWithItemsNames) {
       switch (layerName) {
         case 'layer_1':
-          resultMap['1'] = suit.layer_1;
+          resultMap['1'] = [
+            ...?suit.layer_1?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_1?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_2':
-          resultMap['2'] = suit.layer_2;
+          resultMap['2'] = [
+            ...?suit.layer_2?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_2?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_3':
-          resultMap['3'] = suit.layer_3;
+          resultMap['3'] = [
+            ...?suit.layer_3?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_3?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_4_top':
-          resultMap['4_top'] = suit.layer_4_top;
+          resultMap['4_top'] = [
+            ...?suit.layer_4_top?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_4_top?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_4_bot':
-          resultMap['4_bot'] = suit.layer_4_bot;
+          resultMap['4_bot'] = [
+            ...?suit.layer_4_bot?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_4_bot?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_5_top':
-          resultMap['5_top'] = suit.layer_5_top;
+          resultMap['5_top'] = [
+            ...?suit.layer_5_top?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_5_top?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_5_bot':
-          resultMap['5_bot'] = suit.layer_5_bot;
+          resultMap['5_bot'] = [
+            ...?suit.layer_5_bot?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_5_bot?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_6':
-          resultMap['6'] = suit.layer_6;
+          resultMap['6'] = [
+            ...?suit.layer_6?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_6?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_7':
-          resultMap['7'] = suit.layer_7;
+          resultMap['7'] = [
+            ...?suit.layer_7?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_7?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_8':
-          resultMap['8'] = suit.layer_8;
+          resultMap['8'] = [
+            ...?suit.layer_8?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_8?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'head':
-          resultMap['head'] = suit.head;
+          resultMap['head'] = [
+            ...?suit.head?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.head?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'accessories':
-          resultMap['accessories'] = suit.accessories;
+          resultMap['accessories'] = [
+            ...?suit.accessories?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.accessories?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         case 'layer_9':
-          resultMap['9'] = suit.layer_9;
+          resultMap['9'] = [
+            ...?suit.layer_9?.where((element) => appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element)),
+            ...?suit.layer_9?.where((element) => !appStore
+                .clothingMemoryStore.boxedClothingList
+                .contains(element))
+          ];
           break;
         default:
           break;

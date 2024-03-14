@@ -20,12 +20,14 @@ class ItemCardWidget extends StatelessWidget {
     required this.index,
     required this.currentPage,
     required this.type,
+    required this.onHaveAlreadyBtnTap,
   });
 
   final AppStore appStore;
   final int index;
   final int currentPage;
   final CardType type;
+  final VoidCallback onHaveAlreadyBtnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,11 @@ class ItemCardWidget extends StatelessWidget {
                   flex: GetIt.I<SizesConfig>().isKeyboardOpen ? 1 : 0,
                   child: _ImageWidget(item: currentItem)),
               _NameWidget(item: currentItem),
-              _LinkWidget(appStore: appStore, item: currentItem),
+              _LinkWidget(
+                appStore: appStore,
+                item: currentItem,
+                onHaveAlreadyBtnTap: onHaveAlreadyBtnTap,
+              ),
               _FeaturesListWidget(item: currentItem),
               _LayerWidget(item: currentItem),
               _NecessaryWidget(item: currentItem, index: index),
@@ -105,9 +111,11 @@ class _LinkWidget extends StatefulWidget {
   const _LinkWidget({
     required this.item,
     required this.appStore,
+    required this.onHaveAlreadyBtnTap,
   });
 
   final AppStore appStore;
+  final VoidCallback onHaveAlreadyBtnTap;
   final item;
 
   @override
@@ -336,6 +344,7 @@ class _LinkWidgetState extends State<_LinkWidget> {
                                   );
                                 }
                               }
+                              widget.onHaveAlreadyBtnTap();
                               setState(() {});
                               Navigator.pop(context);
                             },
