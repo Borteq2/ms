@@ -34,7 +34,6 @@ abstract class _SuitStore with Store {
     'Шторм',
   ];
 
-
   @computed
   bool get isNeedToLayer6 =>
       layer6Weathers.contains(appStore.currentWeatherStore.weather);
@@ -51,9 +50,9 @@ abstract class _SuitStore with Store {
         'layer_6': isNeedToLayer6 ? suit.layer_6?.length ?? 0 : 0,
         'layer_7': suit.layer_7?.length ?? 0,
         'layer_8': suit.layer_8?.length ?? 0,
-        'layer_9': suit.layer_9?.length ?? 0,
         'head': suit.head?.length ?? 0,
         'accessories': suit.accessories?.length ?? 0,
+        'layer_9': suit.layer_9?.length ?? 0,
       };
 
   @computed
@@ -149,14 +148,14 @@ abstract class _SuitStore with Store {
         case 'layer_8':
           resultMap['8'] = suit.layer_8;
           break;
-        case 'layer_9':
-          resultMap['9'] = suit.layer_9;
-          break;
         case 'head':
           resultMap['head'] = suit.head;
           break;
         case 'accessories':
           resultMap['accessories'] = suit.accessories;
+          break;
+        case 'layer_9':
+          resultMap['9'] = suit.layer_9;
           break;
         default:
           break;

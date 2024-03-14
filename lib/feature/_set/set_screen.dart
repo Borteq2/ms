@@ -3,12 +3,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
-import 'package:mordor_suit/feature/library/config/sizes.dart';
-import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
