@@ -46,7 +46,7 @@ abstract class _TimestampStore with Store {
         if (cachedTimestamp!
             .add(Duration(minutes: 30))
             .isBefore(currentTimestamp)) {
-          talker.warning('кэшированный таймштамп устарел');
+          talker.debug('кэшированный таймштамп устарел');
           await refreshTimestampCache(
               cacheManager, currentTimestamp);
           isNeedLoadData = true;
@@ -56,7 +56,7 @@ abstract class _TimestampStore with Store {
               'Истечёт: ${cachedTimestamp!.add(Duration(minutes: 30))}');
         }
       } else {
-        talker.warning('Таймштампа нет');
+        talker.debug('Таймштампа нет');
         await refreshTimestampCache(
             cacheManager, currentTimestamp);
         isNeedLoadData = true;
@@ -83,8 +83,8 @@ abstract class _TimestampStore with Store {
       utf8.encode(currentTime.toString()),
     );
     // talker.info('УСТАНОВИЛ');
-    talker.warning('рефрешу таймштамп');
-    talker.warning('сейчас ${currentTime.toString()}');
+    talker.debug('рефрешу таймштамп');
+    talker.debug('сейчас ${currentTime.toString()}');
     FileInfo? timestampFile = await _getFileFromCache(cacheManager);
     talker.info('2: Получение таймштампа из кэша завершено');
 

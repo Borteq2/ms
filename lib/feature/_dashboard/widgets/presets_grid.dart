@@ -49,19 +49,6 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                 itemCount: widget.appStore.weatherPresetsStore.cityNamesStore
                     .presetsCityNamesCount,
                 itemBuilder: (context, index) {
-                  if (kReleaseMode) {
-                    if (widget.appStore.weatherPresetsStore
-                            .presetCityWeatherData[index]['name'] ==
-                        'Ошибка загрузки') {
-                      AppMetrica.reportEventWithMap(
-                        'Данные пресета локации не загружены',
-                        {
-                          'Локация': widget.appStore.weatherPresetsStore
-                              .presetCityWeatherData[index]['name'],
-                        },
-                      );
-                    }
-                  }
                   return GestureDetector(
                     onLongPress: () {
                       if (kReleaseMode) {
@@ -90,79 +77,45 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                         .presetCityWeatherData[index]['name'] !=
                                     'Ошибка загрузки'
                                 ? _openSet(index, context)
-                                : ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Данные не загружены, пересоздайте'),
-                                      duration: Duration(seconds: 1),
-                                    ),
-                                  )
+                                : {
+                                    if (kReleaseMode)
+                                      {
+                                        AppMetrica.reportEventWithMap(
+                                          'Данные пресета локации не загружены',
+                                          {
+                                            'Локация': widget
+                                                    .appStore
+                                                    .weatherPresetsStore
+                                                    .presetCityWeatherData[
+                                                index]['name'],
+                                          },
+                                        )
+                                      },
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Данные не загружены, пересоздайте'),
+                                        duration: Duration(seconds: 1),
+                                      ),
+                                    )
+                                  }
                           },
                     child: widget.appStore.weatherPresetsStore
                                 .presetCityWeatherDataCount >
                             index
                         ? Card(
                             child: isLongPressed && presetIndex == index
-                                ? Center(
-                                    child: IconButton(
-                                      iconSize: 40,
-                                      onPressed: () {
-                                        if (kReleaseMode) {
-                                          AppMetrica.reportEventWithMap(
-                                              'Удаление пресета', {
-                                            widget
-                                                    .appStore
-                                                    .weatherPresetsStore
-                                                    .cityNamesStore
-                                                    .presetsCityNames[index]:
-                                                '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]}'
-                                          });
-                                        }
-                                        appStore.weatherPresetsStore
-                                            .removePreset(index);
-                                      },
-                                      icon: const Icon(Icons.delete_forever),
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                ? _RemovePresetInfo(
+                                    widget: widget,
+                                    index: index,
                                   )
                                 : widget.appStore.weatherPresetsStore
                                                 .presetCityWeatherData[index]
                                             ['name'] !=
                                         'Ошибка загрузки'
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Spacer(),
-                                          Text(
-                                              'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
-                                              overflow: TextOverflow.ellipsis),
-                                          Text(
-                                              '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
-                                              overflow: TextOverflow.ellipsis),
-                                          IconHelper.getIconByWeather(widget
-                                              .appStore.weatherPresetsStore
-                                              .weather(index)),
-                                          Text(
-                                            StringHelper.capitalizeFirstSymbol(
-                                                appStore.weatherPresetsStore
-                                                    .description(index)),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                              'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}°С',
-                                              overflow: TextOverflow.ellipsis),
-                                          Text(
-                                              'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}°С',
-                                              overflow: TextOverflow.ellipsis),
-                                          Text(
-                                              'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}%',
-                                              overflow: TextOverflow.ellipsis),
-                                          Text(
-                                              'Ветер: ${widget.appStore.weatherPresetsStore.wind(index)} м/с',
-                                              overflow: TextOverflow.ellipsis),
-                                          const Spacer(),
-                                        ],
+                                    ? _CorrectPresetInfo(
+                                        widget: widget,
+                                        index: index,
                                       )
                                     : Column(
                                         mainAxisAlignment:
@@ -202,6 +155,82 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     context.go(
       '/set',
       extra: widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
+    );
+  }
+}
+
+class _RemovePresetInfo extends StatelessWidget {
+  const _RemovePresetInfo({
+    required this.widget,
+    required this.index,
+  });
+
+  final PresetsGridWidget widget;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: IconButton(
+        iconSize: 40,
+        onPressed: () {
+          if (kReleaseMode) {
+            AppMetrica.reportEventWithMap('Удаление пресета', {
+              widget.appStore.weatherPresetsStore.cityNamesStore
+                      .presetsCityNames[index]:
+                  '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]}'
+            });
+          }
+          appStore.weatherPresetsStore.removePreset(index);
+        },
+        icon: const Icon(Icons.delete_forever),
+        color: Theme.of(context).primaryColor,
+      ),
+    );
+  }
+}
+
+class _CorrectPresetInfo extends StatelessWidget {
+  const _CorrectPresetInfo({
+    required this.widget,
+    required this.index,
+  });
+
+  final PresetsGridWidget widget;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Spacer(),
+        Text(
+            'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
+            overflow: TextOverflow.ellipsis),
+        Text(
+            '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
+            overflow: TextOverflow.ellipsis),
+        IconHelper.getIconByWeather(
+            widget.appStore.weatherPresetsStore.weather(index)),
+        Text(
+          StringHelper.capitalizeFirstSymbol(
+              appStore.weatherPresetsStore.description(index)),
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+            'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}°С',
+            overflow: TextOverflow.ellipsis),
+        Text(
+            'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}°С',
+            overflow: TextOverflow.ellipsis),
+        Text(
+            'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}%',
+            overflow: TextOverflow.ellipsis),
+        Text('Ветер: ${widget.appStore.weatherPresetsStore.wind(index)} м/с',
+            overflow: TextOverflow.ellipsis),
+        const Spacer(),
+      ],
     );
   }
 }

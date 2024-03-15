@@ -79,7 +79,7 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> removePreset(int index) async {
-    talker.warning('Удаляю пресет $index');
+    talker.info('Удаляю пресет $index');
     await cityNamesStore.cityNamesBox.deleteAt(index);
     await appStore.fullRefreshAndGetFromCache();
   }

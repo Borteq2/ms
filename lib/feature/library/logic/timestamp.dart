@@ -34,8 +34,8 @@ import 'package:talker_flutter/talker_flutter.dart';
 //     Talker talker = GetIt.I<Talker>();
 //       final Box box = GetIt.I<Box<DateTime>>(instanceName: 'timestamps_box');
 //
-//     // talker.warning(box.keys);
-//     talker.warning(box.values);
+//     // talker.debug(box.keys);
+//     talker.debug(box.values);
 //
 //     talker.info('пытаюсь сохранить штамп $timestamp');
 //

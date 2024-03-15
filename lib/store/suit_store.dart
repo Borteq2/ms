@@ -106,7 +106,7 @@ abstract class _SuitStore with Store {
       case TemperatureTypes.melting:
         suit = meltingTempSuit;
     }
-    talker.warning(suit.name);
+    talker.info(suit.name);
   }
 
 // =============================================================================

@@ -56,7 +56,7 @@ class _SetScreenState extends State<SetScreen> {
         GoRouterState.of(context).extra! as Map<String, dynamic>;
     appStore.currentWeatherStore.setSuitByWeatherManually(weather);
     appStore.suitStore.setSuitByTemperatureType();
-    talker.warning(appStore.currentWeatherStore.weatherDataMap);
+    talker.info(appStore.currentWeatherStore.weatherDataMap);
   }
 
   @override

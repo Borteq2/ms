@@ -60,8 +60,8 @@ abstract class _AppStore with Store {
 // =============================================================================
 
   Future<void> fullRefreshAndGetFromCache() async {
-    talker.warning('Полный рефреш данных (кроме локальной погоды)');
-    talker.warning(
+    talker.info('Полный рефреш данных (кроме локальной погоды)');
+    talker.info(
         'Буду грузить ${timestampStore.isNeedLoadData ? 'Из сети' : 'Из кэша'}');
     await appStore.weatherPresetsStore
         .dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);

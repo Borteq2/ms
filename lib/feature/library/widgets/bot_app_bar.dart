@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BotAppBar extends StatelessWidget {
@@ -26,7 +29,11 @@ class BotAppBar extends StatelessWidget {
           children: [
             // IconButton(
             //   onPressed: () {
-            //     appStore.clothingMemoryStore.getClothingListFromBox();
+            //     Navigator.of(context).push(
+            //         MaterialPageRoute(
+            //           builder: (context) => TalkerScreen(talker: GetIt.I<Talker>()),
+            //         )
+            //     );
             //   },
             //   tooltip: '',
             //   icon: const Icon(Icons.arrow_upward, size: 28),

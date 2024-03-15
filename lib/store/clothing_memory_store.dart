@@ -62,7 +62,7 @@ abstract class _ClothingMemoryStore with Store {
 
   @action
   void dropUnboxedLists() {
-    talker.warning('Дропаю листы имеющихся шмоток');
+    talker.info('Дропаю листы имеющихся шмоток');
     try {
       boxedClothingList.clear();
     } catch (e, st) {
@@ -95,7 +95,7 @@ abstract class _ClothingMemoryStore with Store {
   }
 
   Future<void> dropBoxes() async {
-    talker.warning('Дропаю сами боксы');
+    talker.info('Дропаю сами боксы');
     try {
       await clothingBox.clear();
     } catch (e, st) {
