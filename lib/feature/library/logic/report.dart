@@ -2,6 +2,10 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
 
 class Report {
+
+  static Future<void> event({int? index, required String event}) async =>
+      AppMetrica.reportEvent(event);
+
   static Future<void> map({
     int? index,
     required String event,
