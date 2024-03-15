@@ -1,6 +1,6 @@
-import 'package:appmetrica_plugin/appmetrica_plugin.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:mordor_suit/feature/library/logic/report.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class MenuDashboardWidget extends StatelessWidget {
@@ -10,12 +10,12 @@ class MenuDashboardWidget extends StatelessWidget {
   });
 
   final AppStore appStore;
+  TimestampStore get timestampStore => appStore.timestampStore;
 
   @override
   Widget build(BuildContext context) {
-    if(kReleaseMode) {
-      AppMetrica.reportEvent('Открыто меню деталей локальной погоды');
-    }
+    Report.event(event: 'Открыто меню деталей локальной погоды');
+
     return PopupMenuButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

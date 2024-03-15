@@ -1,6 +1,7 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mordor_suit/feature/library/logic/report.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class AddPresetModal extends StatefulWidget {
@@ -30,10 +31,11 @@ class _AddPresetModalState extends State<AddPresetModal> {
     super.dispose();
   }
 
+  WeatherPresetsStore get weatherPresetsStore =>
+      widget.appStore.weatherPresetsStore;
+
   @override
   Widget build(BuildContext context) {
-    AppStore appStore = widget.appStore;
-
     return AlertDialog(
       title: const Text('Добавить город'),
       content: SingleChildScrollView(
@@ -56,11 +58,11 @@ class _AddPresetModalState extends State<AddPresetModal> {
         ),
         TextButton(
           onPressed: () {
-            if (kReleaseMode) {
-              AppMetrica.reportEventWithMap('Добавлен пресет',
-                  {'Название локации': _cityNameController.text});
-            }
-            appStore.weatherPresetsStore.addPreset(_cityNameController.text);
+            Report.map(
+              event: 'Добавлен пресет',
+              map: {'Название локации': _cityNameController.text},
+            );
+            weatherPresetsStore.addPreset(_cityNameController.text);
             Navigator.of(context).pop();
           },
           child: const Text('Подтвердить'),
