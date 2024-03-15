@@ -8,6 +8,7 @@ import 'package:mobx/mobx.dart';
 
 import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
 import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
+import 'package:mordor_suit/feature/library/logic/report_map.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -26,6 +27,21 @@ class PresetsGridWidget extends StatefulWidget {
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   bool isLongPressed = false;
   int? presetIndex;
+
+  void _openSet(int index, BuildContext context) {
+    widget.appStore.currentWeatherStore.setSuitByWeatherManually(
+      widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
+    );
+    if (kReleaseMode) {
+      AppMetrica.reportEventWithMap('Установлен комплект снаряжения',
+          {'Комплект': widget.appStore.suitStore.suit.name});
+      AppMetrica.reportEvent('Переход на экран комплекта');
+    }
+    context.go(
+      '/set',
+      extra: widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +78,11 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                     },
                     onTap: () => isLongPressed
                         ? {
-                            if (kReleaseMode)
-                              {
-                                AppMetrica.reportEventWithMap(
-                                    'Удаление пресета локации отменено', {
-                                  'Локация': widget.appStore.weatherPresetsStore
-                                      .cityNamesStore.presetsCityNames[index]
-                                })
-                              },
+                            Report.map(
+                                index, 'Удаление пресета локации отменено', {
+                              'Локация': widget.appStore.weatherPresetsStore
+                                  .cityNamesStore.presetsCityNames[index]
+                            }),
                             setState(() => isLongPressed = !isLongPressed)
                           }
                         : {
@@ -78,19 +91,13 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                     'Ошибка загрузки'
                                 ? _openSet(index, context)
                                 : {
-                                    if (kReleaseMode)
-                                      {
-                                        AppMetrica.reportEventWithMap(
-                                          'Данные пресета локации не загружены',
-                                          {
-                                            'Локация': widget
-                                                    .appStore
-                                                    .weatherPresetsStore
-                                                    .presetCityWeatherData[
-                                                index]['name'],
-                                          },
-                                        )
-                                      },
+                                    Report.map(index,
+                                        'Данные пресета локации не загружены', {
+                                      'Локация': widget
+                                          .appStore
+                                          .weatherPresetsStore
+                                          .presetCityWeatherData[index]['name']
+                                    }),
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
@@ -107,7 +114,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                             child: isLongPressed && presetIndex == index
                                 ? _RemovePresetInfo(
                                     widget: widget,
-                                    index: index,
+                                    index: index
                                   )
                                 : widget.appStore.weatherPresetsStore
                                                 .presetCityWeatherData[index]
@@ -140,21 +147,6 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
           ],
         ),
       ),
-    );
-  }
-
-  void _openSet(int index, BuildContext context) {
-    widget.appStore.currentWeatherStore.setSuitByWeatherManually(
-      widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
-    );
-    if (kReleaseMode) {
-      AppMetrica.reportEventWithMap('Установлен комплект снаряжения',
-          {'Комплект': widget.appStore.suitStore.suit.name});
-      AppMetrica.reportEvent('Переход на экран комплекта');
-    }
-    context.go(
-      '/set',
-      extra: widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
     );
   }
 }
