@@ -1,0 +1,1 @@
+export '_item_card/_widgets.dart';

@@ -4,8 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/feature/library/logic/capitalize_first_symbol.dart';
-import 'package:mordor_suit/feature/library/logic/map_weather_to_icon.dart';
+import 'package:mordor_suit/feature/library/helpers/string_helper.dart';
+import 'package:mordor_suit/feature/library/helpers/icon_helper.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'local_weather_store.g.dart';

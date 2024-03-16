@@ -1,4 +1,4 @@
-class Layer {
+class LayerHelper {
   static String mapNumberToName(int layerNumber, String? topOrBot) => layerNumber ==
           1
       ? topOrBot != null

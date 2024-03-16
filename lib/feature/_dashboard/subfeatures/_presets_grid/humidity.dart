@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mordor_suit/feature/_presets_grid/_widgets.dart';
+
+import 'package:mordor_suit/feature/_dashboard/subfeatures/_presets_grid/_widgets.dart';
 
 class PresetHumidityWidget extends StatelessWidget {
   const PresetHumidityWidget({

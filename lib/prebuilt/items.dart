@@ -1,4 +1,4 @@
-import 'package:mordor_suit/feature/library/logic/map_layers.dart';
+import 'package:mordor_suit/feature/library/helpers/layer_helper.dart';
 import 'package:mordor_suit/models/_models.dart';
 
 Clothing noClothing = Clothing(

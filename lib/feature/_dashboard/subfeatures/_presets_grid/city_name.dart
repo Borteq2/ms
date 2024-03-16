@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mordor_suit/feature/_presets_grid/_widgets.dart';
+import 'package:mordor_suit/feature/_dashboard/subfeatures/_presets_grid/_widgets.dart';
 
-class PresetTempFeelsLikeWidget extends StatelessWidget {
-  const PresetTempFeelsLikeWidget({
+
+class PresetCityName extends StatelessWidget {
+  const PresetCityName({
     super.key,
     required this.widget,
     required this.index,
@@ -14,7 +15,7 @@ class PresetTempFeelsLikeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}°С',
+        '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
         overflow: TextOverflow.ellipsis);
   }
 }

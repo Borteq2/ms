@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordor_suit/feature/_set/widgets/vertical_dots.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
+import 'package:mordor_suit/feature/_set/subfeatures/_subfeatures_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class SetScreen extends StatefulWidget {
@@ -110,17 +111,11 @@ class _SetScreenState extends State<SetScreen> {
           ),
           body: Row(
             children: [
-              appStore.suitStore.layersWithItemsCount > 0
-                  ? DotsIndicator(
-                      dotsCount: appStore.suitStore.layersWithItemsCount,
-                      position: currentPage.toInt(),
-                      axis: Axis.vertical,
-                      decorator: DotsDecorator(
-                        color: Theme.of(context).disabledColor,
-                        activeColor: Theme.of(context).primaryColor,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+              VerticalDotsWidget(
+                context: context,
+                appStore: appStore,
+                currentPage: currentPage,
+              ),
               Expanded(
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -197,7 +192,7 @@ class _SetScreenState extends State<SetScreen> {
                       });
                       try {
                         pageController2.jumpToPage(0);
-                      } catch (e, st) {
+                      } catch (e) {
                         talker.debug('Скроллконтроллер недоволен');
                       }
                     },

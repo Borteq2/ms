@@ -6,3 +6,4 @@ export 'name.dart';
 export 'neccesary.dart';
 export 'size_solution.dart';
 export 'sizer_type.dart';
+export 'item_card.dart';

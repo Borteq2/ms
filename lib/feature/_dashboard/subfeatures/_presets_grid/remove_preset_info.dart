@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mordor_suit/feature/_presets_grid/_widgets.dart';
-import 'package:mordor_suit/feature/library/logic/report.dart';
+
+import 'package:mordor_suit/feature/_dashboard/subfeatures/_presets_grid/_widgets.dart';
+import 'package:mordor_suit/feature/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class RemovePresetInfoWidget extends StatelessWidget {

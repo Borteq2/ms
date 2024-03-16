@@ -5,10 +5,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
-import 'package:mordor_suit/feature/library/logic/report.dart';
+import 'package:mordor_suit/feature/library/helpers/report.dart';
 import 'package:mordor_suit/feature/library/widgets/_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
-import 'package:mordor_suit/feature/_presets_grid/_widgets.dart';
+import 'package:mordor_suit/feature/_dashboard/subfeatures/_subfeatures_widgets.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mordor_suit/feature/_item_card/_widgets.dart';
-import 'package:mordor_suit/feature/library/logic/report.dart';
+
+import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
+import 'package:mordor_suit/feature/library/helpers/_helpers.dart';
 
 class ItemCardSizerTypeWidget extends StatelessWidget {
   const ItemCardSizerTypeWidget({

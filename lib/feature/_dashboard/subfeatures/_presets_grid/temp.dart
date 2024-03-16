@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mordor_suit/feature/_presets_grid/_widgets.dart';
 
-class PresetLocationName extends StatelessWidget {
-  const PresetLocationName({
+import 'package:mordor_suit/feature/_dashboard/subfeatures/_presets_grid/_widgets.dart';
+
+class PresetTempWidget extends StatelessWidget {
+  const PresetTempWidget({
     super.key,
     required this.widget,
     required this.index,
@@ -14,7 +15,7 @@ class PresetLocationName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
+        'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}°С',
         overflow: TextOverflow.ellipsis);
   }
 }

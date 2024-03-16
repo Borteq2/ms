@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
-import 'package:mordor_suit/feature/library/logic/report.dart';
+import 'package:mordor_suit/feature/library/helpers/report.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
 

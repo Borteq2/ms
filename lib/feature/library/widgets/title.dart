@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
+
 import 'package:mordor_suit/store/_stores.dart';
 
 class TitleWidget extends StatelessWidget {
