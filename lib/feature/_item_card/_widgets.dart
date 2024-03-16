@@ -5,3 +5,4 @@ export 'link.dart';
 export 'name.dart';
 export 'neccesary.dart';
 export 'size_solution.dart';
+export 'sizer_type.dart';
