@@ -119,16 +119,19 @@ class ItemCardSizeSolutionWidgetState
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.6,
-              child: Image.asset(
-                widget.sizerType == 'Грудь'
-                    ? 'assets/images/chest.JPG'
-                    : widget.sizerType == 'Талия'
-                        ? 'assets/images/waist.JPG'
-                        : widget.sizerType == 'Брюки'
-                            ? 'assets/images/pants.jpg'
-                            : widget.sizerType == 'Рост'
-                                ? 'assets/images/height.JPG'
-                                : 'assets/images/favicon.png',
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  widget.sizerType == 'Грудь'
+                      ? 'assets/images/chest.JPG'
+                      : widget.sizerType == 'Талия'
+                          ? 'assets/images/waist.JPG'
+                          : widget.sizerType == 'Брюки'
+                              ? 'assets/images/pants.jpg'
+                              : widget.sizerType == 'Рост'
+                                  ? 'assets/images/height.JPG'
+                                  : 'assets/images/favicon.png',
+                ),
               ),
             ),
             TextField(

@@ -224,7 +224,6 @@ Suit lowTempSuit = Suit(
   layer_4_bot: null,
   layer_5_top: [
     wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
     cheburashka
       ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
       ..features[0] = 'Универсальный демизонный слой'

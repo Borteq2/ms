@@ -1,15 +1,14 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordor_suit/feature/_set/widgets/vertical_dots.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_set/subfeatures/_subfeatures_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/feature/_set/widgets/_widgets.dart';
 
 class SetScreen extends StatefulWidget {
   const SetScreen({
@@ -113,7 +112,7 @@ class _SetScreenState extends State<SetScreen> {
             children: [
               VerticalDotsWidget(
                 context: context,
-                appStore: appStore,
+                suitStore: appStore.suitStore,
                 currentPage: currentPage,
               ),
               Expanded(
@@ -164,25 +163,12 @@ class _SetScreenState extends State<SetScreen> {
                                   },
                                 ),
                               ),
-                              appStore.suitStore.resultMap.entries
-                                      .elementAt(index)
-                                      .value
-                                      .isNotEmpty
-                                  ? DotsIndicator(
-                                      dotsCount: appStore
-                                          .suitStore.resultMap.entries
-                                          .elementAt(index)
-                                          .value
-                                          .length,
-                                      position: currentPage2.toInt(),
-                                      axis: Axis.horizontal,
-                                      decorator: DotsDecorator(
-                                        color: Theme.of(context).disabledColor,
-                                        activeColor:
-                                            Theme.of(context).primaryColor,
-                                      ),
-                                    )
-                                  : const SizedBox.shrink(),
+                              HorizontalDotsWidget(
+                                context: context,
+                                suitStore: appStore.suitStore,
+                                currentPage2: currentPage2,
+                                index: index,
+                              ),
                             ],
                           ),
                     onPageChanged: (int page) {
