@@ -76,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: PresetsGridWidget(appStore: appStore),
         floatingActionButton: FABMenuWidget(appStore: appStore),
         floatingActionButtonLocation: appStore.fabLocation,
-        bottomNavigationBar: BotAppBar(appStore: appStore),
+        bottomNavigationBar: BotAppBarWidget(appStore: appStore),
       ),
     );
   }

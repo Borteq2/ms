@@ -6,8 +6,8 @@ import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BotAppBar extends StatelessWidget {
-  const BotAppBar({
+class BotAppBarWidget extends StatelessWidget {
+  const BotAppBarWidget({
     super.key,
     required this.appStore,
   });
