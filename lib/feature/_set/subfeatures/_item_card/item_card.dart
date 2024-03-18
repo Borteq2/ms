@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
-import 'package:mordor_suit/feature/library/config/sizes.dart';
+import 'package:mordor_suit/library/config/sizes.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 enum CardType { vertical, horizontal }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mordor_suit/feature/library/helpers/_helpers.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class PresetWeatherDescriptionWidget extends StatelessWidget {

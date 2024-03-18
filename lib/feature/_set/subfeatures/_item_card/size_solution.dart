@@ -1,9 +1,8 @@
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mordor_suit/feature/library/config/sizes.dart';
-import 'package:mordor_suit/feature/library/helpers/report.dart';
+import 'package:mordor_suit/library/config/sizes.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class ItemCardSizeSolutionWidget extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mordor_suit/feature/library/helpers/report.dart';
+import 'package:mordor_suit/library/helpers/report.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class MenuDashboardWidget extends StatelessWidget {

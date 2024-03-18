@@ -6,8 +6,8 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_dashboard/subfeatures/_subfeatures_widgets.dart';
 import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
-import 'package:mordor_suit/feature/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});

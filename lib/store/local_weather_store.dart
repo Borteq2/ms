@@ -4,8 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/feature/library/helpers/string_helper.dart';
-import 'package:mordor_suit/feature/library/helpers/icon_helper.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 

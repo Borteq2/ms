@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mordor_suit/feature/library/config/sizes.dart';
-
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -18,7 +15,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:mordor_suit/app.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/models/_models.dart';
-
+import 'package:mordor_suit/library/config/sizes.dart';
 import 'package:mordor_suit/feature/_set/set_screen.dart';
 import 'package:mordor_suit/feature/_dashboard/dashboard_screen.dart';
 

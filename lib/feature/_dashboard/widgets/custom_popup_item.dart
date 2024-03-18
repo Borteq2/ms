@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mordor_suit/feature/library/helpers/report.dart';
+import 'package:mordor_suit/library/helpers/report.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
 
