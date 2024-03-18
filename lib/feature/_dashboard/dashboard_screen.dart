@@ -4,10 +4,10 @@ import 'package:get_it/get_it.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
-import 'package:mordor_suit/feature/library/helpers/report.dart';
-import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/feature/_dashboard/subfeatures/_subfeatures_widgets.dart';
+import 'package:mordor_suit/feature/_dashboard/widgets/_widgets.dart';
+import 'package:mordor_suit/feature/library/helpers/_helpers.dart';
+import 'package:mordor_suit/store/_stores.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -28,10 +28,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     if (permissions[Permission.location] == PermissionStatus.granted &&
         permissions[Permission.storage] == PermissionStatus.granted) {
+      appStore.changeIsHasPermissionErrors(false);
       await appStore.timestampStore.checkTimestampWithRefresh();
-
       await appStore.localWeatherStore.getLocationAndWeatherData();
     } else {
+      appStore.changeIsHasPermissionErrors(true);
       talker.critical('Не удалось получить все необходимые разрешения');
       appStore.localWeatherStore.localWeatherDataMap = {
         'name': 'Не могу определить местоположение'

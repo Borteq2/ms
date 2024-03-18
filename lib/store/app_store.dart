@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/feature/library/config/sizes.dart';
 import 'package:mordor_suit/store/_stores.dart';
-import 'package:mordor_suit/store/clothing_memory_store.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -48,6 +46,8 @@ abstract class _AppStore with Store {
   ClothingMemoryStore clothingMemoryStore =
       ClothingMemoryStore(talker: GetIt.I<Talker>());
 
+  @observable
+  bool isHasPermissionErrors = false;
 
 // =============================================================================
 
@@ -55,7 +55,9 @@ abstract class _AppStore with Store {
 
 // =============================================================================
 
-  // @action
+  @action
+  void changeIsHasPermissionErrors(bool newState) =>
+      isHasPermissionErrors = newState;
 
 // =============================================================================
 

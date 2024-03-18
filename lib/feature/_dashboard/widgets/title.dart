@@ -64,7 +64,8 @@ class TitleTemperatureWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded &&
+              !appStore.localWeatherStore.isHasError
           ? Text('${appStore.localWeatherStore.temperature.toString()}°C')
           : const SizedBox.shrink(),
     );
@@ -120,7 +121,8 @@ class WeatherDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded &&
+              !appStore.localWeatherStore.isHasError
           ? PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/feature/library/helpers/string_helper.dart';
 import 'package:mordor_suit/feature/library/helpers/icon_helper.dart';
+import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'local_weather_store.g.dart';
@@ -21,6 +22,7 @@ enum TemperatureTypes {
   heat,
   melting
 }
+
 
 class LocalWeatherStore = _LocalWeatherStore with _$LocalWeatherStore;
 
@@ -54,7 +56,9 @@ abstract class _LocalWeatherStore with Store {
   String get city => localWeatherDataMap['name'];
 
   @computed
-  bool get isHasError => city == 'Не могу определить местоположение';
+  bool get isHasError =>
+      city == 'Не могу определить местоположение' ||
+      city == 'Служба геолокации недоступна';
 
   @computed
   bool get isWeatherLoaded => city != '';
@@ -139,6 +143,7 @@ abstract class _LocalWeatherStore with Store {
       // setTimestamp();
       weatherIcon = IconHelper.getIconByWeather(
           localWeatherDataMap['weather'][0]['main']);
+
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
@@ -152,7 +157,8 @@ abstract class _LocalWeatherStore with Store {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // locationMessage = 'Пожалуйста, включите службу геолокации';
-      throw Exception('Геолокация не включена');
+      localWeatherDataMap = {'name': 'Служба геолокации недоступна'};
+      throw Exception('Геолокация недоступна');
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -167,6 +173,8 @@ abstract class _LocalWeatherStore with Store {
     if (permission == LocationPermission.deniedForever) {
       throw Exception('Разрешения нет навсегда');
     }
+
+    GetIt.I<AppStore>().changeIsHasPermissionErrors(false);
 
     Position result = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
