@@ -29,10 +29,10 @@ class BotAppBarWidget extends StatelessWidget {
             children: [
               if (appStore.centerLocations.contains(appStore.fabLocation))
                 const Spacer(),
-              appStore.isHasPermissionErrors ||
-                      appStore.localWeatherStore.isHasError
-                  ? const OpenAppSettingsWidget()
-                  : const SizedBox.shrink(),
+              // appStore.isHasPermissionErrors ||
+              //         appStore.localWeatherStore.isHasError
+              //     ? const OpenAppSettingsWidget()
+              //     : const SizedBox.shrink(),
               // appStore.isHasPermissionErrors || appStore.localWeatherStore.isHasError
               //     ? const TalkerScreenWidget()
               //     : const SizedBox.shrink(),

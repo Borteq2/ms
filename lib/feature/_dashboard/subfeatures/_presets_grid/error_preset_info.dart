@@ -20,7 +20,7 @@ class ErrorPresetInfoWidget extends StatelessWidget {
         const Spacer(),
         const Text('Ошибка загрузки'),
         Text(
-          'Город ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]} не найден',
+          'Город ${widget.appStore.cityNamesStore.presetsCityNames[index]} не найден',
           maxLines: 5,
           textAlign: TextAlign.center,
         ),

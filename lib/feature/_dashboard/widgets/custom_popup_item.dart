@@ -23,8 +23,8 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
 
   SuitStore get suitStore => widget.appStore.suitStore;
 
-  CurrentWeatherStore get currentWeatherStore =>
-      widget.appStore.currentWeatherStore;
+  PresetWeatherStore get currentWeatherStore =>
+      widget.appStore.presetWeatherStore;
 
   @override
   Widget build(BuildContext context) {

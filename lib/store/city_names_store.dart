@@ -3,9 +3,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'city_names_store.g.dart';
+
+AppStore _appStoreCNS = GetIt.I<AppStore>();
 
 class CityNamesStore = _CityNamesStore with _$CityNamesStore;
 

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:mordor_suit/prebuilt/suits.dart';
 import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
@@ -7,7 +8,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 part 'suit_store.g.dart';
 
-AppStore appStore = GetIt.I<AppStore>();
+AppStore _appStoreSS = GetIt.I<AppStore>();
 
 class SuitStore = _SuitStore with _$SuitStore;
 
@@ -35,7 +36,8 @@ abstract class _SuitStore with Store {
 
   @computed
   bool get isNeedToLayer6 =>
-      layer6Weathers.contains(appStore.currentWeatherStore.weather);
+  // TODO: ебанёт
+      layer6Weathers.contains(GetIt.I<AppStore>().presetWeatherStore.weather);
 
   @computed
   Map<String, int?> get itemsCountByLayer => {
@@ -86,7 +88,8 @@ abstract class _SuitStore with Store {
   @action
   void setSuitByTemperatureType() {
     talker.info('начинаю парсить температуру');
-    switch (appStore.currentWeatherStore.currentTemperatureType) {
+    // TODO: возможно ебанёт
+    switch (_appStoreSS.presetWeatherStore.currentTemperatureType) {
       case TemperatureTypes.notSupported:
         suit = notSupportedSuit;
       case TemperatureTypes.frostPunk:
@@ -115,134 +118,135 @@ abstract class _SuitStore with Store {
       Suit suit, List<String> layersWithItemsNames) {
     Map<String, dynamic> resultMap = {};
 
+    // TODO: каждый синглтон ебанёт
     for (String layerName in layersWithItemsNames) {
       switch (layerName) {
         case 'layer_1':
           resultMap['1'] = [
-            ...?suit.layer_1?.where((element) => appStore
+            ...?suit.layer_1?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_1?.where((element) => !appStore
+            ...?suit.layer_1?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_2':
           resultMap['2'] = [
-            ...?suit.layer_2?.where((element) => appStore
+            ...?suit.layer_2?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_2?.where((element) => !appStore
+            ...?suit.layer_2?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_3':
           resultMap['3'] = [
-            ...?suit.layer_3?.where((element) => appStore
+            ...?suit.layer_3?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_3?.where((element) => !appStore
+            ...?suit.layer_3?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_4_top':
           resultMap['4_top'] = [
-            ...?suit.layer_4_top?.where((element) => appStore
+            ...?suit.layer_4_top?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_4_top?.where((element) => !appStore
+            ...?suit.layer_4_top?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_4_bot':
           resultMap['4_bot'] = [
-            ...?suit.layer_4_bot?.where((element) => appStore
+            ...?suit.layer_4_bot?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_4_bot?.where((element) => !appStore
+            ...?suit.layer_4_bot?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_5_top':
           resultMap['5_top'] = [
-            ...?suit.layer_5_top?.where((element) => appStore
+            ...?suit.layer_5_top?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_5_top?.where((element) => !appStore
+            ...?suit.layer_5_top?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_5_bot':
           resultMap['5_bot'] = [
-            ...?suit.layer_5_bot?.where((element) => appStore
+            ...?suit.layer_5_bot?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_5_bot?.where((element) => !appStore
+            ...?suit.layer_5_bot?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_6':
           resultMap['6'] = [
-            ...?suit.layer_6?.where((element) => appStore
+            ...?suit.layer_6?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_6?.where((element) => !appStore
+            ...?suit.layer_6?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_7':
           resultMap['7'] = [
-            ...?suit.layer_7?.where((element) => appStore
+            ...?suit.layer_7?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_7?.where((element) => !appStore
+            ...?suit.layer_7?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_8':
           resultMap['8'] = [
-            ...?suit.layer_8?.where((element) => appStore
+            ...?suit.layer_8?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_8?.where((element) => !appStore
+            ...?suit.layer_8?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'head':
           resultMap['head'] = [
-            ...?suit.head?.where((element) => appStore
+            ...?suit.head?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.head?.where((element) => !appStore
+            ...?suit.head?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'accessories':
           resultMap['accessories'] = [
-            ...?suit.accessories?.where((element) => appStore
+            ...?suit.accessories?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.accessories?.where((element) => !appStore
+            ...?suit.accessories?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];
           break;
         case 'layer_9':
           resultMap['9'] = [
-            ...?suit.layer_9?.where((element) => appStore
+            ...?suit.layer_9?.where((element) => GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element)),
-            ...?suit.layer_9?.where((element) => !appStore
+            ...?suit.layer_9?.where((element) => !GetIt.I<AppStore>()
                 .clothingMemoryStore.boxedClothingList
                 .contains(element))
           ];

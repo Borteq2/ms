@@ -25,8 +25,7 @@ class RemovePresetInfoWidget extends StatelessWidget {
           Report.map(
             event: 'Удаление пресета',
             map: {
-              widget.appStore.weatherPresetsStore.cityNamesStore
-                      .presetsCityNames[index]:
+              widget.appStore.cityNamesStore.presetsCityNames[index]:
                   '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]}'
             },
           );

@@ -9,7 +9,7 @@ class LoadingWidget extends StatelessWidget {
 
   final AppStore appStore;
 
-  CurrentWeatherStore get currentWeatherStore => appStore.currentWeatherStore;
+  PresetWeatherStore get currentWeatherStore => appStore.presetWeatherStore;
 
   @override
   Widget build(BuildContext context) {

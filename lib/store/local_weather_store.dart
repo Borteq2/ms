@@ -4,24 +4,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/library/helpers/_helpers.dart';
-import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+
+import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/enums/_enums.dart';
+import 'package:mordor_suit/exceptions/_exceptions.dart';
+import 'package:mordor_suit/exceptions/location_permission_perm.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
+import 'package:mordor_suit/prebuilt/empty_weather_preset.dart';
 
 part 'local_weather_store.g.dart';
 
-enum TemperatureTypes {
-  notSupported,
-  frostPunk,
-  cold,
-  belowZero,
-  aboveZero,
-  low,
-  warm,
-  heat,
-  melting
-}
-
+AppStore _appStoreLWS = GetIt.I<AppStore>();
 
 class LocalWeatherStore = _LocalWeatherStore with _$LocalWeatherStore;
 
@@ -34,115 +28,85 @@ abstract class _LocalWeatherStore with Store {
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
 
+  // TODO: зачем?
   @observable
   bool geoPermission = false;
 
   @observable
   late Position currentPosition;
 
+  // TODO: рефактор в модель
   @observable
   Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
 
+  // TODO: рефактор в модель
   @observable
-  Map<String, dynamic> localWeatherDataMap = {
-    'name': '',
-    'main': {'temp': ''}
-  };
+  Map<String, dynamic> localWeatherDataMap = emptyWeatherPreset;
 
 // =============================================================================
 
   @computed
   String get city => localWeatherDataMap['name'];
 
-  @computed
-  bool get isHasError =>
-      city == 'Не могу определить местоположение' ||
-      city == 'Служба геолокации недоступна';
-
+  // TODO: рефактор в модель
   @computed
   bool get isWeatherLoaded => city != '';
 
   @computed
   String get weather {
     try {
-      return StringHelper.capitalizeFirstSymbol(
+      String result = StringHelper.capitalizeFirstSymbol(
           localWeatherDataMap['weather'][0]['description']);
+      return result;
     } catch (e) {
       talker.critical(e);
     }
+    // TODO: рефактор в модель
     return '';
   }
 
+  // TODO: рефактор в модель
   @computed
   Map<String, dynamic> get mapTemp => localWeatherDataMap['main'];
 
+  // TODO: рефактор в модель
   @computed
   num get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
 
+  // TODO: рефактор в модель
   @computed
   num get feelsLikeTemp => mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
 
   @computed
-  TemperatureTypes get currentTemperatureType {
-    return temperature >= -15 && temperature < -10
-        ? TemperatureTypes.frostPunk
-        : temperature >= -10 && temperature < -5
-            ? TemperatureTypes.cold
-            : temperature >= -5 && temperature < 0
-                ? TemperatureTypes.belowZero
-                : temperature >= 0 && temperature < 5
-                    ? TemperatureTypes.aboveZero
-                    : temperature >= 5 && temperature < 10
-                        ? TemperatureTypes.low
-                        : temperature >= 10 && temperature < 15
-                            ? TemperatureTypes.warm
-                            : temperature >= 15 && temperature < 20
-                                ? TemperatureTypes.heat
-                                : temperature > 20
-                                    ? TemperatureTypes.melting
-                                    : TemperatureTypes.notSupported;
-  }
+  TemperatureTypes get currentTemperatureType =>
+      TempHelper.mapTempToTempType(temperature: temperature);
 
   @computed
-  String get temperatureName => switch (currentTemperatureType) {
-        TemperatureTypes.notSupported => 'Не поддерживается',
-        TemperatureTypes.frostPunk => 'Дубак',
-        TemperatureTypes.cold => 'Холодно',
-        TemperatureTypes.belowZero => 'Чуть ниже нуля',
-        TemperatureTypes.aboveZero => 'Чуть выше нуля',
-        TemperatureTypes.low => 'Прохладно',
-        TemperatureTypes.warm => 'Тепло',
-        TemperatureTypes.heat => 'Жарко',
-        TemperatureTypes.melting => 'Жарища',
-      };
+  String get temperatureName =>
+      TempHelper.mapTempToName(temperature: currentTemperatureType);
 
 // =============================================================================
 
   @action
-  void dropCurrentWeatherData() {
-    localWeatherDataMap = {
-      'name': '',
-      'main': {'temp': ''}
-    };
-  }
+  void dropLocalWeatherData() => localWeatherDataMap = emptyWeatherPreset;
 
   @action
   void setSuitByWeatherManually(Map<String, dynamic> weather) {
-    dropCurrentWeatherData();
+    dropLocalWeatherData();
     localWeatherDataMap = weather;
   }
 
   @action
   Future<void> getLocationAndWeatherData() async {
-    dropCurrentWeatherData();
+    dropLocalWeatherData();
     try {
       await getLocation();
+      // TODO: зачем?
       geoPermission = true;
       localWeatherDataMap = await fetchWeatherByLocation();
       // setTimestamp();
       weatherIcon = IconHelper.getIconByWeather(
           localWeatherDataMap['weather'][0]['main']);
-
     } catch (e) {
       geoPermission = false;
       talker.critical(e);
@@ -151,13 +115,12 @@ abstract class _LocalWeatherStore with Store {
 
 // =============================================================================
 
+  // TODO: унести в апстор
   Future<Position> getLocation() async {
-    talker.debug('Запрашиваю локацию');
+    talker.debug('Запрашиваю локальную локацию');
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // locationMessage = 'Пожалуйста, включите службу геолокации';
-      localWeatherDataMap = {'name': 'Служба геолокации недоступна'};
-      throw Exception('Геолокация недоступна');
+      throw LocationServiceException('Геолокация недоступна');
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -165,15 +128,13 @@ abstract class _LocalWeatherStore with Store {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        throw Exception('Разрешения нет сейчас');
+        throw LocationPermissionTemporaryException('Разрешения нет сейчас');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      throw Exception('Разрешения нет навсегда');
+      throw LocationPermissionPermanentException('Разрешения нет навсегда');
     }
-
-    GetIt.I<AppStore>().changeIsHasPermissionErrors(false);
 
     Position result = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -188,6 +149,7 @@ abstract class _LocalWeatherStore with Store {
     Dio dio = GetIt.I<Dio>();
 
     Response response = await dio.get(
+      // TODO: дубликат, вынести
       'https://api.openweathermap.org/data/2.5/weather'
       '?lat=${currentPosition.latitude}'
       '&lon=${currentPosition.longitude}'

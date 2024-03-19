@@ -28,11 +28,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     if (permissions[Permission.location] == PermissionStatus.granted &&
         permissions[Permission.storage] == PermissionStatus.granted) {
-      appStore.changeIsHasPermissionErrors(false);
+      // appStore.changeIsHasPermissionErrors(false);
       await appStore.timestampStore.checkTimestampWithRefresh();
       await appStore.localWeatherStore.getLocationAndWeatherData();
     } else {
-      appStore.changeIsHasPermissionErrors(true);
+      // appStore.changeIsHasPermissionErrors(true);
       talker.critical('Не удалось получить все необходимые разрешения');
       appStore.localWeatherStore.localWeatherDataMap = {
         'name': 'Не могу определить местоположение'
@@ -64,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       event: 'Открыт экран пресетов погоды',
       map: {
         'Количество пресетов':
-            appStore.weatherPresetsStore.cityNamesStore.presetsCityNamesCount
+            appStore.cityNamesStore.presetsCityNamesCount
       },
     );
   }

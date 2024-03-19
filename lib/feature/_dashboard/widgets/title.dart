@@ -15,8 +15,10 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => !appStore.localWeatherStore.isHasError
-          ? Column(
+        builder: (_) =>
+            // !appStore.localWeatherStore.isHasError
+            //     ?
+            Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,23 +35,23 @@ class TitleWidget extends StatelessWidget {
                 ),
               ],
             )
-          : Row(
-              children: [
-                IconButton(
-                  onPressed: () =>
-                      appStore.localWeatherStore.getLocationAndWeatherData(),
-                  icon: const Icon(Icons.refresh),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: AutoSizeText(
-                    appStore.localWeatherStore.city,
-                    maxLines: 1,
-                  ),
-                ),
-              ],
-            ),
-    );
+        // : Row(
+        //     children: [
+        //       IconButton(
+        //         onPressed: () =>
+        //             appStore.localWeatherStore.getLocationAndWeatherData(),
+        //         icon: const Icon(Icons.refresh),
+        //       ),
+        //       SizedBox(
+        //         width: MediaQuery.of(context).size.width * 0.7,
+        //         child: AutoSizeText(
+        //           appStore.localWeatherStore.city,
+        //           maxLines: 1,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        );
   }
 }
 
@@ -64,8 +66,9 @@ class TitleTemperatureWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded &&
-              !appStore.localWeatherStore.isHasError
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+          // &&
+          //     !appStore.localWeatherStore.isHasError
           ? Text('${appStore.localWeatherStore.temperature.toString()}°C')
           : const SizedBox.shrink(),
     );
@@ -121,8 +124,9 @@ class WeatherDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded &&
-              !appStore.localWeatherStore.isHasError
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+        // &&
+              // !appStore.localWeatherStore.isHasError
           ? PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

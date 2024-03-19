@@ -28,7 +28,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   int? presetIndex;
 
   void _openSet(int index, BuildContext context) {
-    widget.appStore.currentWeatherStore.setSuitByWeatherManually(
+    widget.appStore.presetWeatherStore.setSuitByWeatherManually(
       widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
     );
     if (kReleaseMode) {
@@ -46,6 +46,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
     WeatherPresetsStore presetsStore = widget.appStore.weatherPresetsStore;
+    CityNamesStore cityNamesStore = widget.appStore.cityNamesStore;
 
     reaction(
         (_) => widget.appStore.weatherPresetsStore.presetCityWeatherData.length,
@@ -53,7 +54,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
 
     return Observer(
       builder: (_) => RefreshIndicator(
-        onRefresh: () => appStore.weatherPresetsStore.fetchCityWeatherData(),
+        onRefresh: () => widget.appStore.weatherPresetsStore.fetchCityWeatherData(),
         child: Column(
           children: [
             Expanded(
@@ -62,15 +63,14 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                   crossAxisCount: 2,
                   childAspectRatio: 0.8,
                 ),
-                itemCount: presetsStore.cityNamesStore.presetsCityNamesCount,
+                itemCount: cityNamesStore.presetsCityNamesCount,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onLongPress: () {
                       Report.map(
                         event: 'Пресет переведён в режим удаления',
                         map: {
-                          'Название': presetsStore
-                              .cityNamesStore.presetsCityNames[index]
+                          'Название': cityNamesStore.presetsCityNames[index]
                         },
                       );
 
@@ -85,8 +85,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                 index: index,
                                 event: 'Удаление пресета локации отменено',
                                 map: {
-                                  'Локация': presetsStore
-                                      .cityNamesStore.presetsCityNames[index]
+                                  'Локация': cityNamesStore.presetsCityNames[index]
                                 }),
                             setState(() => isLongPressed = !isLongPressed)
                           }

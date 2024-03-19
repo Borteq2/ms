@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'timestamp_store.g.dart';
+
+AppStore _appStoreTS = GetIt.I<AppStore>();
 
 class TimestampStore = _TimestampStore with _$TimestampStore;
 

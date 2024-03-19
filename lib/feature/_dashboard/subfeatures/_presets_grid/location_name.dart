@@ -15,7 +15,7 @@ class PresetLocationName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Локация: ${widget.appStore.weatherPresetsStore.cityNamesStore.presetsCityNames[index]}',
+        'Локация: ${widget.appStore.cityNamesStore.presetsCityNames[index]}',
         overflow: TextOverflow.ellipsis);
   }
 }

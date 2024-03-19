@@ -43,8 +43,9 @@ class FABMenuWidget extends StatelessWidget {
           Report.map(
             event: 'Открыто меню FAB',
             map: {
-              'Локальная погода получена': localWeatherStore.isWeatherLoaded &&
-                  !localWeatherStore.isHasError
+              'Локальная погода получена': localWeatherStore.isWeatherLoaded
+              // &&
+                  // !localWeatherStore.isHasError
             },
           );
 
@@ -56,8 +57,9 @@ class FABMenuWidget extends StatelessWidget {
                   event: 'Нажата кнопка создания локации по названию города',
                   map: {
                     'Локальная погода получена':
-                        localWeatherStore.isWeatherLoaded &&
-                            !localWeatherStore.isHasError
+                        localWeatherStore.isWeatherLoaded
+                            // &&
+                            // !localWeatherStore.isHasError
                   },
                 );
 

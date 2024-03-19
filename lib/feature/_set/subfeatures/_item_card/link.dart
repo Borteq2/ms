@@ -29,7 +29,7 @@ class ItemCardLinkWidget extends StatefulWidget {
 
 class ItemCardLinkWidgetState extends State<ItemCardLinkWidget> {
   void _preloadBoxData() async {
-    await appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
+    await widget.appStore.clothingMemoryStore.syncHasAlreadyListsWithBoxes();
     Report.map(
       event: 'Синхронизация наличия с кэшем',
       map: {'Товар': '${widget.item.name}', 'Результат': '$isChecked'},

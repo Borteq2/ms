@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,9 +22,10 @@ abstract class _AppStore with Store {
 
   Talker talker = GetIt.I<Talker>();
 
+  //TODO: эксперимент DI
   @observable
-  CurrentWeatherStore currentWeatherStore =
-      CurrentWeatherStore(talker: GetIt.I<Talker>());
+  PresetWeatherStore presetWeatherStore =
+      PresetWeatherStore(talker: GetIt.I<Talker>());
 
   @observable
   SuitStore suitStore = SuitStore(talker: GetIt.I<Talker>());
@@ -47,17 +49,20 @@ abstract class _AppStore with Store {
       ClothingMemoryStore(talker: GetIt.I<Talker>());
 
   @observable
-  bool isHasPermissionErrors = false;
+  ObservableSet<ErrorType> appErrors = ObservableSet.of(<ErrorType>[]);
 
 // =============================================================================
 
-  // @computed
+  @computed
+  bool get hasErrors => appErrors.isNotEmpty;
 
 // =============================================================================
 
   @action
-  void changeIsHasPermissionErrors(bool newState) =>
-      isHasPermissionErrors = newState;
+  void addError(ErrorType error) => appErrors.add(error);
+
+  @action
+  void removeError(ErrorType error) => appErrors.remove(error);
 
 // =============================================================================
 
@@ -65,13 +70,13 @@ abstract class _AppStore with Store {
     talker.info('Полный рефреш данных (кроме локальной погоды)');
     talker.info(
         'Буду грузить ${timestampStore.isNeedLoadData ? 'Из сети' : 'Из кэша'}');
-    await appStore.weatherPresetsStore
-        .dropWeatherPresetsCache(appStore.weatherPresetsStore.cacheManager);
-    appStore.weatherPresetsStore.dropPresetWeatherData();
-    appStore.weatherPresetsStore.cityNamesStore.syncCityNamesWithBox();
+    await weatherPresetsStore
+        .dropWeatherPresetsCache(weatherPresetsStore.cacheManager);
+    weatherPresetsStore.dropPresetWeatherData();
+    cityNamesStore.syncCityNamesWithBox();
     timestampStore.isNeedLoadData
-        ? await appStore.weatherPresetsStore.fetchCityWeatherData()
-        : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
+        ? await weatherPresetsStore.fetchCityWeatherData()
+        : await weatherPresetsStore.getWeatherPresetsListFromCache();
     // await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }

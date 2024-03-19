@@ -54,9 +54,9 @@ class _SetScreenState extends State<SetScreen> {
 
     Map<String, dynamic> weather =
         GoRouterState.of(context).extra! as Map<String, dynamic>;
-    appStore.currentWeatherStore.setSuitByWeatherManually(weather);
+    appStore.presetWeatherStore.setSuitByWeatherManually(weather);
     appStore.suitStore.setSuitByTemperatureType();
-    talker.info(appStore.currentWeatherStore.weatherDataMap);
+    talker.info(appStore.presetWeatherStore.weatherDataMap);
   }
 
   @override
@@ -104,7 +104,7 @@ class _SetScreenState extends State<SetScreen> {
               icon: const Icon(Icons.arrow_back),
             ),
             title: Text(
-              'Комплект: ${appStore.suitStore.suit.name}, ${appStore.currentWeatherStore.city}',
+              'Комплект: ${appStore.suitStore.suit.name}, ${appStore.presetWeatherStore.city}',
               style: const TextStyle(fontSize: 16),
             ),
           ),

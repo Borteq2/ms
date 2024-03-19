@@ -63,7 +63,6 @@ Future<void> main() async {
     GetIt.I.registerSingleton(clothingBox, instanceName: 'clothing_box');
     GetIt.I.registerSingleton(cityNamesBox, instanceName: 'city_names_box');
     GetIt.I.registerSingleton(timeStampsBox, instanceName: 'timestamps_box');
-    GetIt.I.registerSingleton(AppStore());
     GetIt.I.registerSingleton(SizesConfig());
     GetIt.I.registerSingleton(
       GoRouter(
@@ -89,6 +88,9 @@ Future<void> main() async {
         ],
       ),
     );
+
+    final AppStore appStore = AppStore();
+    GetIt.I.registerSingleton(appStore);
 
     kReleaseMode
         ? await SentryFlutter.init((options) {
