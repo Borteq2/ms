@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/enums/_enums.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -64,7 +65,14 @@ abstract class _AppStore with Store {
   @action
   void removeError(ErrorType error) => appErrors.remove(error);
 
+  @action
+  void dropAllErrors() => appErrors.clear();
+
 // =============================================================================
+
+  Future<void> goToAppSettings() async {
+    await openAppSettings();
+  }
 
   Future<void> fullRefreshAndGetFromCache() async {
     talker.info('Полный рефреш данных (кроме локальной погоды)');
@@ -81,7 +89,52 @@ abstract class _AppStore with Store {
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }
 
-  Future<void> goToAppSettings() async {
-    await openAppSettings();
+  void requestPermissions() async {
+    Map<Permission, PermissionStatus> permissions = await [
+      Permission.location,
+      Permission.storage,
+    ].request();
+
+    await checkPermissions(permissions);
+    await needLoadDataSolution();
+  }
+
+  Future<void> needLoadDataSolution() async {
+    timestampStore.isNeedLoadData
+        ? await weatherPresetsStore.fetchCityWeatherData()
+        : await weatherPresetsStore.getWeatherPresetsListFromCache();
+  }
+
+  Future<void> checkPermissions(
+      Map<Permission, PermissionStatus> permissions) async {
+    if (permissions[Permission.location] == PermissionStatus.granted &&
+        permissions[Permission.storage] == PermissionStatus.granted) {
+      // appStore.changeIsHasPermissionErrors(false);
+      removeError(ErrorType.noLocationPermission);
+      removeError(ErrorType.noStoragePermission);
+      await timestampStore.checkTimestampWithRefresh();
+      await localWeatherStore.getLocationAndWeatherData();
+    } else {
+      talker.critical('Не удалось получить все необходимые разрешения');
+      if (permissions[Permission.location] != PermissionStatus.granted) {
+        addError(ErrorType.noLocationPermission);
+      }
+      if (permissions[Permission.storage] == PermissionStatus.granted) {
+        addError(ErrorType.noStoragePermission);
+      }
+
+      Report.map(
+        event: 'Не даны разрешения',
+        map: {
+          'Локация': '${permissions[Permission.location]}',
+          'Хранилище': '${permissions[Permission.storage]}'
+        },
+      );
+      Report.error(
+          message: 'Не даны разрешения',
+          descriptionMessage:
+              'Локация: ${permissions[Permission.location]}, Хранилище: ${permissions[Permission.storage]}',
+          type: 'Некорректное взаимодействие с приложеннием');
+    }
   }
 }

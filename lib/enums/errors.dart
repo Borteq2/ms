@@ -3,4 +3,7 @@ enum ErrorType {
   noStoragePermission,
   geoServiceDisabled,
   cantLocateLocation,
+  cantGetFromBox,
+  cantPutIntoBox,
+  network,
 }

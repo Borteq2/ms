@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -20,51 +21,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
-  void _requestPermissions() async {
-    Map<Permission, PermissionStatus> permissions = await [
-      Permission.location,
-      Permission.storage,
-    ].request();
-
-    if (permissions[Permission.location] == PermissionStatus.granted &&
-        permissions[Permission.storage] == PermissionStatus.granted) {
-      // appStore.changeIsHasPermissionErrors(false);
-      await appStore.timestampStore.checkTimestampWithRefresh();
-      await appStore.localWeatherStore.getLocationAndWeatherData();
-    } else {
-      // appStore.changeIsHasPermissionErrors(true);
-      talker.critical('Не удалось получить все необходимые разрешения');
-      appStore.localWeatherStore.localWeatherDataMap = {
-        'name': 'Не могу определить местоположение'
-      };
-      Report.map(
-        event: 'Не даны разрешения',
-        map: {
-          'Локация': '${permissions[Permission.location]}',
-          'Хранилище': '${permissions[Permission.storage]}'
-        },
-      );
-      Report.error(
-          message: 'Не даны разрешения',
-          descriptionMessage:
-              'Локация: ${permissions[Permission.location]}, Хранилище: ${permissions[Permission.storage]}',
-          type: 'Некорректное взаимодействие с приложеннием');
-    }
-    appStore.timestampStore.isNeedLoadData
-        ? await appStore.weatherPresetsStore.fetchCityWeatherData()
-        : await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
-  }
-
   @override
   void initState() {
     super.initState();
-    _requestPermissions();
+    appStore.requestPermissions();
 
     Report.map(
       event: 'Открыт экран пресетов погоды',
       map: {
-        'Количество пресетов':
-            appStore.cityNamesStore.presetsCityNamesCount
+        'Количество пресетов': appStore.cityNamesStore.presetsCityNamesCount
       },
     );
   }
@@ -82,7 +47,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-
-
-
