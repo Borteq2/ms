@@ -41,6 +41,7 @@ Future<void> main() async {
     }
 
     Hive.registerAdapter(ClothingAdapter());
+    Hive.registerAdapter(WeatherPresetAdapter());
 
     final appDocumentDir =
         await path_provider.getApplicationDocumentsDirectory();

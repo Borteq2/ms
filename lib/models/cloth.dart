@@ -3,8 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/library/config/hive_types.dart';
 
-
-
 part 'cloth.g.dart';
 
 @HiveType(typeId: clothing)
@@ -28,8 +26,8 @@ class Clothing extends _Cloth with _$Clothing {
           inSuitLayer: inSuitLayer,
           isNecessary: isNecessary,
           isHasAlready: isHasAlready,
-    linkToWb: linkToWb,
-    linkToOzon: linkToOzon,
+          linkToWb: linkToWb,
+          linkToOzon: linkToOzon,
         );
 
   factory Clothing.fromJson(Map<String, dynamic> json) =>
@@ -44,13 +42,13 @@ class Clothing extends _Cloth with _$Clothing {
     return other is Clothing &&
         other.name == name &&
         other.linkToStore == linkToStore;
-        // ListEquality().equals(other.features, features) &&
-        // other.image == image &&
-        // other.inSuitLayer == inSuitLayer &&
-        // other.isNecessary == isNecessary &&
-        // other.isHasAlready == isHasAlready;
-        // other.linkToWb == linkToWb &&
-        // other.linkToOzon == linkToOzon;
+    // ListEquality().equals(other.features, features) &&
+    // other.image == image &&
+    // other.inSuitLayer == inSuitLayer &&
+    // other.isNecessary == isNecessary &&
+    // other.isHasAlready == isHasAlready;
+    // other.linkToWb == linkToWb &&
+    // other.linkToOzon == linkToOzon;
   }
 
   @override
