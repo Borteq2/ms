@@ -86,6 +86,7 @@ abstract class _AppStore with Store {
   }
 
   Future<void> fullRefreshAndGetFromCache() async {
+    talker.warning('fullRefreshAndGetFromCache');
     talker.info('Полный рефреш данных (кроме локальной погоды)');
     talker.info(
         'Буду грузить ${timestampStore.isNeedLoadData ? 'Из сети' : 'Из кэша'}');
@@ -99,6 +100,7 @@ abstract class _AppStore with Store {
   }
 
   Future<void> requestPermissionsAndLoadDataIfNeeded() async {
+    talker.warning('requestPermissionsAndLoadDataIfNeeded');
     // talker.warning('запросил пермишны');
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
@@ -114,6 +116,7 @@ abstract class _AppStore with Store {
   }
 
   Future<void> needLoadDataSolution() async {
+    talker.warning('needLoadDataSolution');
     timestampStore.isNeedLoadData
         ? await weatherPresetsStore.fetchCityWeatherData()
         : await weatherPresetsStore.getWeatherPresetsListFromCache();
@@ -128,6 +131,7 @@ abstract class _AppStore with Store {
   @action
   Future<void> checkPermissions(
       Map<Permission, PermissionStatus> permissions) async {
+    talker.warning('checkPermissions');
     await checkGeoService();
 
     // talker.critical(permissions[Permission.location]);
@@ -175,6 +179,7 @@ abstract class _AppStore with Store {
   }
 
   Future<void> checkGeoService() async {
+    talker.warning('checkGeoService');
     talker.debug('Проверяю геосервис');
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {

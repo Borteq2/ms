@@ -35,6 +35,7 @@ abstract class _TimestampStore with Store {
 
   @action
   Future<void> checkTimestampWithRefresh() async {
+    talker.warning('checkTimestampWithRefresh');
     try {
       FileInfo? timestampFile = await _getFileFromCache(cacheManager);
 
@@ -74,6 +75,7 @@ abstract class _TimestampStore with Store {
     DefaultCacheManager cacheManager,
     DateTime currentTime,
   ) async {
+    talker.warning('refreshTimestampCache');
     await cacheManager.putFile(
       'timestamp',
       utf8.encode(currentTime.toString()),

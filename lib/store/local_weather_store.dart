@@ -95,6 +95,7 @@ abstract class _LocalWeatherStore with Store {
 
   @action
   Future<void> getLocationAndWeatherData() async {
+    talker.warning('getLocationAndWeatherData');
     dropLocalWeatherData();
     try {
       await getLocalLocation();
@@ -110,6 +111,7 @@ abstract class _LocalWeatherStore with Store {
 // =============================================================================
 
   Future<Position> getLocalLocation() async {
+    talker.warning('getLocalLocation');
     talker.debug('Запрашиваю локальную локацию');
     _appStoreLWS.requestPermissionsAndLoadDataIfNeeded();
 
@@ -121,6 +123,7 @@ abstract class _LocalWeatherStore with Store {
   }
 
   Future<Map<String, dynamic>> fetchWeatherByLocalLocation() async {
+    talker.warning('fetchWeatherByLocalLocation');
     Dio dio = GetIt.I<Dio>();
 
     Response response = await dio.get(
