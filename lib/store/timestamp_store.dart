@@ -29,12 +29,6 @@ abstract class _TimestampStore with Store {
   @observable
   bool isNeedLoadData = false;
 
-  // => cachedTimestamp == null
-  //     ? true
-  //     : cachedTimestamp!.isAfter(currentTimestamp)
-  //         ? false
-  //         : true;
-
   @computed
   String get time =>
       '${cachedTimestamp?.hour ?? ''}:${cachedTimestamp?.minute ?? ''}:${cachedTimestamp?.second ?? ''}';
@@ -48,21 +42,19 @@ abstract class _TimestampStore with Store {
         String timestampString = await timestampFile.file.readAsString();
         cachedTimestamp = DateTime.parse(timestampString);
         if (cachedTimestamp!
-            .add(Duration(minutes: 30))
+            .add(const Duration(minutes: 30))
             .isBefore(currentTimestamp)) {
           talker.debug('кэшированный таймштамп устарел');
-          await refreshTimestampCache(
-              cacheManager, currentTimestamp);
+          await refreshTimestampCache(cacheManager, currentTimestamp);
           isNeedLoadData = true;
         } else {
           talker.debug('Таймштамп валидный: $cachedTimestamp');
           talker.debug(
-              'Истечёт: ${cachedTimestamp!.add(Duration(minutes: 30))}');
+              'Истечёт: ${cachedTimestamp!.add(const Duration(minutes: 30))}');
         }
       } else {
         talker.debug('Таймштампа нет');
-        await refreshTimestampCache(
-            cacheManager, currentTimestamp);
+        await refreshTimestampCache(cacheManager, currentTimestamp);
         isNeedLoadData = true;
         await checkTimestampWithRefresh();
       }
@@ -96,6 +88,7 @@ abstract class _TimestampStore with Store {
       String timestampString = await timestampFile.file.readAsString();
       talker.info('3: Чтение таймштампа из файла завершено');
       cachedTimestamp = DateTime.parse(timestampString);
+      talker.info('3: Добытый шаймштамп: $cachedTimestamp');
 
       talker.info('ОТРЕФРЕШЕНЫЙ ${DateTime.parse(timestampString)}');
     }

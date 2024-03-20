@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/library/config/hive_types.dart';
 
-part 'cloth.g.dart';
+part 'clothing.g.dart';
 
 @HiveType(typeId: clothing)
 @JsonSerializable()

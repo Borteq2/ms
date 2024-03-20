@@ -8,8 +8,6 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/enums/_enums.dart';
-import 'package:mordor_suit/exceptions/_exceptions.dart';
-import 'package:mordor_suit/exceptions/location_permission_perm.dart';
 import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/prebuilt/empty_weather_preset.dart';
 
@@ -35,7 +33,6 @@ abstract class _LocalWeatherStore with Store {
   @observable
   late Position currentPosition;
 
-  // TODO: рефактор в модель
   @observable
   Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
 
@@ -98,29 +95,21 @@ abstract class _LocalWeatherStore with Store {
 
   @action
   Future<void> getLocationAndWeatherData() async {
-    // print('%'*50);
-    // print('fetchWeatherByLocation');
     dropLocalWeatherData();
     try {
-      await getLocation();
-      // TODO: зачем?
-      // geoPermission = true;
-      localWeatherDataMap = await fetchWeatherByLocation();
-      talker.warning(localWeatherDataMap);
-      // setTimestamp();
+      await getLocalLocation();
+      localWeatherDataMap = await fetchWeatherByLocalLocation();
+      // talker.warning(localWeatherDataMap);
       weatherIcon = IconHelper.getIconByWeather(
           localWeatherDataMap['weather'][0]['main']);
     } catch (e) {
-      // geoPermission = false;
       talker.critical(e);
     }
-    // print('%'*50);
   }
 
 // =============================================================================
 
-  // TODO: унести в апстор
-  Future<Position> getLocation() async {
+  Future<Position> getLocalLocation() async {
     talker.debug('Запрашиваю локальную локацию');
     _appStoreLWS.requestPermissionsAndLoadDataIfNeeded();
 
@@ -131,12 +120,10 @@ abstract class _LocalWeatherStore with Store {
     return result;
   }
 
-  Future<Map<String, dynamic>> fetchWeatherByLocation() async {
+  Future<Map<String, dynamic>> fetchWeatherByLocalLocation() async {
     Dio dio = GetIt.I<Dio>();
 
     Response response = await dio.get(
-      // ''
-      // // TODO: дубликат, вынести
       'https://api.openweathermap.org/data/2.5/weather'
       '?lat=${currentPosition.latitude}'
       '&lon=${currentPosition.longitude}'
@@ -146,9 +133,6 @@ abstract class _LocalWeatherStore with Store {
     );
 
     Map<String, dynamic> result = response.data;
-    // talker.info(weatherDataMap);
-    // talker.info(response.data);
-    // locationMessage = 'Широта: ${position.latitude},\nДолгота: ${position.longitude}';
     return result;
   }
 }

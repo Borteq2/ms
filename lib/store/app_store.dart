@@ -101,16 +101,16 @@ abstract class _AppStore with Store {
   }
 
   Future<void> requestPermissionsAndLoadDataIfNeeded() async {
-    talker.warning('запросил пермишны');
+    // talker.warning('запросил пермишны');
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
       // Permission.storage,
     ].request();
 
-    talker.warning('проверяю пермишны');
+    // talker.warning('проверяю пермишны');
     await checkPermissions(permissions);
     // await checkGeoService();
-    talker.warning('решаю надо ли грузить данные из сети');
+    // talker.warning('решаю надо ли грузить данные из сети');
     // await localWeatherStore.getLocationAndWeatherData();
     await needLoadDataSolution();
   }
@@ -132,28 +132,19 @@ abstract class _AppStore with Store {
       Map<Permission, PermissionStatus> permissions) async {
     await checkGeoService();
 
-    talker.critical(permissions[Permission.location]);
-    // talker.critical(permissions[Permission.storage]);
+    // talker.critical(permissions[Permission.location]);
 
-    if (statusesOK.contains(permissions[Permission.location]))
-    // &&
-        // statusesOK.contains(permissions[Permission.storage])
-    // )
-    {
+    // TODO: после удаления стораж пермишна что-то из этого избыточно
+    if (statusesOK.contains(permissions[Permission.location])) {
       // пермишны в порядке, удаляю ошибки
       dropAllErrors();
 
       await timestampStore.checkTimestampWithRefresh();
-      // await localWeatherStore.getLocationAndWeatherData();
     } else {
       if (permissions[Permission.location] == PermissionStatus.granted) {
         removeError(ErrorType.noLocationPermissionTemporary);
         removeError(ErrorType.noLocationPermissionForever);
       }
-      // if (permissions[Permission.storage] == PermissionStatus.granted) {
-      //   removeError(ErrorType.noStoragePermission);
-      // }
-      // оба пермишна (вскладчину) не даны
       try {
         // проверяю пермишн локации
         if (permissions[Permission.location] != PermissionStatus.granted) {
@@ -171,25 +162,16 @@ abstract class _AppStore with Store {
       } catch (e) {
         throw LocationPermissionFlatException(e.toString());
       }
-      // try {
-      //   if (permissions[Permission.storage] == PermissionStatus.granted) {
-      //     addError(ErrorType.noStoragePermission);
-      //   }
-      // } catch (e) {
-      //   throw StoragePermissionException(e.toString());
-      // }
 
       Report.map(
         event: 'Не даны разрешения',
         map: {
           'Локация': '${permissions[Permission.location]}',
-          // 'Хранилище': '${permissions[Permission.storage]}'
         },
       );
       Report.error(
           message: 'Не даны разрешения',
-          descriptionMessage:
-              'Локация: ${permissions[Permission.location]}',
+          descriptionMessage: 'Локация: ${permissions[Permission.location]}',
           type: 'Некорректное взаимодействие с приложеннием');
     }
   }

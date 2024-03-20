@@ -5,15 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mordor_suit/exceptions/_exceptions.dart';
-import 'package:mordor_suit/library/config/empty_weather_preset.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
+import 'package:mordor_suit/exceptions/_exceptions.dart';
+import 'package:mordor_suit/library/config/empty_weather_preset.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 part 'weather_presets_store.g.dart';
@@ -25,18 +23,15 @@ AppStore _appStoreWP = GetIt.I<AppStore>();
 abstract class _WeatherPresetsStore with Store {
   _WeatherPresetsStore({
     required this.talker,
-    // required this.appStore,
   });
 
   final Talker talker;
-  // final AppStore appStore;
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
 
   DefaultCacheManager cacheManager = DefaultCacheManager();
 
 // =============================================================================
-
 
   @observable
   ObservableList<Map<String, dynamic>> presetCityWeatherData = ObservableList();
@@ -84,28 +79,15 @@ abstract class _WeatherPresetsStore with Store {
   Future<void> removePreset(int index) async {
     talker.info('Удаляю пресет $index');
     await _appStoreWP.cityNamesStore.cityNamesBox.deleteAt(index);
-    // TODO: ебанёт
     await GetIt.I<AppStore>().fullRefreshAndGetFromCache();
   }
 
   @action
   Future<void> fetchCityWeatherData() async {
-    // print('#'*50);
-    // print('fetchCityWeatherData');
     talker.info('Данные из сети');
-    // talker.debug('очищаю данные пресетов в приложении');
-    // talker.debug('дропаю кэш пресетов');
-    // talker.debug('рефрешу кэш таймштампа (чаще чем примерно раз в минуту всё равно не сработает)');
 
     dropPresetWeatherData();
-    // appStore.dropTimestampCache(appStore.cacheManager);
-    // appStore.refreshTimestampCache(
-    //   appStore.cacheManager,
-    //   appStore.currentTime,
-    //   appStore.ttlInMinutes,
-    // );
     await dropWeatherPresetsCache(cacheManager);
-    // TODO: ебанёт
     await GetIt.I<AppStore>().timestampStore.refreshTimestampCache(
           GetIt.I<AppStore>().timestampStore.cacheManager,
           GetIt.I<AppStore>().timestampStore.currentTimestamp,
@@ -129,7 +111,6 @@ abstract class _WeatherPresetsStore with Store {
       Location location = await getLocationCoordinatesByCityName(city);
 
       Response response = await dio.get(
-        // // TODO: дубликат, вынести
         'https://api.openweathermap.org/data/2.5/weather'
         '?lat=${location.latitude}'
         '&lon=${location.longitude}'
@@ -142,7 +123,6 @@ abstract class _WeatherPresetsStore with Store {
       // talker.info('Запрос погоды в городе $city: $result');
       return result;
     } catch (e, st) {
-      //TODO: бахнуть эксепшн
       talker.handle(e, st);
       return emptyPreset;
     }
@@ -152,9 +132,6 @@ abstract class _WeatherPresetsStore with Store {
     try {
       List<Location> locations = await locationFromAddress(cityName);
       if (locations.isNotEmpty) {
-        // double latitude = locations[0].latitude;
-        // double longitude = locations[0].longitude;
-        // talker.info('Координаты для $cityName: ($latitude, $longitude)');
         return locations[0];
       } else {
         throw LocationException(
@@ -162,8 +139,6 @@ abstract class _WeatherPresetsStore with Store {
       }
     } catch (e, st) {
       talker.handle(e, st);
-      // talker.info('Удаляю последний добавленный пресет');
-      // removePreset(cityNamesStore.cityNamesBox.length - 1);
       throw LocationException('Ошибка при парсинге города в координаты');
     }
   }
@@ -176,29 +151,12 @@ abstract class _WeatherPresetsStore with Store {
       await cacheManager.emptyCache();
     } catch (e, st) {
       talker.handle(e, st);
-      // TODO: подумать
       throw SentryException(type: 'minor', value: '$e /// $st');
     }
   }
 
-  // Future<void> checkStoragePermissions() async {
-  //   var status = await Permission.storage.status;
-  //   // TODO: проверить дублирование у всего остатка метода
-  //   if (status.isDenied || status.isPermanentlyDenied) {
-  //     status = await Permission.storage.request();
-  //   }
-  //   if (status.isGranted) {
-  //     talker.debug('Разрешение на чтение файлов предоставлено');
-  //   } else {
-  //     talker.debug('Разрешение на чтение файлов не предоставлено');
-  //     throw const PermissionDeniedException(
-  //         'Разрешение на чтение файлов не предоставлено');
-  //   }
-  // }
-
   @action
   Future<void> getWeatherPresetsListFromCache() async {
-    // checkStoragePermissions();
     // TODO: рефактор в модель
     ObservableList<Map<String, dynamic>> weatherPresetsList =
         await getFileFromCache(cacheManager);
@@ -210,7 +168,7 @@ abstract class _WeatherPresetsStore with Store {
 
   Future<void> setFileToCache(
     DefaultCacheManager cacheManager,
-      // TODO: рефактор в модель
+    // TODO: рефактор в модель
     ObservableList<Map<String, dynamic>> weatherPresetsList,
   ) async {
     talker.debug('пишу в кэш новые пресеты');
@@ -227,7 +185,7 @@ abstract class _WeatherPresetsStore with Store {
   ) async {
     // TODO: рефактор в модель
     ObservableList<Map<String, dynamic>> dataList =
-    // TODO: рефактор в модель
+        // TODO: рефактор в модель
         ObservableList<Map<String, dynamic>>.of([]);
     FileInfo? weatherPresetsList =
         await cacheManager.getFileFromCache('weatherPresetsList');
@@ -241,7 +199,7 @@ abstract class _WeatherPresetsStore with Store {
       dataList = ObservableList<Map<String, dynamic>>.of(
         // TODO: рефактор в модель
         jsonList.map<Map<String, dynamic>>(
-          // TODO: рефактор в модель
+            // TODO: рефактор в модель
             (item) => Map<String, dynamic>.from(item)),
       );
       // talker.debug('Данные получились $dataList');

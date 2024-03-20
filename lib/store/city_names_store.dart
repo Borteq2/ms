@@ -22,17 +22,17 @@ abstract class _CityNamesStore with Store {
   Dio dio = GetIt.I<Dio>();
   Box cityNamesBox = GetIt.I<Box<String>>(instanceName: 'city_names_box');
 
-// =============================================================================
+// ============================ observable =====================================
 
   @observable
   ObservableList<String> presetsCityNames = ObservableList();
 
-// =============================================================================
+// ============================= computed ======================================
 
   @computed
   int get presetsCityNamesCount => presetsCityNames.length;
 
-// =============================================================================
+// ============================= action ========================================
 
   @action
   void syncCityNamesWithBox() => presetsCityNames =

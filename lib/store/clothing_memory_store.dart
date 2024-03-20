@@ -35,11 +35,11 @@ abstract class _ClothingMemoryStore with Store {
 
   @action
   Future<void> syncHasAlreadyListsWithBoxes() async {
-    // talker.debug('Синхронизирую списки "добавленных" с боксами');
+    talker.debug('Синхронизирую списки "добавленных" с боксами');
     talker.debug('Обнуляю текущие');
     try {
       dropUnboxedLists();
-      talker.debug('Дёргаю шмотки');
+      talker.debug('Дёргаю итемы');
       await getClothingListFromBox();
     } catch (e, st) {
       talker.handle(e, st);
