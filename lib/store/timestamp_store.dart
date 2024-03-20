@@ -82,15 +82,15 @@ abstract class _TimestampStore with Store {
     talker.debug('рефрешу таймштамп');
     talker.debug('сейчас ${currentTime.toString()}');
     FileInfo? timestampFile = await _getFileFromCache(cacheManager);
-    talker.info('2: Получение таймштампа из кэша завершено');
+    talker.debug('2: Получение таймштампа из кэша завершено');
 
     if (timestampFile != null) {
       String timestampString = await timestampFile.file.readAsString();
-      talker.info('3: Чтение таймштампа из файла завершено');
+      talker.debug('3: Чтение таймштампа из файла завершено');
       cachedTimestamp = DateTime.parse(timestampString);
-      talker.info('3: Добытый шаймштамп: $cachedTimestamp');
+      talker.debug('3: Добытый шаймштамп: $cachedTimestamp');
 
-      talker.info('ОТРЕФРЕШЕНЫЙ ${DateTime.parse(timestampString)}');
+      talker.debug('ОТРЕФРЕШЕНЫЙ ${DateTime.parse(timestampString)}');
     }
   }
 

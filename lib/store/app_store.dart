@@ -93,9 +93,7 @@ abstract class _AppStore with Store {
         .dropWeatherPresetsCache(weatherPresetsStore.cacheManager);
     weatherPresetsStore.dropPresetWeatherData();
     cityNamesStore.syncCityNamesWithBox();
-    timestampStore.isNeedLoadData
-        ? await weatherPresetsStore.fetchCityWeatherData()
-        : await weatherPresetsStore.getWeatherPresetsListFromCache();
+    needLoadDataSolution();
     // await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }
