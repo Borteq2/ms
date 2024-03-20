@@ -28,20 +28,26 @@ class BotAppBarWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              appStore.appErrors
-                      .contains(ErrorType.noLocationPermissionTemporary)
-                  ? const Icon(Icons.warning_amber_outlined,
-                      color: Colors.green)
+              (appStore.appErrors
+                          .contains(ErrorType.noLocationPermissionTemporary) &&
+                      !appStore.appErrors
+                          .contains(ErrorType.noLocationPermissionForever))
+                  ? const Icon(
+                      Icons.warning_amber_outlined,
+                      color: Colors.green,
+                    )
                   : const SizedBox.shrink(),
-              appStore.appErrors
-                  .contains(ErrorType.noLocationPermissionForever)
-                  ? const Icon(Icons.warning_amber_outlined,
-                  color: Colors.yellow)
+              appStore.appErrors.contains(ErrorType.noLocationPermissionForever)
+                  ? const Icon(
+                      Icons.warning_amber_outlined,
+                      color: Colors.yellow,
+                    )
                   : const SizedBox.shrink(),
-              appStore.appErrors
-                  .contains(ErrorType.geoServiceDisabled)
-                  ? const Icon(Icons.warning_amber_outlined,
-                  color: Colors.red)
+              appStore.appErrors.contains(ErrorType.geoServiceDisabled)
+                  ? const Icon(
+                      Icons.warning_amber_outlined,
+                      color: Colors.red,
+                    )
                   : const SizedBox.shrink(),
               if (appStore.centerLocations.contains(appStore.fabLocation))
                 const Spacer(),
