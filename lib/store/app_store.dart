@@ -104,7 +104,7 @@ abstract class _AppStore with Store {
     talker.warning('запросил пермишны');
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
-      Permission.storage,
+      // Permission.storage,
     ].request();
 
     talker.warning('проверяю пермишны');
@@ -132,10 +132,13 @@ abstract class _AppStore with Store {
     await checkGeoService();
 
     talker.critical(permissions[Permission.location]);
-    talker.critical(permissions[Permission.storage]);
+    // talker.critical(permissions[Permission.storage]);
 
-    if (statusesOK.contains(permissions[Permission.location]) &&
-        statusesOK.contains(permissions[Permission.storage])) {
+    if (statusesOK.contains(permissions[Permission.location]))
+    // &&
+        // statusesOK.contains(permissions[Permission.storage])
+    // )
+    {
       // пермишны в порядке, удаляю ошибки
       dropAllErrors();
 
@@ -146,9 +149,9 @@ abstract class _AppStore with Store {
         removeError(ErrorType.noLocationPermissionTemporary);
         removeError(ErrorType.noLocationPermissionForever);
       }
-      if (permissions[Permission.storage] == PermissionStatus.granted) {
-        removeError(ErrorType.noStoragePermission);
-      }
+      // if (permissions[Permission.storage] == PermissionStatus.granted) {
+      //   removeError(ErrorType.noStoragePermission);
+      // }
       // оба пермишна (вскладчину) не даны
       try {
         // проверяю пермишн локации
@@ -167,25 +170,25 @@ abstract class _AppStore with Store {
       } catch (e) {
         throw LocationPermissionFlatException(e.toString());
       }
-      try {
-        if (permissions[Permission.storage] == PermissionStatus.granted) {
-          addError(ErrorType.noStoragePermission);
-        }
-      } catch (e) {
-        throw StoragePermissionException(e.toString());
-      }
+      // try {
+      //   if (permissions[Permission.storage] == PermissionStatus.granted) {
+      //     addError(ErrorType.noStoragePermission);
+      //   }
+      // } catch (e) {
+      //   throw StoragePermissionException(e.toString());
+      // }
 
       Report.map(
         event: 'Не даны разрешения',
         map: {
           'Локация': '${permissions[Permission.location]}',
-          'Хранилище': '${permissions[Permission.storage]}'
+          // 'Хранилище': '${permissions[Permission.storage]}'
         },
       );
       Report.error(
           message: 'Не даны разрешения',
           descriptionMessage:
-              'Локация: ${permissions[Permission.location]}, Хранилище: ${permissions[Permission.storage]}',
+              'Локация: ${permissions[Permission.location]}',
           type: 'Некорректное взаимодействие с приложеннием');
     }
   }

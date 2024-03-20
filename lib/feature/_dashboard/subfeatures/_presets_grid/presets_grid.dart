@@ -44,7 +44,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
 
   Future<void> _refresh() async {
     await widget.appStore.requestPermissionsAndLoadDataIfNeeded();
-    await widget.appStore.localWeatherStore.getLocationAndWeatherData();
+    // await widget.appStore.localWeatherStore.getLocationAndWeatherData();
     // await widget.appStore.weatherPresetsStore.fetchCityWeatherData();
   }
 

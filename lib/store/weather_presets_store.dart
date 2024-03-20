@@ -181,20 +181,20 @@ abstract class _WeatherPresetsStore with Store {
     }
   }
 
-  Future<void> checkStoragePermissions() async {
-    var status = await Permission.storage.status;
-    // TODO: проверить дублирование у всего остатка метода
-    if (status.isDenied || status.isPermanentlyDenied) {
-      status = await Permission.storage.request();
-    }
-    if (status.isGranted) {
-      talker.debug('Разрешение на чтение файлов предоставлено');
-    } else {
-      talker.debug('Разрешение на чтение файлов не предоставлено');
-      throw const PermissionDeniedException(
-          'Разрешение на чтение файлов не предоставлено');
-    }
-  }
+  // Future<void> checkStoragePermissions() async {
+  //   var status = await Permission.storage.status;
+  //   // TODO: проверить дублирование у всего остатка метода
+  //   if (status.isDenied || status.isPermanentlyDenied) {
+  //     status = await Permission.storage.request();
+  //   }
+  //   if (status.isGranted) {
+  //     talker.debug('Разрешение на чтение файлов предоставлено');
+  //   } else {
+  //     talker.debug('Разрешение на чтение файлов не предоставлено');
+  //     throw const PermissionDeniedException(
+  //         'Разрешение на чтение файлов не предоставлено');
+  //   }
+  // }
 
   @action
   Future<void> getWeatherPresetsListFromCache() async {
