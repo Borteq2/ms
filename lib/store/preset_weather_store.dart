@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/library/helpers/_helpers.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/prebuilt/empty_weather_preset.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -19,7 +20,6 @@ class PresetWeatherStore = _PresetWeatherStore with _$PresetWeatherStore;
 abstract class _PresetWeatherStore with Store {
   _PresetWeatherStore({
     required this.talker,
-
   });
 
   final Talker talker;
@@ -27,47 +27,40 @@ abstract class _PresetWeatherStore with Store {
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
 
-  // TODO: зачем?
   @observable
-  bool geoPermission = false;
+  Icon defaultOrUnknownWeatherIcon =
+      const Icon(Icons.question_mark, color: Colors.transparent);
 
-  // TODO: рефактор в модель
   @observable
-  Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
-
-  // TODO: рефактор в модель
-  @observable
-  Map<String, dynamic> weatherDataMap = emptyWeatherPreset;
+  WeatherPreset weatherDataMap = emptyWeatherPreset;
 
 // =============================================================================
 
   @computed
-  String get city => weatherDataMap['name'];
-
-  // TODO: рефактор в модель
-  @computed
-  bool get isWeatherLoaded => city != '';
+  String? get city => weatherDataMap.name;
 
   @computed
-  String get weather {
+  bool get isWeatherLoaded => city != null;
+
+  @computed
+  String? get weather {
     try {
       return StringHelper.capitalizeFirstSymbol(
-          weatherDataMap['weather'][0]['description']);
+          weatherDataMap.weather?[0]['description']);
     } catch (e) {
       talker.debug(e);
+      return null;
     }
-    // TODO: рефактор в модель
-    return '';
   }
 
   @computed
-  Map<String, dynamic> get mapTemp => weatherDataMap['main'];
+  Map<String, dynamic>? get mapTemp => weatherDataMap.main;
 
   @computed
-  num get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
+  num get temperature => mapTemp != null ? mapTemp!['temp'] : 999;
 
   @computed
-  num get feelsLikeTemp => mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
+  num get feelsLikeTemp => mapTemp != null ? mapTemp!['feels_like'] : 999;
 
   @computed
   TemperatureTypes get currentTemperatureType =>
@@ -83,8 +76,8 @@ abstract class _PresetWeatherStore with Store {
   void dropPresetWeatherData() => weatherDataMap = emptyWeatherPreset;
 
   @action
-  void setSuitByWeatherManually(Map<String, dynamic> weather) {
+  void setSuitByWeatherManually(WeatherPreset weatherPreset) {
     dropPresetWeatherData();
-    weatherDataMap = weather;
+    weatherDataMap = weatherPreset;
   }
 }

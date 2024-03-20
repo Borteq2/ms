@@ -25,7 +25,7 @@ class CorrectPresetInfoWidget extends StatelessWidget {
         PresetLocationName(widget: widget, index: index),
         PresetCityName(widget: widget, index: index),
         IconHelper.getIconByWeather(
-            widget.appStore.weatherPresetsStore.weather(index)),
+            widget.appStore.locationPresetsStore.weather(index)),
         PresetWeatherDescriptionWidget(index: index, appStore: appStore),
         PresetTempWidget(widget: widget, index: index),
         PresetTempFeelsLikeWidget(widget: widget, index: index),

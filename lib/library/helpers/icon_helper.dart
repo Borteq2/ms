@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class IconHelper {
-  static Icon getIconByWeather(String weather) => weather == 'Clear'
+  static Icon getIconByWeather(String? weather) => weather == 'Clear'
       ? const Icon(Icons.sunny)
       : weather == 'Clouds'
           ? const Icon(Icons.cloud)

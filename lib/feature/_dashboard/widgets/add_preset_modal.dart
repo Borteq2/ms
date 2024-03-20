@@ -29,8 +29,8 @@ class _AddPresetModalState extends State<AddPresetModal> {
     super.dispose();
   }
 
-  WeatherPresetsStore get weatherPresetsStore =>
-      widget.appStore.weatherPresetsStore;
+  LocationPresetsStore get locationPresetsStore =>
+      widget.appStore.locationPresetsStore;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _AddPresetModalState extends State<AddPresetModal> {
               event: 'Добавлен пресет',
               map: {'Название локации': _cityNameController.text},
             );
-            weatherPresetsStore.addPreset(_cityNameController.text);
+            locationPresetsStore.addPreset(_cityNameController.text);
             Navigator.of(context).pop();
           },
           child: const Text('Подтвердить'),

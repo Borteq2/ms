@@ -15,7 +15,7 @@ class PresetCityName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]['name']}',
+        '${widget.appStore.locationPresetsStore.presetCityWeatherData[index].name}',
         overflow: TextOverflow.ellipsis);
   }
 }

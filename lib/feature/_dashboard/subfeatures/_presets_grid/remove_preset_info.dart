@@ -26,10 +26,10 @@ class RemovePresetInfoWidget extends StatelessWidget {
             event: 'Удаление пресета',
             map: {
               widget.appStore.cityNamesStore.presetsCityNames[index]:
-                  '${widget.appStore.weatherPresetsStore.presetCityWeatherData[index]}'
+                  '${widget.appStore.locationPresetsStore.presetCityWeatherData[index]}'
             },
           );
-          appStore.weatherPresetsStore.removePreset(index);
+          appStore.locationPresetsStore.removePreset(index);
         },
         icon: const Icon(Icons.delete_forever),
         color: Theme.of(context).primaryColor,

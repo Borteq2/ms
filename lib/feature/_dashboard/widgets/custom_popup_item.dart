@@ -51,7 +51,7 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
           );
 
           currentWeatherStore
-              .setSuitByWeatherManually(localWeatherStore.localWeatherDataMap);
+              .setSuitByWeatherManually(localWeatherStore.localWeatherData);
           Report.map(
             event: 'Установлен комплект снаряжения',
             map: {

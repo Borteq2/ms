@@ -15,7 +15,7 @@ class PresetTempFeelsLikeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Ощущается как: ${widget.appStore.weatherPresetsStore.feelsLike(index)}°С',
+        'Ощущается как: ${widget.appStore.locationPresetsStore.feelsLike(index)}°С',
         overflow: TextOverflow.ellipsis);
   }
 }

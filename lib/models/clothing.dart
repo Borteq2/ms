@@ -42,13 +42,6 @@ class Clothing extends _Cloth with _$Clothing {
     return other is Clothing &&
         other.name == name &&
         other.linkToStore == linkToStore;
-    // ListEquality().equals(other.features, features) &&
-    // other.image == image &&
-    // other.inSuitLayer == inSuitLayer &&
-    // other.isNecessary == isNecessary &&
-    // other.isHasAlready == isHasAlready;
-    // other.linkToWb == linkToWb &&
-    // other.linkToOzon == linkToOzon;
   }
 
   @override
@@ -56,13 +49,6 @@ class Clothing extends _Cloth with _$Clothing {
     return Object.hash(
       name,
       linkToStore,
-      // ListEquality().hash(features),
-      // image,
-      // inSuitLayer,
-      // isNecessary,
-      // isHasAlready,
-      // linkToWb,
-      // linkToOzon,
     );
   }
 }

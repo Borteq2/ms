@@ -22,14 +22,10 @@ class TitleWidget extends StatefulWidget {
 class _TitleWidgetState extends State<TitleWidget> {
   @override
   Widget build(BuildContext context) {
+    reaction((_) => widget.appStore.appErrors.length, (_) => setState(() {}));
 
-    reaction(
-            (_) => widget.appStore.appErrors.length,
-            (_) => setState(() {}));
-
-    reaction(
-            (_) => widget.appStore.localWeatherStore.isWeatherLoaded,
-            (_) => setState(() {}));
+    reaction((_) => widget.appStore.localWeatherStore.isWeatherLoaded,
+        (_) => setState(() {}));
 
     return Observer(
       builder: (_) => Column(
@@ -144,11 +140,11 @@ class WeatherDetailWidget extends StatelessWidget {
                           style: const TextStyle(fontSize: 20),
                         ),
                         Text(
-                            'Влажность: ${appStore.localWeatherStore.localWeatherDataMap['main']['humidity']}%',
+                            'Влажность: ${appStore.localWeatherStore.localWeatherData.main?['humidity']}%',
                             style: const TextStyle(fontSize: 20),
                             overflow: TextOverflow.ellipsis),
                         Text(
-                            'Ветер: ${appStore.localWeatherStore.localWeatherDataMap['wind']['speed']} м/с',
+                            'Ветер: ${appStore.localWeatherStore.localWeatherData.wind?['speed']} м/с',
                             style: const TextStyle(fontSize: 20),
                             overflow: TextOverflow.ellipsis),
                       ],
@@ -177,7 +173,7 @@ class TitleCityNameWidget extends StatelessWidget {
           ? SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: AutoSizeText(
-                appStore.localWeatherStore.city,
+                appStore.localWeatherStore.city ?? '',
                 maxLines: 1,
               ),
             )

@@ -15,7 +15,7 @@ class PresetHumidityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Влажность: ${widget.appStore.weatherPresetsStore.humidity(index)}%',
+        'Влажность: ${widget.appStore.locationPresetsStore.humidity(index)}%',
         overflow: TextOverflow.ellipsis);
   }
 }

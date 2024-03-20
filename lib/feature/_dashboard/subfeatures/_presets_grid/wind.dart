@@ -13,7 +13,7 @@ class PresetWindWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Ветер: ${widget.appStore.weatherPresetsStore.wind(index)} м/с',
+    return Text('Ветер: ${widget.appStore.locationPresetsStore.wind(index)} м/с',
         overflow: TextOverflow.ellipsis);
   }
 }

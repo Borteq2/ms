@@ -15,7 +15,7 @@ class PresetTempWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-        'Температура: ${widget.appStore.weatherPresetsStore.baseTemp(index)}°С',
+        'Температура: ${widget.appStore.locationPresetsStore.baseTemp(index)}°С',
         overflow: TextOverflow.ellipsis);
   }
 }

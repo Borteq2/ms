@@ -17,7 +17,8 @@ class PresetWeatherDescriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       StringHelper.capitalizeFirstSymbol(
-          appStore.weatherPresetsStore.description(index)),
+              appStore.locationPresetsStore.description(index)) ??
+          '',
       overflow: TextOverflow.ellipsis,
     );
   }

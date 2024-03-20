@@ -35,8 +35,8 @@ abstract class _AppStore with Store {
   SuitStore suitStore = SuitStore(talker: GetIt.I<Talker>());
 
   @observable
-  WeatherPresetsStore weatherPresetsStore =
-      WeatherPresetsStore(talker: GetIt.I<Talker>());
+  LocationPresetsStore locationPresetsStore =
+      LocationPresetsStore(talker: GetIt.I<Talker>());
 
   @observable
   CityNamesStore cityNamesStore = CityNamesStore(talker: GetIt.I<Talker>());
@@ -90,9 +90,9 @@ abstract class _AppStore with Store {
     talker.info('Полный рефреш данных (кроме локальной погоды)');
     talker.info(
         'Буду грузить ${timestampStore.isNeedLoadData ? 'Из сети' : 'Из кэша'}');
-    await weatherPresetsStore
-        .dropWeatherPresetsCache(weatherPresetsStore.cacheManager);
-    weatherPresetsStore.dropPresetWeatherData();
+    await locationPresetsStore
+        .dropLocationPresetsCache(locationPresetsStore.cacheManager);
+    locationPresetsStore.dropPresetWeatherData();
     cityNamesStore.syncCityNamesWithBox();
     needLoadDataSolution();
     // await appStore.weatherPresetsStore.getWeatherPresetsListFromCache();
@@ -118,8 +118,8 @@ abstract class _AppStore with Store {
   Future<void> needLoadDataSolution() async {
     talker.warning('needLoadDataSolution');
     timestampStore.isNeedLoadData
-        ? await weatherPresetsStore.fetchCityWeatherData()
-        : await weatherPresetsStore.getWeatherPresetsListFromCache();
+        ? await locationPresetsStore.fetchCityWeatherData()
+        : await locationPresetsStore.getLocationPresetsListFromCache();
   }
 
   List<PermissionStatus> statusesOK = [

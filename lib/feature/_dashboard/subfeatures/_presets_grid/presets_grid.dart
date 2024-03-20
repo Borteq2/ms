@@ -29,7 +29,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
 
   void _openSet(int index, BuildContext context) {
     widget.appStore.presetWeatherStore.setSuitByWeatherManually(
-      widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
+      widget.appStore.locationPresetsStore.presetCityWeatherData[index],
     );
     if (kReleaseMode) {
       AppMetrica.reportEventWithMap('Установлен комплект снаряжения',
@@ -38,7 +38,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     }
     context.go(
       '/set',
-      extra: widget.appStore.weatherPresetsStore.presetCityWeatherData[index],
+      extra: widget.appStore.locationPresetsStore.presetCityWeatherData[index],
     );
   }
 
@@ -51,11 +51,13 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   @override
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
-    WeatherPresetsStore presetsStore = widget.appStore.weatherPresetsStore;
+    LocationPresetsStore locationPresetsStore =
+        widget.appStore.locationPresetsStore;
     CityNamesStore cityNamesStore = widget.appStore.cityNamesStore;
 
     reaction(
-        (_) => widget.appStore.weatherPresetsStore.presetCityWeatherData.length,
+        (_) =>
+            widget.appStore.locationPresetsStore.presetCityWeatherData.length,
         (_) => setState(() {}));
 
     return Observer(
@@ -97,8 +99,9 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                             setState(() => isLongPressed = !isLongPressed)
                           }
                         : {
-                            presetsStore.presetCityWeatherData[index]['name'] !=
-                                    'Ошибка загрузки'
+                            locationPresetsStore
+                                        .presetCityWeatherData[index].name !=
+                                    null
                                 ? _openSet(index, context)
                                 : {
                                     Report.map(
@@ -106,9 +109,10 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                         event:
                                             'Данные пресета локации не загружены',
                                         map: {
-                                          'Локация': presetsStore
+                                          'Локация': locationPresetsStore
                                                   .presetCityWeatherData[index]
-                                              ['name']
+                                                  .name ??
+                                              'Данные пресета локации не загружены'
                                         }),
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -119,28 +123,30 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                     )
                                   }
                           },
-                    child: presetsStore.presetCityWeatherDataCount > index
-                        ? Card(
-                            child: isLongPressed && presetIndex == index
-                                ? RemovePresetInfoWidget(
-                                    widget: widget,
-                                    index: index,
-                                    appStore: widget.appStore,
-                                  )
-                                : presetsStore.presetCityWeatherData[index]
-                                            ['name'] !=
-                                        'Ошибка загрузки'
-                                    ? CorrectPresetInfoWidget(
+                    child:
+                        locationPresetsStore.presetCityWeatherDataCount > index
+                            ? Card(
+                                child: isLongPressed && presetIndex == index
+                                    ? RemovePresetInfoWidget(
                                         widget: widget,
                                         index: index,
                                         appStore: widget.appStore,
                                       )
-                                    : ErrorPresetInfoWidget(
-                                        widget: widget,
-                                        index: index,
-                                      ),
-                          )
-                        : const Center(child: CircularProgressIndicator()),
+                                    : locationPresetsStore
+                                                .presetCityWeatherData[index]
+                                                .name !=
+                                            null
+                                        ? CorrectPresetInfoWidget(
+                                            widget: widget,
+                                            index: index,
+                                            appStore: widget.appStore,
+                                          )
+                                        : ErrorPresetInfoWidget(
+                                            widget: widget,
+                                            index: index,
+                                          ),
+                              )
+                            : const Center(child: CircularProgressIndicator()),
                   );
                 },
               ),

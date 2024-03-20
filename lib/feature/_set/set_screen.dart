@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_set/subfeatures/_subfeatures_widgets.dart';
@@ -52,8 +53,8 @@ class _SetScreenState extends State<SetScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    Map<String, dynamic> weather =
-        GoRouterState.of(context).extra! as Map<String, dynamic>;
+    // TODO: дорефачить
+    WeatherPreset weather = GoRouterState.of(context).extra! as WeatherPreset;
     appStore.presetWeatherStore.setSuitByWeatherManually(weather);
     appStore.suitStore.setSuitByTemperatureType();
     talker.info(appStore.presetWeatherStore.weatherDataMap);

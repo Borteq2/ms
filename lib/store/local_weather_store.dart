@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -26,71 +27,63 @@ abstract class _LocalWeatherStore with Store {
   String weatherApiKey = dotenv.get('WEATHER_API_KEY');
   Dio dio = GetIt.I<Dio>();
 
-  // TODO: зачем?
-  @observable
-  bool geoPermission = false;
-
   @observable
   late Position currentPosition;
 
   @observable
-  Icon weatherIcon = const Icon(Icons.question_mark, color: Colors.transparent);
+  Icon weatherIcon =
+      const Icon(Icons.question_mark, color: Colors.transparent);
 
-  // TODO: рефактор в модель
   @observable
-  Map<String, dynamic> localWeatherDataMap = emptyWeatherPreset;
+  WeatherPreset localWeatherData = emptyWeatherPreset;
 
 // =============================================================================
 
   @computed
-  String get city => localWeatherDataMap['name'];
-
-  // TODO: рефактор в модель
-  @computed
-  bool get isWeatherLoaded => city != '';
+  String? get city => localWeatherData.name;
 
   @computed
-  String get weather {
+  bool get isWeatherLoaded => city != null;
+
+  @computed
+  String? get weather {
     try {
-      String result = StringHelper.capitalizeFirstSymbol(
-          localWeatherDataMap['weather'][0]['description']);
+      String? result = StringHelper.capitalizeFirstSymbol(
+          localWeatherData.weather?[0]['description']);
       return result;
     } catch (e) {
       talker.critical(e);
+      return null;
     }
-    // TODO: рефактор в модель
-    return '';
   }
 
-  // TODO: рефактор в модель
   @computed
-  Map<String, dynamic> get mapTemp => localWeatherDataMap['main'];
+  Map<String, dynamic>? get mapTemp => localWeatherData.main;
+
+  @computed
+  num? get temperature => mapTemp?['temp'];
 
   // TODO: рефактор в модель
   @computed
-  num get temperature => mapTemp.isNotEmpty ? mapTemp['temp'] : 999;
-
-  // TODO: рефактор в модель
-  @computed
-  num get feelsLikeTemp => mapTemp.isNotEmpty ? mapTemp['feels_like'] : 999;
+  num? get feelsLikeTemp => mapTemp?['feels_like'];
 
   @computed
   TemperatureTypes get currentTemperatureType =>
-      TempHelper.mapTempToTempType(temperature: temperature);
+      TempHelper.mapTempToTempType(temperature: temperature ?? 10000);
 
   @computed
-  String get temperatureName =>
+  String? get temperatureName =>
       TempHelper.mapTempToName(temperature: currentTemperatureType);
 
 // =============================================================================
 
   @action
-  void dropLocalWeatherData() => localWeatherDataMap = emptyWeatherPreset;
+  void dropLocalWeatherData() => localWeatherData = emptyWeatherPreset;
 
   @action
-  void setSuitByWeatherManually(Map<String, dynamic> weather) {
+  void setSuitByWeatherManually(WeatherPreset weatherPreset) {
     dropLocalWeatherData();
-    localWeatherDataMap = weather;
+    localWeatherData = weatherPreset;
   }
 
   @action
@@ -99,12 +92,13 @@ abstract class _LocalWeatherStore with Store {
     dropLocalWeatherData();
     try {
       await getLocalLocation();
-      localWeatherDataMap = await fetchWeatherByLocalLocation();
+      localWeatherData = await fetchWeatherByLocalLocation();
       // talker.warning(localWeatherDataMap);
-      weatherIcon = IconHelper.getIconByWeather(
-          localWeatherDataMap['weather'][0]['main']);
+      weatherIcon =
+          IconHelper.getIconByWeather(localWeatherData.weather?[0]['main']);
     } catch (e) {
       talker.critical(e);
+      {}
     }
   }
 
@@ -122,7 +116,7 @@ abstract class _LocalWeatherStore with Store {
     return result;
   }
 
-  Future<Map<String, dynamic>> fetchWeatherByLocalLocation() async {
+  Future<WeatherPreset> fetchWeatherByLocalLocation() async {
     talker.warning('fetchWeatherByLocalLocation');
     Dio dio = GetIt.I<Dio>();
 
@@ -135,7 +129,7 @@ abstract class _LocalWeatherStore with Store {
       '&lang=ru',
     );
 
-    Map<String, dynamic> result = response.data;
+    WeatherPreset result = WeatherPreset.fromJson(response.data);
     return result;
   }
 }
