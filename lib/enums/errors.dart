@@ -1,5 +1,6 @@
 enum ErrorType {
-  noLocationPermission,
+  noLocationPermissionTemporary,
+  noLocationPermissionForever,
   noStoragePermission,
   geoServiceDisabled,
   cantLocateLocation,

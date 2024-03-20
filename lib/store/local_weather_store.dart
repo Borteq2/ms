@@ -98,19 +98,23 @@ abstract class _LocalWeatherStore with Store {
 
   @action
   Future<void> getLocationAndWeatherData() async {
+    print('%'*50);
+    print('fetchWeatherByLocation');
     dropLocalWeatherData();
     try {
       await getLocation();
       // TODO: зачем?
-      geoPermission = true;
+      // geoPermission = true;
       localWeatherDataMap = await fetchWeatherByLocation();
+      talker.warning(localWeatherDataMap);
       // setTimestamp();
       weatherIcon = IconHelper.getIconByWeather(
           localWeatherDataMap['weather'][0]['main']);
     } catch (e) {
-      geoPermission = false;
+      // geoPermission = false;
       talker.critical(e);
     }
+    print('%'*50);
   }
 
 // =============================================================================
@@ -118,30 +122,12 @@ abstract class _LocalWeatherStore with Store {
   // TODO: унести в апстор
   Future<Position> getLocation() async {
     talker.debug('Запрашиваю локальную локацию');
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw LocationServiceException('Геолокация недоступна');
-    }
-
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        throw LocationPermissionTemporaryException('Разрешения нет сейчас');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      throw LocationPermissionPermanentException('Разрешения нет навсегда');
-    }
+    _appStoreLWS.requestPermissionsAndLoadDataIfNeeded();
 
     Position result = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
     currentPosition = result;
-    // talker.info(currentPosition);
-
     return result;
   }
 
@@ -149,7 +135,8 @@ abstract class _LocalWeatherStore with Store {
     Dio dio = GetIt.I<Dio>();
 
     Response response = await dio.get(
-      // TODO: дубликат, вынести
+      // ''
+      // // TODO: дубликат, вынести
       'https://api.openweathermap.org/data/2.5/weather'
       '?lat=${currentPosition.latitude}'
       '&lon=${currentPosition.longitude}'
@@ -157,6 +144,7 @@ abstract class _LocalWeatherStore with Store {
       '&units=metric'
       '&lang=ru',
     );
+
     Map<String, dynamic> result = response.data;
     // talker.info(weatherDataMap);
     // talker.info(response.data);

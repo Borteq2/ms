@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mordor_suit/enums/_enums.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_dashboard/subfeatures/_subfeatures_widgets.dart';
@@ -21,10 +20,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
+  Future<void> loadLocalData() async {
+    await appStore.requestPermissionsAndLoadDataIfNeeded();
+    await appStore.localWeatherStore.getLocationAndWeatherData();
+    if (!appStore.appErrors.contains(ErrorType.noStoragePermission)) {
+      await appStore.weatherPresetsStore.fetchCityWeatherData();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    appStore.requestPermissions();
+    loadLocalData();
 
     Report.map(
       event: 'Открыт экран пресетов погоды',

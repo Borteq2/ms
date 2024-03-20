@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:mordor_suit/feature/_dashboard/subfeatures/_bot_app_bar/_widgets.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
@@ -27,8 +28,24 @@ class BotAppBarWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              appStore.appErrors
+                      .contains(ErrorType.noLocationPermissionTemporary)
+                  ? const Icon(Icons.warning_amber_outlined,
+                      color: Colors.green)
+                  : const SizedBox.shrink(),
+              appStore.appErrors
+                  .contains(ErrorType.noLocationPermissionForever)
+                  ? const Icon(Icons.warning_amber_outlined,
+                  color: Colors.yellow)
+                  : const SizedBox.shrink(),
+              appStore.appErrors
+                  .contains(ErrorType.geoServiceDisabled)
+                  ? const Icon(Icons.warning_amber_outlined,
+                  color: Colors.red)
+                  : const SizedBox.shrink(),
               if (appStore.centerLocations.contains(appStore.fabLocation))
                 const Spacer(),
+
               // appStore.isHasPermissionErrors ||
               //         appStore.localWeatherStore.isHasError
               //     ? const OpenAppSettingsWidget()

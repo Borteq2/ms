@@ -90,6 +90,8 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
+    print('#'*50);
+    print('fetchCityWeatherData');
     talker.info('Данные из сети');
     // talker.debug('очищаю данные пресетов в приложении');
     // talker.debug('дропаю кэш пресетов');
@@ -117,6 +119,7 @@ abstract class _WeatherPresetsStore with Store {
     }
     // talker.debug('Пишу в кэш $presetCityWeatherData');
     await setFileToCache(cacheManager, presetCityWeatherData);
+    print('#'*50);
   }
 
 // =============================================================================
@@ -124,8 +127,9 @@ abstract class _WeatherPresetsStore with Store {
   Future<Map<String, dynamic>> fetchWeatherByCity(String city) async {
     try {
       Location location = await getLocationCoordinatesByCityName(city);
+
       Response response = await dio.get(
-        // TODO: дубликат, вынести
+        // // TODO: дубликат, вынести
         'https://api.openweathermap.org/data/2.5/weather'
         '?lat=${location.latitude}'
         '&lon=${location.longitude}'
@@ -133,6 +137,7 @@ abstract class _WeatherPresetsStore with Store {
         '&units=metric'
         '&lang=ru',
       );
+
       Map<String, dynamic> result = response.data;
       // talker.info('Запрос погоды в городе $city: $result');
       return result;

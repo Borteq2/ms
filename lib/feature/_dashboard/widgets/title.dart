@@ -1,6 +1,8 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mordor_suit/enums/_enums.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
 
@@ -14,91 +16,38 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(appStore.appErrors);
     return Observer(
-        builder: (_) =>
-            // !appStore.localWeatherStore.isHasError
-            //     ?
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        WeatherDetailWidget(appStore: appStore),
-                        TitleCityNameWidget(appStore: appStore),
-                      ],
-                    ),
-                    TitleIconWidget(appStore: appStore),
-                    TitleTemperatureWidget(appStore: appStore),
-                  ],
-                ),
-              ],
-            )
-        // : Row(
-        //     children: [
-        //       IconButton(
-        //         onPressed: () =>
-        //             appStore.localWeatherStore.getLocationAndWeatherData(),
-        //         icon: const Icon(Icons.refresh),
-        //       ),
-        //       SizedBox(
-        //         width: MediaQuery.of(context).size.width * 0.7,
-        //         child: AutoSizeText(
-        //           appStore.localWeatherStore.city,
-        //           maxLines: 1,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        );
-  }
-}
-
-class TitleTemperatureWidget extends StatelessWidget {
-  const TitleTemperatureWidget({
-    super.key,
-    required this.appStore,
-  });
-
-  final AppStore appStore;
-
-  @override
-  Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
-          // &&
-          //     !appStore.localWeatherStore.isHasError
-          ? Text('${appStore.localWeatherStore.temperature.toString()}°C')
-          : const SizedBox.shrink(),
-    );
-  }
-}
-
-class TitleCityNameWidget extends StatelessWidget {
-  const TitleCityNameWidget({
-    super.key,
-    required this.appStore,
-  });
-
-  final AppStore appStore;
-
-  @override
-  Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => SizedBox(
-        width: MediaQuery.of(context).size.width * 0.4,
-        child: Text(
-          appStore.localWeatherStore.city,
-          overflow: TextOverflow.ellipsis,
-        ),
+      builder: (_) => Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  !appStore.hasLocationErrors
+                      ? WeatherDetailWidget(appStore: appStore)
+                      : TryRefreshWidget(appStore: appStore),
+                  TitleCityNameWidget(appStore: appStore),
+                ],
+              ),
+              !appStore.hasLocationErrors &&
+                      appStore.localWeatherStore.isWeatherLoaded
+                  ? TitleIconWidget(appStore: appStore)
+                  : const SizedBox.shrink(),
+              !appStore.hasLocationErrors
+                  ? TitleTemperatureWidget(appStore: appStore)
+                  : const SizedBox.shrink(),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
-class TitleIconWidget extends StatelessWidget {
-  const TitleIconWidget({
+class TryRefreshWidget extends StatelessWidget {
+  const TryRefreshWidget({
     super.key,
     required this.appStore,
   });
@@ -108,7 +57,38 @@ class TitleIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.weatherIcon,
+      builder: (_) => appStore.appErrors.contains(ErrorType.geoServiceDisabled)
+          ? IconButton(
+              onPressed: () =>
+                  AppSettings.openAppSettings(type: AppSettingsType.location),
+              icon: const Icon(
+                Icons.warning_amber_outlined,
+                color: Colors.red,
+              ))
+          : appStore.appErrors.contains(ErrorType.noLocationPermissionForever)
+              ? IconButton(
+                  onPressed: () => AppSettings.openAppSettings(
+                      type: AppSettingsType.settings),
+                  icon: const Icon(
+                    Icons.warning_amber_outlined,
+                    color: Colors.yellow,
+                  ))
+              : (appStore.appErrors
+                          .contains(ErrorType.noLocationPermissionTemporary) &&
+                      !appStore.appErrors
+                          .contains(ErrorType.noLocationPermissionForever))
+                  ? IconButton(
+                      onPressed: () => AppSettings.openAppSettings(
+                          type: AppSettingsType.settings),
+                      icon: const Icon(
+                        Icons.warning_amber_outlined,
+                        color: Colors.green,
+                      ))
+                  : IconButton(
+                      onPressed: () => appStore.localWeatherStore
+                          .getLocationAndWeatherData(),
+                      icon: const Icon(Icons.refresh),
+                    ),
     );
   }
 }
@@ -124,9 +104,8 @@ class WeatherDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
-        // &&
-              // !appStore.localWeatherStore.isHasError
+      builder: (_) => !appStore.hasLocationErrors &&
+              appStore.localWeatherStore.isWeatherLoaded
           ? PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -165,6 +144,72 @@ class WeatherDetailWidget extends StatelessWidget {
               },
             )
           : const CircularProgressIndicator(),
+    );
+  }
+}
+
+class TitleCityNameWidget extends StatelessWidget {
+  const TitleCityNameWidget({
+    super.key,
+    required this.appStore,
+  });
+
+  final AppStore appStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => !appStore.hasLocationErrors
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: AutoSizeText(
+                appStore.localWeatherStore.city,
+                maxLines: 1,
+              ),
+            )
+          : SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: AutoSizeText(
+                appStore.appErrors.contains(ErrorType.geoServiceDisabled)
+                    ? 'Геолокация отключена'
+                    : 'Не могу определить местоположение',
+                maxLines: 1,
+              ),
+            ),
+    );
+  }
+}
+
+class TitleTemperatureWidget extends StatelessWidget {
+  const TitleTemperatureWidget({
+    super.key,
+    required this.appStore,
+  });
+
+  final AppStore appStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => appStore.localWeatherStore.isWeatherLoaded
+          ? Text('${appStore.localWeatherStore.temperature.toString()}°C')
+          : const SizedBox.shrink(),
+    );
+  }
+}
+
+class TitleIconWidget extends StatelessWidget {
+  const TitleIconWidget({
+    super.key,
+    required this.appStore,
+  });
+
+  final AppStore appStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => appStore.localWeatherStore.weatherIcon,
     );
   }
 }

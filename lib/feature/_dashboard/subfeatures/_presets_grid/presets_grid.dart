@@ -42,6 +42,12 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     );
   }
 
+  Future<void> _refresh() async {
+    await widget.appStore.requestPermissionsAndLoadDataIfNeeded();
+    await widget.appStore.localWeatherStore.getLocationAndWeatherData();
+    // await widget.appStore.weatherPresetsStore.fetchCityWeatherData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Talker talker = GetIt.I<Talker>();
@@ -54,7 +60,7 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
 
     return Observer(
       builder: (_) => RefreshIndicator(
-        onRefresh: () => widget.appStore.weatherPresetsStore.fetchCityWeatherData(),
+        onRefresh: () => _refresh(),
         child: Column(
           children: [
             Expanded(
@@ -85,7 +91,8 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
                                 index: index,
                                 event: 'Удаление пресета локации отменено',
                                 map: {
-                                  'Локация': cityNamesStore.presetsCityNames[index]
+                                  'Локация':
+                                      cityNamesStore.presetsCityNames[index]
                                 }),
                             setState(() => isLongPressed = !isLongPressed)
                           }

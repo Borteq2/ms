@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
 import 'package:mordor_suit/enums/_enums.dart';
+import 'package:mordor_suit/exceptions/_exceptions.dart';
+import 'package:mordor_suit/exceptions/location_permission_flat.dart';
 import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 import 'package:mordor_suit/store/local_weather_store.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 part 'app_store.g.dart';
 
@@ -23,7 +27,6 @@ abstract class _AppStore with Store {
 
   Talker talker = GetIt.I<Talker>();
 
-  //TODO: эксперимент DI
   @observable
   PresetWeatherStore presetWeatherStore =
       PresetWeatherStore(talker: GetIt.I<Talker>());
@@ -57,6 +60,14 @@ abstract class _AppStore with Store {
   @computed
   bool get hasErrors => appErrors.isNotEmpty;
 
+  @computed
+  bool get hasLocationErrors =>
+      (appErrors.contains(ErrorType.noLocationPermissionTemporary) ||
+          appErrors.contains(ErrorType.noLocationPermissionForever) ||
+          appErrors.contains(
+            ErrorType.geoServiceDisabled,
+          ));
+
 // =============================================================================
 
   @action
@@ -89,13 +100,17 @@ abstract class _AppStore with Store {
     // talker.critical(cityNamesStore.presetsCityNamesCount);
   }
 
-  void requestPermissions() async {
+  Future<void> requestPermissionsAndLoadDataIfNeeded() async {
+    talker.warning('запросил пермишны');
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
       Permission.storage,
     ].request();
 
+    talker.warning('проверяю пермишны');
     await checkPermissions(permissions);
+    // await checkGeoService();
+    talker.warning('решаю надо ли грузить данные из сети');
     await needLoadDataSolution();
   }
 
@@ -105,22 +120,59 @@ abstract class _AppStore with Store {
         : await weatherPresetsStore.getWeatherPresetsListFromCache();
   }
 
+  List<PermissionStatus> statusesOK = [
+    PermissionStatus.granted,
+    PermissionStatus.limited,
+    PermissionStatus.restricted
+  ];
+
+  @action
   Future<void> checkPermissions(
       Map<Permission, PermissionStatus> permissions) async {
-    if (permissions[Permission.location] == PermissionStatus.granted &&
-        permissions[Permission.storage] == PermissionStatus.granted) {
-      // appStore.changeIsHasPermissionErrors(false);
-      removeError(ErrorType.noLocationPermission);
-      removeError(ErrorType.noStoragePermission);
+    await checkGeoService();
+
+    talker.critical(permissions[Permission.location]);
+    talker.critical(permissions[Permission.storage]);
+
+    if (statusesOK.contains(permissions[Permission.location]) &&
+        statusesOK.contains(permissions[Permission.storage])) {
+      // пермишны в порядке, удаляю ошибки
+      dropAllErrors();
+
       await timestampStore.checkTimestampWithRefresh();
-      await localWeatherStore.getLocationAndWeatherData();
+      // await localWeatherStore.getLocationAndWeatherData();
     } else {
-      talker.critical('Не удалось получить все необходимые разрешения');
-      if (permissions[Permission.location] != PermissionStatus.granted) {
-        addError(ErrorType.noLocationPermission);
+      if (permissions[Permission.location] == PermissionStatus.granted) {
+        removeError(ErrorType.noLocationPermissionTemporary);
+        removeError(ErrorType.noLocationPermissionForever);
       }
       if (permissions[Permission.storage] == PermissionStatus.granted) {
-        addError(ErrorType.noStoragePermission);
+        removeError(ErrorType.noStoragePermission);
+      }
+      // оба пермишна (вскладчину) не даны
+      try {
+        // проверяю пермишн локации
+        if (permissions[Permission.location] != PermissionStatus.granted) {
+          // пермишн не дан временно
+          if (permissions[Permission.location] == PermissionStatus.denied) {
+            addError(ErrorType.noLocationPermissionTemporary);
+          } else {
+            // пермишн не дан навсегда
+            if (permissions[Permission.location] ==
+                PermissionStatus.permanentlyDenied) {
+              addError(ErrorType.noLocationPermissionForever);
+            }
+          }
+        }
+      } catch (e) {
+        throw LocationPermissionFlatException(e.toString());
+      }
+      try {
+        if (permissions[Permission.storage] == PermissionStatus.granted) {
+          addError(ErrorType.noStoragePermission);
+        }
+      } catch (e) {
+        throw StoragePermissionException(e.toString());
       }
 
       Report.map(
@@ -135,6 +187,19 @@ abstract class _AppStore with Store {
           descriptionMessage:
               'Локация: ${permissions[Permission.location]}, Хранилище: ${permissions[Permission.storage]}',
           type: 'Некорректное взаимодействие с приложеннием');
+    }
+  }
+
+  Future<void> checkGeoService() async {
+    talker.debug('Проверяю геосервис');
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      talker.debug('Геосервис отключён');
+      addError(ErrorType.geoServiceDisabled);
+      throw LocationServiceException('Геолокация недоступна');
+    } else {
+      talker.debug('Геосервис включён');
+      removeError(ErrorType.geoServiceDisabled);
     }
   }
 }
