@@ -2,11 +2,12 @@ import 'package:app_settings/app_settings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:mordor_suit/enums/_enums.dart';
 
 import 'package:mordor_suit/store/_stores.dart';
 
-class TitleWidget extends StatelessWidget {
+class TitleWidget extends StatefulWidget {
   const TitleWidget({
     super.key,
     required this.appStore,
@@ -15,8 +16,21 @@ class TitleWidget extends StatelessWidget {
   final AppStore appStore;
 
   @override
+  State<TitleWidget> createState() => _TitleWidgetState();
+}
+
+class _TitleWidgetState extends State<TitleWidget> {
+  @override
   Widget build(BuildContext context) {
-    print(appStore.appErrors);
+
+    reaction(
+            (_) => widget.appStore.appErrors.length,
+            (_) => setState(() {}));
+
+    reaction(
+            (_) => widget.appStore.localWeatherStore.isWeatherLoaded,
+            (_) => setState(() {}));
+
     return Observer(
       builder: (_) => Column(
         children: [
@@ -25,18 +39,18 @@ class TitleWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  !appStore.hasLocationErrors
-                      ? WeatherDetailWidget(appStore: appStore)
-                      : TryRefreshWidget(appStore: appStore),
-                  TitleCityNameWidget(appStore: appStore),
+                  !widget.appStore.hasLocationErrors
+                      ? WeatherDetailWidget(appStore: widget.appStore)
+                      : TryRefreshWidget(appStore: widget.appStore),
+                  TitleCityNameWidget(appStore: widget.appStore),
                 ],
               ),
-              !appStore.hasLocationErrors &&
-                      appStore.localWeatherStore.isWeatherLoaded
-                  ? TitleIconWidget(appStore: appStore)
+              !widget.appStore.hasLocationErrors &&
+                      widget.appStore.localWeatherStore.isWeatherLoaded
+                  ? TitleIconWidget(appStore: widget.appStore)
                   : const SizedBox.shrink(),
-              !appStore.hasLocationErrors
-                  ? TitleTemperatureWidget(appStore: appStore)
+              !widget.appStore.hasLocationErrors
+                  ? TitleTemperatureWidget(appStore: widget.appStore)
                   : const SizedBox.shrink(),
             ],
           ),

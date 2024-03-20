@@ -90,8 +90,8 @@ abstract class _WeatherPresetsStore with Store {
 
   @action
   Future<void> fetchCityWeatherData() async {
-    print('#'*50);
-    print('fetchCityWeatherData');
+    // print('#'*50);
+    // print('fetchCityWeatherData');
     talker.info('Данные из сети');
     // talker.debug('очищаю данные пресетов в приложении');
     // talker.debug('дропаю кэш пресетов');
@@ -119,7 +119,7 @@ abstract class _WeatherPresetsStore with Store {
     }
     // talker.debug('Пишу в кэш $presetCityWeatherData');
     await setFileToCache(cacheManager, presetCityWeatherData);
-    print('#'*50);
+    // print('#'*50);
   }
 
 // =============================================================================

@@ -98,8 +98,8 @@ abstract class _LocalWeatherStore with Store {
 
   @action
   Future<void> getLocationAndWeatherData() async {
-    print('%'*50);
-    print('fetchWeatherByLocation');
+    // print('%'*50);
+    // print('fetchWeatherByLocation');
     dropLocalWeatherData();
     try {
       await getLocation();
@@ -114,7 +114,7 @@ abstract class _LocalWeatherStore with Store {
       // geoPermission = false;
       talker.critical(e);
     }
-    print('%'*50);
+    // print('%'*50);
   }
 
 // =============================================================================
