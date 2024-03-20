@@ -1,3 +1,5 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mordor_suit/enums/_enums.dart';
@@ -32,21 +34,71 @@ class BotAppBarWidget extends StatelessWidget {
                           .contains(ErrorType.noLocationPermissionTemporary) &&
                       !appStore.appErrors
                           .contains(ErrorType.noLocationPermissionForever))
-                  ? const Icon(
-                      Icons.warning_amber_outlined,
-                      color: Colors.green,
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.warning_amber_outlined,
+                        color: Colors.green,
+                      ),
+                      onPressed: () =>
+                          ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const AutoSizeText(
+                            'Нужно разрешение на геолокацию в настройках',
+                            maxLines: 2,
+                          ),
+                          action: SnackBarAction(
+                            label: 'Настройки',
+                            textColor: Colors.deepOrange,
+                            onPressed: () => AppSettings.openAppSettings(
+                                type: AppSettingsType.settings),
+                          ),
+                        ),
+                      ),
                     )
                   : const SizedBox.shrink(),
               appStore.appErrors.contains(ErrorType.noLocationPermissionForever)
-                  ? const Icon(
-                      Icons.warning_amber_outlined,
-                      color: Colors.yellow,
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.warning_amber_outlined,
+                        color: Colors.yellow,
+                      ),
+                      onPressed: () =>
+                          ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const AutoSizeText(
+                              'Нужно разрешение на геолокацию в настройках',
+                              maxLines: 2),
+                          action: SnackBarAction(
+                            label: 'Настройки',
+                            textColor: Colors.deepOrange,
+                            onPressed: () => AppSettings.openAppSettings(
+                                type: AppSettingsType.settings),
+                          ),
+                        ),
+                      ),
                     )
                   : const SizedBox.shrink(),
               appStore.appErrors.contains(ErrorType.geoServiceDisabled)
-                  ? const Icon(
-                      Icons.warning_amber_outlined,
-                      color: Colors.red,
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.warning_amber_outlined,
+                        color: Colors.red,
+                      ),
+                      onPressed: () =>
+                          ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const AutoSizeText(
+                              'Включите службу геолокации в настройках',
+                              maxLines: 2),
+                          action: SnackBarAction(
+                            label: 'Настройки',
+                            textColor: Colors.deepOrange,
+                            onPressed: () => AppSettings.openAppSettings(
+                              type: AppSettingsType.location,
+                            ),
+                          ),
+                        ),
+                      ),
                     )
                   : const SizedBox.shrink(),
               if (appStore.centerLocations.contains(appStore.fabLocation))
