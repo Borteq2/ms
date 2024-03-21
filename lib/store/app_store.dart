@@ -111,7 +111,6 @@ abstract class _AppStore with Store {
     await checkPermissions(permissions);
     // await checkGeoService();
     // talker.warning('решаю надо ли грузить данные из сети');
-    // await localWeatherStore.getLocationAndWeatherData();
     await needLoadDataSolution();
   }
 

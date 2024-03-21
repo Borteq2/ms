@@ -38,6 +38,9 @@ dependencies:
   auto_size_text: ^3.0.0
   appmetrica_plugin: ^1.4.0
   app_settings: ^5.1.1
+  infinite_carousel: ^1.1.1
+  flutter_carousel_widget:
+  carousel_slider:
 
 dev_dependencies:
   flutter_test:

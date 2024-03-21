@@ -125,20 +125,7 @@ class _SetScreenState extends State<SetScreen> {
                     scrollDirection: Axis.vertical,
                     pageSnapping: true,
                     itemCount: appStore.suitStore.layersWithItemsCount,
-                    itemBuilder: (context, index) => appStore
-                                .suitStore.resultMap.entries
-                                .elementAt(index)
-                                .value
-                                .length ==
-                            1
-                        ? ItemCardWidget(
-                            appStore: appStore,
-                            currentPage: currentPage,
-                            index: index,
-                            type: CardType.vertical,
-                            onHaveAlreadyBtnTap: resetHorizontalPage,
-                          )
-                        : Column(
+                    itemBuilder: (context, index) => Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
