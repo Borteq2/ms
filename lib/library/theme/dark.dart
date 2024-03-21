@@ -33,6 +33,7 @@ ThemeData mordorDarkTheme = ThemeData(
   ),
   snackBarTheme: const SnackBarThemeData(
     backgroundColor: Colors.black,
+    actionTextColor: Colors.deepOrange,
     contentTextStyle: TextStyle(
       color: Colors.deepOrange,
     )

@@ -92,7 +92,6 @@ class BotAppBarWidget extends StatelessWidget {
                               maxLines: 2),
                           action: SnackBarAction(
                             label: 'Настройки',
-                            textColor: Colors.deepOrange,
                             onPressed: () => AppSettings.openAppSettings(
                               type: AppSettingsType.location,
                             ),

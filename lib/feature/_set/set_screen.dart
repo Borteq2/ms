@@ -53,7 +53,6 @@ class _SetScreenState extends State<SetScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // TODO: дорефачить
     WeatherPreset weather = GoRouterState.of(context).extra! as WeatherPreset;
     appStore.presetWeatherStore.setSuitByWeatherManually(weather);
     appStore.suitStore.setSuitByTemperatureType();
@@ -69,8 +68,6 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // talker.info(appStore.suitStore.resultMap);
-    // talker.info(appStore.suitStore.resultMap.entries.elementAt(1));
     return Observer(
       builder: (_) => PopScope(
         canPop: true,
