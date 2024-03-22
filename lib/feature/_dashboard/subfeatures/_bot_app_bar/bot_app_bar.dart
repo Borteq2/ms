@@ -2,9 +2,8 @@ import 'package:app_settings/app_settings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mordor_suit/enums/_enums.dart';
-import 'package:mordor_suit/feature/_dashboard/subfeatures/_bot_app_bar/_widgets.dart';
 
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 class BotAppBarWidget extends StatelessWidget {

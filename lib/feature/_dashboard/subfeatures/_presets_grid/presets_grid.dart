@@ -19,7 +19,6 @@ class PresetsGridWidget extends StatefulWidget {
 
   final AppStore appStore;
 
-
   @override
   State<PresetsGridWidget> createState() => _PresetsGridWidgetState();
 }
@@ -50,12 +49,6 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
     await widget.appStore.localWeatherStore.getLocationAndWeatherData();
     // await widget.appStore.weatherPresetsStore.fetchCityWeatherData();
   }
-
-
-  // TODO: проверить в 15 часов обновятся ли карточки
-
-
-
 
   @override
   Widget build(BuildContext context) {
