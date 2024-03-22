@@ -112,6 +112,7 @@ Future<void> main() async {
   }, (exception, stack) async {
     if (kReleaseMode) {
       await Sentry.captureException(exception, stackTrace: stack);
+      AppMetrica.reportUnhandledException(AppMetricaErrorDescription(stack));
     }
   });
 }

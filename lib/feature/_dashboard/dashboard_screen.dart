@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mordor_suit/enums/_enums.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/feature/_dashboard/subfeatures/_subfeatures_widgets.dart';

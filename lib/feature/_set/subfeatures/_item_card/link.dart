@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mordor_suit/enums/_enums.dart';
+
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
 import 'package:mordor_suit/library/config/sizes.dart';
-
+import 'package:mordor_suit/enums/_enums.dart';
 import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
@@ -62,7 +62,7 @@ class ItemCardLinkWidgetState extends State<ItemCardLinkWidget> {
         Report.map(
           event: 'Переход на Wildberries',
           map: {
-            'Переход': '${widget.item.name} -> ${widget.item.linkToStore}',
+            'Переход': '${widget.item.name} -> ${widget.item.linkToWb}',
           },
         );
 
@@ -76,7 +76,7 @@ class ItemCardLinkWidgetState extends State<ItemCardLinkWidget> {
         Report.map(
           event: 'Переход на Ozon',
           map: {
-            'Переход': '${widget.item.name} -> ${widget.item.linkToStore}',
+            'Переход': '${widget.item.name} -> ${widget.item.linkToOzon}',
           },
         );
 
