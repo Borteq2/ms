@@ -19,6 +19,7 @@ class PresetsGridWidget extends StatefulWidget {
 
   final AppStore appStore;
 
+
   @override
   State<PresetsGridWidget> createState() => _PresetsGridWidgetState();
 }
@@ -26,6 +27,7 @@ class PresetsGridWidget extends StatefulWidget {
 class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   bool isLongPressed = false;
   int? presetIndex;
+  Talker talker = GetIt.I<Talker>();
 
   void _openSet(int index, BuildContext context) {
     widget.appStore.presetWeatherStore.setSuitByWeatherManually(
@@ -43,10 +45,17 @@ class _PresetsGridWidgetState extends State<PresetsGridWidget> {
   }
 
   Future<void> _refresh() async {
+    talker.critical('presets refresh');
     await widget.appStore.requestPermissionsAndLoadDataIfNeeded();
     await widget.appStore.localWeatherStore.getLocationAndWeatherData();
     // await widget.appStore.weatherPresetsStore.fetchCityWeatherData();
   }
+
+
+  // TODO: проверить в 15 часов обновятся ли карточки
+
+
+
 
   @override
   Widget build(BuildContext context) {

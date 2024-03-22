@@ -20,11 +20,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   AppStore appStore = GetIt.I<AppStore>();
 
   Future<void> loadLocalData() async {
+
     await appStore.requestPermissionsAndLoadDataIfNeeded();
     await appStore.localWeatherStore.getLocationAndWeatherData();
-    // if (!appStore.appErrors.contains(ErrorType.noStoragePermission)) {
-    //   await appStore.weatherPresetsStore.fetchCityWeatherData();
-    // }
+
   }
 
   @override

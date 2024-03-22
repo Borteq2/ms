@@ -43,8 +43,8 @@ class BotAppBarWidget extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: const AutoSizeText(
-                            'Нужно разрешение на геолокацию в настройках',
-                            maxLines: 2,
+                            'Нужно разрешение',
+                            maxLines: 1,
                           ),
                           action: SnackBarAction(
                             label: 'Настройки',
@@ -65,14 +65,19 @@ class BotAppBarWidget extends StatelessWidget {
                       onPressed: () =>
                           ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: const AutoSizeText(
-                              'Нужно разрешение на геолокацию в настройках',
-                              maxLines: 2),
-                          action: SnackBarAction(
-                            label: 'Настройки',
-                            textColor: Colors.deepOrange,
-                            onPressed: () => AppSettings.openAppSettings(
-                                type: AppSettingsType.settings),
+                          content: Row(
+                            children: [
+                              const Expanded(
+                                child: AutoSizeText(
+                                    'Нужно разрешение на геолокацию в настройках',
+                                    maxLines: 2),
+                              ),
+                              IconButton(
+                                  onPressed: () => AppSettings.openAppSettings(
+                                      type: AppSettingsType.settings),
+                                  color: Theme.of(context).primaryColor,
+                                  icon: const Icon(Icons.settings))
+                            ],
                           ),
                         ),
                       ),
@@ -87,14 +92,19 @@ class BotAppBarWidget extends StatelessWidget {
                       onPressed: () =>
                           ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: const AutoSizeText(
-                              'Включите службу геолокации в настройках',
-                              maxLines: 2),
-                          action: SnackBarAction(
-                            label: 'Настройки',
-                            onPressed: () => AppSettings.openAppSettings(
-                              type: AppSettingsType.location,
-                            ),
+                          content: Row(
+                            children: [
+                              const Expanded(
+                                child: AutoSizeText(
+                                    'Включите службу геолокации',
+                                    maxLines: 2),
+                              ),
+                              IconButton(
+                                  onPressed: () => AppSettings.openAppSettings(
+                                      type: AppSettingsType.location),
+                                  color: Theme.of(context).primaryColor,
+                                  icon: const Icon(Icons.settings))
+                            ],
                           ),
                         ),
                       ),
@@ -102,14 +112,6 @@ class BotAppBarWidget extends StatelessWidget {
                   : const SizedBox.shrink(),
               if (appStore.centerLocations.contains(appStore.fabLocation))
                 const Spacer(),
-
-              // appStore.isHasPermissionErrors ||
-              //         appStore.localWeatherStore.isHasError
-              //     ? const OpenAppSettingsWidget()
-              //     : const SizedBox.shrink(),
-              // appStore.isHasPermissionErrors || appStore.localWeatherStore.isHasError
-              //     ? const TalkerScreenWidget()
-              //     : const SizedBox.shrink(),
             ],
           ),
         ),

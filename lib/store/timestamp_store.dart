@@ -21,9 +21,6 @@ abstract class _TimestampStore with Store {
   DefaultCacheManager cacheManager = DefaultCacheManager();
 
   @observable
-  DateTime currentTimestamp = DateTime.now();
-
-  @observable
   DateTime? cachedTimestamp;
 
   @observable
@@ -35,16 +32,20 @@ abstract class _TimestampStore with Store {
 
   @action
   Future<void> checkTimestampWithRefresh() async {
+    DateTime currentTimestamp = DateTime.now();
     talker.warning('checkTimestampWithRefresh');
+    talker.debug('Текущий таймштамп: $currentTimestamp');
     try {
       FileInfo? timestampFile = await _getFileFromCache(cacheManager);
 
       if (timestampFile != null) {
+
         String timestampString = await timestampFile.file.readAsString();
         cachedTimestamp = DateTime.parse(timestampString);
         if (cachedTimestamp!
             .add(const Duration(minutes: 30))
             .isBefore(currentTimestamp)) {
+
           talker.debug('кэшированный таймштамп устарел');
           await refreshTimestampCache(cacheManager, currentTimestamp);
           isNeedLoadData = true;
@@ -52,6 +53,7 @@ abstract class _TimestampStore with Store {
           talker.debug('Таймштамп валидный: $cachedTimestamp');
           talker.debug(
               'Истечёт: ${cachedTimestamp!.add(const Duration(minutes: 30))}');
+          isNeedLoadData = false;
         }
       } else {
         talker.debug('Таймштампа нет');

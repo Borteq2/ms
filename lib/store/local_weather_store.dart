@@ -63,7 +63,6 @@ abstract class _LocalWeatherStore with Store {
   @computed
   num? get temperature => mapTemp?['temp'];
 
-  // TODO: рефактор в модель
   @computed
   num? get feelsLikeTemp => mapTemp?['feels_like'];
 

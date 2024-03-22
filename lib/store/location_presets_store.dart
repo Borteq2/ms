@@ -91,7 +91,7 @@ abstract class _LocationPresetsStore with Store {
     await dropLocationPresetsCache(cacheManager);
     await _appStoreLPS.timestampStore.refreshTimestampCache(
       _appStoreLPS.timestampStore.cacheManager,
-      _appStoreLPS.timestampStore.currentTimestamp,
+      DateTime.now(),
     );
 
     _appStoreLPS.cityNamesStore.syncCityNamesWithBox();

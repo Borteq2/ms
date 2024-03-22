@@ -100,7 +100,7 @@ abstract class _AppStore with Store {
   }
 
   Future<void> requestPermissionsAndLoadDataIfNeeded() async {
-    talker.warning('requestPermissionsAndLoadDataIfNeeded');
+    talker.critical('requestPermissionsAndLoadDataIfNeeded');
     // talker.warning('запросил пермишны');
     Map<Permission, PermissionStatus> permissions = await [
       Permission.location,
