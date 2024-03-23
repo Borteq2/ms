@@ -115,63 +115,61 @@ class _SetScreenState extends State<SetScreen> {
                 currentPage: currentPageVertical,
               ),
               Expanded(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: PageView(
-                    controller: pageControllerVertical,
-                    scrollDirection: Axis.vertical,
-                    pageSnapping: true,
-                    children: [
-                      ...List.generate(
-                        appStore.suitStore.layersWithItemsCount,
-                        (index) => Column(
-                          children: [
-                            Expanded(
-                              child: PageView(
-                                controller: pageControllerHorizontal,
-                                scrollDirection: Axis.horizontal,
-                                pageSnapping: true,
-                                onPageChanged: (int page) => setState(() {
-                                  currentPageHorizontal = page;
-                                }),
-                                children: [
-                                  ...appStore
-                                      .suitStore.itemsListByLayerList[index]
-                                      .map(
-                                    (e) => ItemCardWidget(
-                                      appStore: appStore,
-                                      currentItem: e,
-                                      index: currentPageVertical,
-                                      onHaveAlreadyBtnTap: () =>
-                                          resetHorizontalPage(),
-                                    ),
-                                  )
-                                ],
-                              ),
+                // вертикальный билдер
+                child: PageView(
+                  controller: pageControllerVertical,
+                  scrollDirection: Axis.vertical,
+                  pageSnapping: true,
+                  children: [
+                    ...List.generate(
+                      appStore.suitStore.layersWithItemsCount,
+                      (index) => Column(
+                        children: [
+                          // горизонтальный билдер
+                          Expanded(
+                            child: PageView(
+                              controller: pageControllerHorizontal,
+                              scrollDirection: Axis.horizontal,
+                              pageSnapping: true,
+                              onPageChanged: (int page) => setState(() {
+                                currentPageHorizontal = page;
+                              }),
+                              children: [
+                                ...appStore
+                                    .suitStore.itemsListByLayerList[index]
+                                    .map(
+                                  (e) => ItemCardWidget(
+                                    appStore: appStore,
+                                    currentItem: e,
+                                    index: currentPageVertical,
+                                    onHaveAlreadyBtnTap: () =>
+                                        resetHorizontalPage(),
+                                  ),
+                                )
+                              ],
                             ),
-                            HorizontalDotsWidget(
-                              context: context,
-                              suitStore: appStore.suitStore,
-                              currentPage2: currentPageHorizontal,
-                              index: index,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                    onPageChanged: (int page) {
-                      setState(() {
-                        currentPageVertical = page;
-                        currentPageHorizontal = 0;
-                      });
-                      try {
-                        pageControllerHorizontal.jumpToPage(0);
-                      } catch (e) {
-                        talker.debug('Скроллконтроллер недоволен');
-                      }
-                    },
-                  ),
+                          ),
+                          HorizontalDotsWidget(
+                            context: context,
+                            suitStore: appStore.suitStore,
+                            currentPage2: currentPageHorizontal,
+                            index: index,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                  onPageChanged: (int page) {
+                    setState(() {
+                      currentPageVertical = page;
+                      currentPageHorizontal = 0;
+                    });
+                    try {
+                      pageControllerHorizontal.jumpToPage(0);
+                    } catch (e) {
+                      talker.debug('Скроллконтроллер недоволен');
+                    }
+                  },
                 ),
               ),
             ],
