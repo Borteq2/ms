@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mordor_suit/models/_models.dart';
+import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import 'package:mordor_suit/feature/_set/subfeatures/_subfeatures_widgets.dart';
 import 'package:mordor_suit/store/_stores.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/feature/_set/widgets/_widgets.dart';
 
 class SetScreen extends StatefulWidget {
@@ -24,15 +24,16 @@ class _SetScreenState extends State<SetScreen> {
   Talker talker = GetIt.I<Talker>();
   AppStore appStore = GetIt.I<AppStore>();
 
-  int currentPage = 0;
-  int currentPage2 = 0;
+  int currentPageVertical = 0;
+  int currentPageHorizontal = 0;
 
-  final PageController pageController = PageController(initialPage: 0);
-  final PageController pageController2 = PageController(initialPage: 0);
+  final PageController pageControllerVertical = PageController(initialPage: 0);
+  final PageController pageControllerHorizontal =
+      PageController(initialPage: 0);
 
   void resetHorizontalPage() => setState(() {
-        currentPage2 = 0;
-        pageController2.jumpToPage(0);
+        currentPageHorizontal = 0;
+        pageControllerHorizontal.jumpToPage(0);
       });
 
   @override
@@ -61,8 +62,8 @@ class _SetScreenState extends State<SetScreen> {
 
   @override
   void dispose() {
-    pageController.dispose();
-    pageController2.dispose();
+    pageControllerVertical.dispose();
+    pageControllerHorizontal.dispose();
     super.dispose();
   }
 
@@ -111,58 +112,61 @@ class _SetScreenState extends State<SetScreen> {
               VerticalDotsWidget(
                 context: context,
                 suitStore: appStore.suitStore,
-                currentPage: currentPage,
+                currentPage: currentPageVertical,
               ),
               Expanded(
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  child: PageView.builder(
-                    controller: pageController,
+                  child: PageView(
+                    controller: pageControllerVertical,
                     scrollDirection: Axis.vertical,
                     pageSnapping: true,
-                    itemCount: appStore.suitStore.layersWithItemsCount,
-                    itemBuilder: (context, index) => Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: PageView.builder(
-                                  controller: pageController2,
-                                  itemCount: appStore
-                                      .suitStore.resultMap.entries
-                                      .elementAt(index)
-                                      .value
-                                      .length,
-                                  scrollDirection: Axis.horizontal,
-                                  pageSnapping: true,
-                                  itemBuilder: (context, index) =>
-                                      ItemCardWidget(
-                                    appStore: appStore,
-                                    currentPage: currentPage,
-                                    index: index,
-                                    type: CardType.horizontal,
-                                    onHaveAlreadyBtnTap: resetHorizontalPage,
-                                  ),
-                                  onPageChanged: (int page) {
-                                    setState(() => currentPage2 = page);
-                                  },
-                                ),
+                    children: [
+                      ...List.generate(
+                        appStore.suitStore.layersWithItemsCount,
+                        (index) => Column(
+                          children: [
+                            Expanded(
+                              child: PageView(
+                                controller: pageControllerHorizontal,
+                                scrollDirection: Axis.horizontal,
+                                pageSnapping: true,
+                                onPageChanged: (int page) => setState(() {
+                                  currentPageHorizontal = page;
+                                }),
+                                children: [
+                                  ...appStore
+                                      .suitStore.itemsListByLayerList[index]
+                                      .map(
+                                    (e) => ItemCardWidget(
+                                      appStore: appStore,
+                                      currentItem: e,
+                                      index: currentPageVertical,
+                                      onHaveAlreadyBtnTap: () =>
+                                          resetHorizontalPage(),
+                                    ),
+                                  )
+                                ],
                               ),
-                              HorizontalDotsWidget(
-                                context: context,
-                                suitStore: appStore.suitStore,
-                                currentPage2: currentPage2,
-                                index: index,
-                              ),
-                            ],
-                          ),
+                            ),
+                            HorizontalDotsWidget(
+                              context: context,
+                              suitStore: appStore.suitStore,
+                              currentPage2: currentPageHorizontal,
+                              index: index,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                     onPageChanged: (int page) {
                       setState(() {
-                        currentPage = page;
-                        currentPage2 = 0;
+                        currentPageVertical = page;
+                        currentPageHorizontal = 0;
                       });
                       try {
-                        pageController2.jumpToPage(0);
+                        pageControllerHorizontal.jumpToPage(0);
                       } catch (e) {
                         talker.debug('Скроллконтроллер недоволен');
                       }

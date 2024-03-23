@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:mordor_suit/enums/_enums.dart';
@@ -74,8 +76,11 @@ abstract class _SuitStore with Store {
       Map.fromIterables(layersWithItemsNames, layersWithItemsItemCount);
 
   @computed
-  Map<String, dynamic> get resultMap =>
+  Map<String, List<Clothing>> get resultMap =>
       mapFromLayersWithItemsNames(suit, layersWithItemsNames);
+
+  List<List<Clothing>> get itemsListByLayerList =>
+      generateItemCardListByLayer();
 
 // =============================================================================
 
@@ -113,9 +118,9 @@ abstract class _SuitStore with Store {
 
 // =============================================================================
 
-  Map<String, dynamic> mapFromLayersWithItemsNames(
+  Map<String, List<Clothing>> mapFromLayersWithItemsNames(
       Suit suit, List<String> layersWithItemsNames) {
-    Map<String, dynamic> resultMap = {};
+    Map<String, List<Clothing>> resultMap = {};
 
     for (String layerName in layersWithItemsNames) {
       switch (layerName) {
@@ -283,5 +288,13 @@ abstract class _SuitStore with Store {
       }
     }
     return resultMap;
+  }
+
+  List<List<Clothing>> generateItemCardListByLayer() {
+    List<List<Clothing>> layerItems = [];
+    for (List<Clothing> items in resultMap.values) {
+      layerItems.add(items);
+    }
+    return layerItems;
   }
 }

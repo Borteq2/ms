@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import 'package:mordor_suit/feature/_set/subfeatures/_item_card/_widgets.dart';
 import 'package:mordor_suit/library/config/sizes.dart';
+import 'package:mordor_suit/models/_models.dart';
 import 'package:mordor_suit/store/_stores.dart';
 
 enum CardType { vertical, horizontal }
@@ -12,23 +13,17 @@ class ItemCardWidget extends StatelessWidget {
   const ItemCardWidget({
     super.key,
     required this.appStore,
+    required this.currentItem,
     required this.index,
-    required this.currentPage,
-    required this.type,
     required this.onHaveAlreadyBtnTap,
   });
 
   final AppStore appStore;
+  final Clothing currentItem;
   final int index;
-  final int currentPage;
-  final CardType type;
   final VoidCallback onHaveAlreadyBtnTap;
 
   SuitStore get suitStore => appStore.suitStore;
-
-  dynamic get currentItem => type == CardType.vertical
-      ? suitStore.resultMap.entries.elementAt(index).value[0]
-      : suitStore.resultMap.entries.elementAt(currentPage).value[index];
 
   @override
   Widget build(BuildContext context) {
