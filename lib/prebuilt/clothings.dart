@@ -7,8 +7,8 @@ Clothing noClothing = Clothing(
   features: [],
   image: '',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb: null,
   linkToOzon: null,
 );
@@ -26,8 +26,8 @@ Clothing python = Clothing(
   ],
   image: 'assets/images/items/python.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158417838/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -46,8 +46,8 @@ Clothing varan = Clothing(
   ],
   image: 'assets/images/items/varan.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158745592/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -67,8 +67,8 @@ Clothing instructorShirt = Clothing(
   ],
   image: 'assets/images/items/instructorShirt.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/196657428/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -86,8 +86,8 @@ Clothing soloLongsleave = Clothing(
   ],
   image: 'assets/images/items/soloLongsleave.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158362200/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/longsliv-mordor-tac-805917493/',
@@ -106,8 +106,8 @@ Clothing cheburashka = Clothing(
   ],
   image: 'assets/images/items/cheburashka.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/168935555/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -125,8 +125,8 @@ Clothing uralHoodie = Clothing(
   ],
   image: 'assets/images/items/uralHoodie.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155808472/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/tolstovka-ural-525947655/',
@@ -143,8 +143,8 @@ Clothing saratovJacket = Clothing(
   ],
   image: 'assets/images/items/saratovJacket.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155800365/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -163,8 +163,8 @@ Clothing wolfJacket = Clothing(
   ],
   image: 'assets/images/items/wolfJacket.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158369720/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -185,8 +185,8 @@ Clothing saratovTrousers = Clothing(
   ],
   image: 'assets/images/items/saratovTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155806730/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -205,8 +205,8 @@ Clothing wolfTrousers = Clothing(
   ],
   image: 'assets/images/items/wolfTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155825955/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -224,8 +224,8 @@ Clothing citizenTrousers = Clothing(
   ],
   image: 'assets/images/items/citizenTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/211641589/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/bryuki-mordor-tac-1431703088/',
@@ -242,8 +242,8 @@ Clothing uralTrousers = Clothing(
   ],
   image: 'assets/images/items/uralTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158751459/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -261,8 +261,8 @@ Clothing freelancerShorts = Clothing(
   ],
   image: 'assets/images/items/freelancerShorts.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155809469/detail.aspx?targetUrl=EX',
   linkToOzon:
@@ -282,8 +282,8 @@ Clothing inokMembranPoncho = Clothing(
   ],
   image: 'assets/images/items/inokMembranPoncho.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/182817009/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -300,8 +300,8 @@ Clothing snowmanMaskSuit = Clothing(
   ],
   image: 'assets/images/items/snowmanMaskSuit.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/193026658/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -319,8 +319,8 @@ Clothing sugrobBackpackCover = Clothing(
   ],
   image: 'assets/images/items/sugrobBackpackCover.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/193026409/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -338,8 +338,8 @@ Clothing snowballHelmetCover = Clothing(
   ],
   image: 'assets/images/items/snowballHelmetCover.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/193027092/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -356,8 +356,8 @@ Clothing frakSniperCloak = Clothing(
   ],
   image: 'assets/images/items/frakSniperCloak.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/168937316/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -374,8 +374,8 @@ Clothing evokSniperCloak = Clothing(
   ],
   image: 'assets/images/items/evokSniperCloak.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158416721/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -393,8 +393,8 @@ Clothing pokrovSniperScarf = Clothing(
   ],
   image: 'assets/images/items/pokrovSniperScarf.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/166278525/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -412,8 +412,8 @@ Clothing scoutMaskCover = Clothing(
   ],
   image: 'assets/images/items/scoutMaskCover.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/156779023/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -431,8 +431,8 @@ Clothing vorohMaskCover = Clothing(
   ],
   image: 'assets/images/items/vorohMaskCover.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/167633684/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -452,8 +452,8 @@ Clothing scoutMaskingSet = Clothing(
   ],
   image: 'assets/images/items/scout.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155822956/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -470,8 +470,8 @@ Clothing gopTacSet = Clothing(
   ],
   image: 'assets/images/items/gopTacSet.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/155870976/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -491,8 +491,8 @@ Clothing nordHat = Clothing(
   ],
   image: 'assets/images/items/nordHat.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158979278/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/shapka-mordor-tac-1398026284/',
@@ -509,8 +509,8 @@ Clothing windPanama = Clothing(
   ],
   image: 'assets/images/items/windPanama.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158936608/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/panama-mordor-tac-672733401/',
@@ -527,8 +527,8 @@ Clothing peasantUnderhelmet = Clothing(
   ],
   image: 'assets/images/items/peasantUnderhelmet.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158979683/detail.aspx?targetUrl=EX',
   linkToOzon: 'https://www.ozon.ru/product/shapka-mordor-tac-898143558/',
@@ -545,8 +545,8 @@ Clothing gasBaseball = Clothing(
   ],
   image: 'assets/images/items/gasBaseball.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/216739051/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -563,8 +563,8 @@ Clothing neoBandana = Clothing(
   ],
   image: 'assets/images/items/neoBandana.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/164798283/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -584,8 +584,8 @@ Clothing fjordBuff = Clothing(
   ],
   image: 'assets/images/items/fjordBuff.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/174983822/detail.aspx?targetUrl=GP',
   linkToOzon:
@@ -603,8 +603,8 @@ Clothing dozorBuff = Clothing(
   ],
   image: 'assets/images/items/dozorBuff.png',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158930168/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/baff-demisezonnyy-dozor-840555470/',
@@ -620,8 +620,8 @@ Clothing raiderBuff = Clothing(
   ],
   image: 'assets/images/items/raiderBuff.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158344515/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/baff-reyder-chernyy-629291353/',
@@ -641,8 +641,8 @@ Clothing vaderBalaclava = Clothing(
   ],
   image: 'assets/images/items/vaderBalaclava.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/200696350/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-1160216676/',
@@ -659,8 +659,8 @@ Clothing koifBalavlava = Clothing(
   ],
   image: 'assets/images/items/koifBalaclava.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158927711/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-825402771/',
@@ -676,8 +676,8 @@ Clothing ninjaBalaclava = Clothing(
   ],
   image: 'assets/images/items/ninjaBalaclava.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/158344415/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/balaklava-mordor-tac-629498341/',
@@ -696,8 +696,8 @@ Clothing dlanGloves = Clothing(
   ],
   image: 'assets/images/items/dlanGloves.jpg',
   inSuitLayer: null,
-  isNecessary: false,
-  isHasAlready: false,
+  isNecessary: null,
+  isHasAlready: null,
   linkToWb:
       'https://www.wildberries.ru/catalog/197283776/detail.aspx?targetUrl=GP',
   linkToOzon: 'https://www.ozon.ru/product/perchatki-mordor-tac-1350864392/',

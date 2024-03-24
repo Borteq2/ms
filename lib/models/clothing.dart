@@ -14,8 +14,8 @@ class Clothing extends _Cloth with _$Clothing {
     required List<String> features,
     required String image,
     required String? inSuitLayer,
-    required bool isNecessary,
-    required bool isHasAlready,
+    required bool? isNecessary,
+    required bool? isHasAlready,
     required String? linkToWb,
     required String? linkToOzon,
   }) : super(
@@ -88,11 +88,11 @@ abstract class _Cloth with Store {
 
   @HiveField(5)
   @observable
-  bool isNecessary;
+  bool? isNecessary;
 
   @HiveField(6)
   @observable
-  bool isHasAlready;
+  bool? isHasAlready;
 
   @HiveField(7)
   @observable
