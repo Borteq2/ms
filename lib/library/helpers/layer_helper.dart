@@ -1,50 +1,52 @@
+import '../config/_config.dart';
+
 class LayerHelper {
   static String mapNumberToName(int layerNumber, String? topOrBot) => layerNumber ==
           1
       ? topOrBot != null
-          ? 'Слой: Базовый ($topOrBot)'
-          : 'Слой: Базовый'
+          ? 'Слой: $baseLayer ($topOrBot)'
+          : 'Слой: $baseLayer'
       : layerNumber == 2
           ? topOrBot != null
-              ? 'Слой: Базовый утепляющий ($topOrBot)'
-              : 'Слой: Базовый утепляющий'
+              ? 'Слой: $baseWarmingLayer ($topOrBot)'
+              : 'Слой: $baseWarmingLayer'
           : layerNumber == 3
               ? topOrBot != null
-                  ? 'Слой: Утепляющий ($topOrBot)'
-                  : 'Слой: Утепляющий'
+                  ? 'Слой: $warmingLayer ($topOrBot)'
+                  : 'Слой: $warmingLayer'
               : layerNumber == 4
                   ? topOrBot != null
-                      ? 'Слой: Универсальный летний ($topOrBot)'
-                      : 'Слой: Универсальный летний'
+                      ? 'Слой: $universalSummerLayer ($topOrBot)'
+                      : 'Слой: $universalSummerLayer'
                   : layerNumber == 5
                       ? topOrBot != null
-                          ? 'Слой: Универсальный демисезонный ($topOrBot)'
-                          : 'Слой: Универсальный демисезонный'
+                          ? 'Слой: $universalDemiSeasonLayer ($topOrBot)'
+                          : 'Слой: $universalDemiSeasonLayer'
                       : layerNumber == 6
                           ? topOrBot != null
-                              ? 'Слой: Влагозащита ($topOrBot)'
-                              : 'Слой: Влагозащита'
+                              ? 'Слой: $humidityShieldLayer ($topOrBot)'
+                              : 'Слой: $humidityShieldLayer'
                           : layerNumber == 7
                               ? topOrBot != null
-                                  ? 'Слой: Утеплённый демисезонный ($topOrBot)'
-                                  : 'Слой: Утеплённый демисезонный'
+                                  ? 'Слой: $warmedDemiSeasonLayer ($topOrBot)'
+                                  : 'Слой: $warmedDemiSeasonLayer'
                               : layerNumber == 8
                                   ? topOrBot != null
-                                      ? 'Слой: Утеплённый зимний ($topOrBot)'
-                                      : 'Слой: Утеплённый зимний'
+                                      ? 'Слой: $universalWinterLayer ($topOrBot)'
+                                      : 'Слой: $universalWinterLayer'
                                   : layerNumber == 9
                                       ? topOrBot != null
-                                          ? 'Слой: Маскировка ($topOrBot)'
-                                          : 'Слой: Маскировка'
+                                          ? 'Слой: $maskingLayer ($topOrBot)'
+                                          : 'Слой: $maskingLayer'
                                       : layerNumber == 10
                                           ? topOrBot != null
-                                              ? 'Слой: Головной убор ($topOrBot)'
-                                              : 'Головной убор'
+                                              ? 'Слой: $headLayer ($topOrBot)'
+                                              : headLayer
                                           : layerNumber == 11
                                               ? topOrBot != null
-                                                  ? 'Слой: Аксессуар ($topOrBot)'
-                                                  : 'Аксессуар'
+                                                  ? 'Слой: $accessoryLayer ($topOrBot)'
+                                                  : accessoryLayer
                                               : topOrBot != null
-                                                  ? 'Слой: Другое ($topOrBot)'
-                                                  : 'Другое';
+                                                  ? 'Слой: $otherLayer ($topOrBot)'
+                                                  : otherLayer;
 }

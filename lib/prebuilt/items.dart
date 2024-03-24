@@ -26,7 +26,7 @@ Clothing python = Clothing(
   ],
   image: 'assets/images/items/python.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158417838/detail.aspx?targetUrl=GP',
@@ -46,7 +46,7 @@ Clothing varan = Clothing(
   ],
   image: 'assets/images/items/varan.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158745592/detail.aspx?targetUrl=GP',
@@ -67,7 +67,7 @@ Clothing instructorShirt = Clothing(
   ],
   image: 'assets/images/items/instructorShirt.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/196657428/detail.aspx?targetUrl=GP',
@@ -86,7 +86,7 @@ Clothing soloLongsleave = Clothing(
   ],
   image: 'assets/images/items/soloLongsleave.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158362200/detail.aspx?targetUrl=GP',
@@ -106,7 +106,7 @@ Clothing cheburashka = Clothing(
   ],
   image: 'assets/images/items/cheburashka.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/168935555/detail.aspx?targetUrl=GP',
@@ -125,7 +125,7 @@ Clothing uralHoodie = Clothing(
   ],
   image: 'assets/images/items/uralHoodie.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155808472/detail.aspx?targetUrl=GP',
@@ -143,7 +143,7 @@ Clothing saratovJacket = Clothing(
   ],
   image: 'assets/images/items/saratovJacket.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155800365/detail.aspx?targetUrl=GP',
@@ -163,7 +163,7 @@ Clothing wolfJacket = Clothing(
   ],
   image: 'assets/images/items/wolfJacket.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158369720/detail.aspx?targetUrl=GP',
@@ -185,7 +185,7 @@ Clothing saratovTrousers = Clothing(
   ],
   image: 'assets/images/items/saratovTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155806730/detail.aspx?targetUrl=GP',
@@ -205,7 +205,7 @@ Clothing wolfTrousers = Clothing(
   ],
   image: 'assets/images/items/wolfTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155825955/detail.aspx?targetUrl=GP',
@@ -224,7 +224,7 @@ Clothing citizenTrousers = Clothing(
   ],
   image: 'assets/images/items/citizenTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/211641589/detail.aspx?targetUrl=GP',
@@ -242,7 +242,7 @@ Clothing uralTrousers = Clothing(
   ],
   image: 'assets/images/items/uralTrousers.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158751459/detail.aspx?targetUrl=GP',
@@ -261,7 +261,7 @@ Clothing freelancerShorts = Clothing(
   ],
   image: 'assets/images/items/freelancerShorts.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155809469/detail.aspx?targetUrl=EX',
@@ -282,7 +282,7 @@ Clothing inokMembranPoncho = Clothing(
   ],
   image: 'assets/images/items/inokMembranPoncho.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/182817009/detail.aspx?targetUrl=GP',
@@ -300,7 +300,7 @@ Clothing snowmanMaskSuit = Clothing(
   ],
   image: 'assets/images/items/snowmanMaskSuit.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/193026658/detail.aspx?targetUrl=GP',
@@ -319,7 +319,7 @@ Clothing sugrobBackpackCover = Clothing(
   ],
   image: 'assets/images/items/sugrobBackpackCover.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/193026409/detail.aspx?targetUrl=GP',
@@ -338,7 +338,7 @@ Clothing snowballHelmetCover = Clothing(
   ],
   image: 'assets/images/items/snowballHelmetCover.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/193027092/detail.aspx?targetUrl=GP',
@@ -356,7 +356,7 @@ Clothing frakSniperCloak = Clothing(
   ],
   image: 'assets/images/items/frakSniperCloak.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/168937316/detail.aspx?targetUrl=GP',
@@ -374,7 +374,7 @@ Clothing evokSniperCloak = Clothing(
   ],
   image: 'assets/images/items/evokSniperCloak.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/158416721/detail.aspx?targetUrl=GP',
@@ -393,7 +393,7 @@ Clothing pokrovSniperScarf = Clothing(
   ],
   image: 'assets/images/items/pokrovSniperScarf.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/166278525/detail.aspx?targetUrl=GP',
@@ -412,7 +412,7 @@ Clothing scoutMaskCover = Clothing(
   ],
   image: 'assets/images/items/scoutMaskCover.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/156779023/detail.aspx?targetUrl=GP',
@@ -431,7 +431,7 @@ Clothing vorohMaskCover = Clothing(
   ],
   image: 'assets/images/items/vorohMaskCover.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/167633684/detail.aspx?targetUrl=GP',
@@ -452,7 +452,7 @@ Clothing scoutMaskingSet = Clothing(
   ],
   image: 'assets/images/items/scout.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155822956/detail.aspx?targetUrl=GP',
@@ -470,7 +470,7 @@ Clothing gopTacSet = Clothing(
   ],
   image: 'assets/images/items/gopTacSet.jpg',
   inSuitLayer: null,
-  isNecessary: true,
+  isNecessary: false,
   isHasAlready: false,
   linkToWb:
       'https://www.wildberries.ru/catalog/155870976/detail.aspx?targetUrl=GP',

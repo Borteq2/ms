@@ -16,11 +16,11 @@ class ItemCardLinkWidget extends StatefulWidget {
     super.key,
     required this.item,
     required this.appStore,
-    required this.onHaveAlreadyBtnTap,
+    required this.action,
   });
 
   final AppStore appStore;
-  final VoidCallback onHaveAlreadyBtnTap;
+  final VoidCallback action;
   final item;
 
   @override
@@ -277,7 +277,7 @@ class ItemCardLinkWidgetState extends State<ItemCardLinkWidget> {
                       },
                     );
                   }
-                  widget.onHaveAlreadyBtnTap();
+                  widget.action();
                   setState(() {});
                   Navigator.pop(context);
                 },

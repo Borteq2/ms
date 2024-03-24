@@ -1,0 +1,9 @@
+const notSupported = 'Нет подходящего';
+const frostPunk = 'Мороз';
+const cold = 'Очень холодно';
+const belowZero = 'Холодно';
+const aboveZero = 'Прохладно';
+const low = 'Тепло';
+const warm = 'Жарко';
+const heat = 'Очень жарко';
+const melting = 'Жара';

@@ -131,9 +131,8 @@ class _SetScreenState extends State<SetScreen> {
                               controller: pageControllerHorizontal,
                               scrollDirection: Axis.horizontal,
                               pageSnapping: true,
-                              onPageChanged: (int page) => setState(() {
-                                currentPageHorizontal = page;
-                              }),
+                              onPageChanged: (int page) =>
+                                  setState(() => currentPageHorizontal = page),
                               children: [
                                 ...appStore
                                     .suitStore.itemsListByLayerList[index]
@@ -142,8 +141,7 @@ class _SetScreenState extends State<SetScreen> {
                                     appStore: appStore,
                                     currentItem: e,
                                     index: currentPageHorizontal,
-                                    onHaveAlreadyBtnTap: () =>
-                                        resetHorizontalPage(),
+                                    action: () => resetHorizontalPage(),
                                   ),
                                 )
                               ],
@@ -164,11 +162,6 @@ class _SetScreenState extends State<SetScreen> {
                       currentPageVertical = page;
                       currentPageHorizontal = 0;
                     });
-                    try {
-                      pageControllerHorizontal.jumpToPage(0);
-                    } catch (e) {
-                      talker.debug('Скроллконтроллер недоволен');
-                    }
                   },
                 ),
               ),

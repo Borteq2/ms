@@ -15,13 +15,13 @@ class ItemCardWidget extends StatelessWidget {
     required this.appStore,
     required this.currentItem,
     required this.index,
-    required this.onHaveAlreadyBtnTap,
+    required this.action,
   });
 
   final AppStore appStore;
   final Clothing currentItem;
   final int index;
-  final VoidCallback onHaveAlreadyBtnTap;
+  final VoidCallback action;
 
   SuitStore get suitStore => appStore.suitStore;
 
@@ -42,7 +42,7 @@ class ItemCardWidget extends StatelessWidget {
               ItemCardLinkWidget(
                 appStore: appStore,
                 item: currentItem,
-                onHaveAlreadyBtnTap: onHaveAlreadyBtnTap,
+                action: action,
               ),
               ItemCardFeaturesListWidget(item: currentItem),
               ItemCardLayerWidget(item: currentItem),

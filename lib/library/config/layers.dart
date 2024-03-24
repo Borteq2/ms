@@ -1,0 +1,12 @@
+const baseLayer = 'Базовый';
+const baseWarmingLayer = 'Базовый утепляющий';
+const warmingLayer = 'Утепляющий';
+const universalSummerLayer = 'Универсальный летний';
+const universalDemiSeasonLayer = 'Универсальный демисезонный';
+const universalWinterLayer = 'Утеплённый зимний';
+const humidityShieldLayer = 'Влагозащита';
+const warmedDemiSeasonLayer = 'Утеплённый демисезонный';
+const maskingLayer = 'Маскировка';
+const headLayer = 'Головной убор';
+const accessoryLayer = 'Аксессуар';
+const otherLayer = 'Аксессуар';

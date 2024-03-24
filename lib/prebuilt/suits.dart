@@ -1,9 +1,10 @@
-import 'package:mordor_suit/library/helpers/layer_helper.dart';
-import 'package:mordor_suit/prebuilt/items.dart';
+import 'package:mordor_suit/library/config/_config.dart';
+import 'package:mordor_suit/library/helpers/_helpers.dart';
 import 'package:mordor_suit/models/_models.dart';
+import 'package:mordor_suit/prebuilt/items.dart';
 
 Suit notSupportedSuit = Suit(
-  name: 'Нет подходящего',
+  name: notSupported,
   layer_1: null,
   layer_2: null,
   layer_3: null,
@@ -20,7 +21,7 @@ Suit notSupportedSuit = Suit(
 );
 
 Suit frostPunkTempSuit = Suit(
-  name: 'Мороз',
+  name: frostPunk,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -36,11 +37,11 @@ Suit frostPunkTempSuit = Suit(
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [
-    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
+    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, top),
   ],
   layer_5_bot: [
-    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
+    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
   ],
   layer_6: [
     inokMembranPoncho..inSuitLayer = LayerHelper.mapNumberToName(6, null),
@@ -63,7 +64,7 @@ Suit frostPunkTempSuit = Suit(
 );
 
 Suit coldTempSuit = Suit(
-  name: 'Очень холодно',
+  name: cold,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -76,15 +77,15 @@ Suit coldTempSuit = Suit(
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [
-    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
-    cheburashka..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
-    uralHoodie..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
+    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, top),
+    cheburashka..inSuitLayer = LayerHelper.mapNumberToName(5, top),
+    uralHoodie..inSuitLayer = LayerHelper.mapNumberToName(5, top),
   ],
   layer_5_bot: [
-    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    uralTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
+    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    uralTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
   ],
   layer_6: [
     inokMembranPoncho..inSuitLayer = LayerHelper.mapNumberToName(6, null),
@@ -107,7 +108,7 @@ Suit coldTempSuit = Suit(
 );
 
 Suit belowZeroTempSuit = Suit(
-  name: 'Холодно',
+  name: belowZero,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -118,22 +119,22 @@ Suit belowZeroTempSuit = Suit(
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [
-    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
+    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, top),
     cheburashka
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
-    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
+    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
     uralTrousers
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, bot)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
   ],
@@ -158,7 +159,7 @@ Suit belowZeroTempSuit = Suit(
 );
 
 Suit aboveZeroTempSuit = Suit(
-  name: 'Прохладно',
+  name: aboveZero,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -169,22 +170,22 @@ Suit aboveZeroTempSuit = Suit(
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [
-    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
+    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, top),
     cheburashka
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
-    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
+    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
     uralTrousers
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, bot)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
   ],
@@ -212,7 +213,7 @@ Suit aboveZeroTempSuit = Suit(
 );
 
 Suit lowTempSuit = Suit(
-  name: 'Тепло',
+  name: low,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -223,21 +224,21 @@ Suit lowTempSuit = Suit(
   layer_4_top: null,
   layer_4_bot: null,
   layer_5_top: [
-    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх'),
+    wolfJacket..inSuitLayer = LayerHelper.mapNumberToName(5, top),
     cheburashka
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
     uralHoodie
-      ..inSuitLayer = LayerHelper.mapNumberToName(5, 'верх')
+      ..inSuitLayer = LayerHelper.mapNumberToName(5, top)
       ..features[0] = 'Универсальный демизонный слой'
       ..features[2] = 'Надевается поверх всех слоев',
   ],
   layer_5_bot: [
-    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
-    uralTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, 'низ'),
+    wolfTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
+    uralTrousers..inSuitLayer = LayerHelper.mapNumberToName(5, bot),
   ],
   layer_6: [
     inokMembranPoncho..inSuitLayer = LayerHelper.mapNumberToName(6, null),
@@ -262,7 +263,7 @@ Suit lowTempSuit = Suit(
 );
 
 Suit warmTempSuit = Suit(
-  name: 'Жарко',
+  name: warm,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
     instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(1, null),
@@ -271,12 +272,12 @@ Suit warmTempSuit = Suit(
   layer_2: null,
   layer_3: null,
   layer_4_top: [
-    cheburashka..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    uralHoodie..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
+    cheburashka..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    uralHoodie..inSuitLayer = LayerHelper.mapNumberToName(4, top),
   ],
   layer_4_bot: [
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
   ],
   layer_5_top: null,
   layer_5_bot: null,
@@ -303,20 +304,20 @@ Suit warmTempSuit = Suit(
 );
 
 Suit heatTempSuit = Suit(
-  name: 'Очень жарко',
+  name: heat,
   layer_1: [
     python..inSuitLayer = LayerHelper.mapNumberToName(1, null),
   ],
   layer_2: null,
   layer_3: null,
   layer_4_top: [
-    saratovJacket..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    soloLongsleave..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх')
+    saratovJacket..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    soloLongsleave..inSuitLayer = LayerHelper.mapNumberToName(4, top)
   ],
   layer_4_bot: [
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
-    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ')
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
+    citizenTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, bot)
   ],
   layer_5_top: null,
   layer_5_bot: null,
@@ -344,22 +345,22 @@ Suit heatTempSuit = Suit(
 );
 
 Suit meltingTempSuit = Suit(
-  name: 'Жара',
+  name: melting,
   layer_1: null,
   layer_2: null,
   layer_3: null,
   layer_4_top: [
-    saratovJacket..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    soloLongsleave..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    gopTacSet..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
-    scoutMaskingSet..inSuitLayer = LayerHelper.mapNumberToName(4, 'верх'),
+    saratovJacket..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    instructorShirt..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    soloLongsleave..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    gopTacSet..inSuitLayer = LayerHelper.mapNumberToName(4, top),
+    scoutMaskingSet..inSuitLayer = LayerHelper.mapNumberToName(4, top),
   ],
   layer_4_bot: [
-    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
-    freelancerShorts..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
-    gopTacSet..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
-    scoutMaskingSet..inSuitLayer = LayerHelper.mapNumberToName(4, 'низ'),
+    saratovTrousers..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
+    freelancerShorts..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
+    gopTacSet..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
+    scoutMaskingSet..inSuitLayer = LayerHelper.mapNumberToName(4, bot),
   ],
   layer_5_top: null,
   layer_5_bot: null,

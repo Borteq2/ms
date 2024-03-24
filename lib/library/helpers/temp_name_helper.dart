@@ -1,4 +1,5 @@
 import '../../enums/_enums.dart';
+import '../config/_config.dart';
 
 class TempHelper {
   static mapTempToTempType({required num temperature}) {
@@ -24,23 +25,23 @@ class TempHelper {
   static mapTempToName({required TemperatureTypes temperature}) {
     switch (temperature) {
       case TemperatureTypes.notSupported:
-        return 'Не поддерживается';
+        return notSupported;
       case TemperatureTypes.frostPunk:
-        return 'Дубак';
+        return frostPunk;
       case TemperatureTypes.cold:
-        return 'Холодно';
+        return cold;
       case TemperatureTypes.belowZero:
-        return 'Чуть ниже нуля';
+        return belowZero;
       case TemperatureTypes.aboveZero:
-        return 'Чуть выше нуля';
+        return aboveZero;
       case TemperatureTypes.low:
-        return 'Прохладно';
+        return low;
       case TemperatureTypes.warm:
-        return 'Жарко';
+        return warm;
       case TemperatureTypes.heat:
-        return 'Очень жарко';
+        return heat;
       case TemperatureTypes.melting:
-        return 'Жара';
+        return melting;
     }
   }
 }
