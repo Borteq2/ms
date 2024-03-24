@@ -141,7 +141,7 @@ class _SetScreenState extends State<SetScreen> {
                                   (e) => ItemCardWidget(
                                     appStore: appStore,
                                     currentItem: e,
-                                    index: currentPageVertical,
+                                    index: currentPageHorizontal,
                                     onHaveAlreadyBtnTap: () =>
                                         resetHorizontalPage(),
                                   ),
